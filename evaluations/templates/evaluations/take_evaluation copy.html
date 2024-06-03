@@ -1,0 +1,31 @@
+{% extends 'evaluations/base.html' %}
+
+
+
+
+{% block title %}Take Evaluation{% endblock %}
+
+{% block content %}
+<h1>Take Evaluation</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ evaluation.name }} {{ evaluation.period }} {{evaluation.course.name }}
+    {% for question in evaluation.questions.all %}
+        <div class="form-group">
+            <b>{{ forloop.counter }}.</b><label>{{ question.question_text }}</label>
+            <div>
+                <script>
+                    var jsonData = JSON.parse('{{ question.options|escapejs }}');
+                    console.log(jsonData);
+                </script>
+                <ul>
+                    {% for key, value in question.options.items %}
+                        <li>{{ key }}: <input type="radio" name="question_{{ question.id }}" value="{{ key }}"> {{ value }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}

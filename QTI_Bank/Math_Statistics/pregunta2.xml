@@ -1,0 +1,29 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" 
+identifier="q2" title="Varianza de Conjunto de Datos" adaptive="false" 
+timeDependent="false">
+    <itemBody>
+        <p>Dado el siguiente conjunto de datos:</p>
+        <p>
+            \[ 5, 7, 8, 6, 9, 7, 8, 7, 6, 9 \]
+        </p>
+        <p>¿Cuál es la varianza $\sigma^2$ de los datos?</p>
+        <choiceInteraction responseIdentifier="RESPONSE2" shuffle="true" 
+maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice identifier="ChoiceA">$\sigma^2 = 
+1.36$</simpleChoice>
+            <simpleChoice identifier="ChoiceB">$\sigma^2 = 
+1.76$</simpleChoice>
+            <simpleChoice identifier="ChoiceC">$\sigma^2 = 
+2.16$</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE2" cardinality="single" 
+baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>
+
+

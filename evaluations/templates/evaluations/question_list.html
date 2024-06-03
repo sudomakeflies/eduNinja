@@ -1,0 +1,46 @@
+{% extends 'evaluations/base.html' %}
+{% load static %}
+{% load katex_markdown %}
+
+{% block title %}Question List{% endblock %}
+
+
+{% block code_head %}
+<link rel="stylesheet" href="{% static 'katex/katex.min.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1>Questions</h1>
+<ul class="list-group">
+    {% for question in questions %}
+        <li class="list-group-item">{{ forloop.counter }}. {{ question.question_text|markdown_katex|safe }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
+
+{% block code_bottom %}
+ <!-- Incluir KaTeX JS desde archivos estáticos -->
+ <script defer src="{% static 'katex/katex.min.js' %}"></script>
+ <script defer src="{% static 'katex/auto-render.min.js' %}"></script>
+ <script>
+    window.onload = function() {
+        var contentElement = document.getElementById('content');
+        if (contentElement) {
+            // Renderizar fórmulas matemáticas después de que el contenido se haya procesado con el filtro de Markdown
+            var options = {
+                delimiters: [
+                    {left: "$", right: "$", display: false}, // Fórmulas en línea
+                    {left: "\\[", right: "\\]", display: true}, // Fórmulas en bloque
+                    {left: "\\(", right: "\\)", display: false} // Fórmulas en línea
+                ],
+            };
+            renderMathInElement(contentElement, options);
+            // Mostrar el contenido después de que se hayan renderizado las fórmulas matemáticas
+            contentElement.style.display = 'block';
+        } else {
+            console.error("Elemento con id 'content' no encontrado.");
+        }
+    };
+</script>
+{% endblock %}

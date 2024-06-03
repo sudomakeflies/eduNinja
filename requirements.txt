@@ -1,0 +1,10 @@
+Django>=3.2,<4.0
+django-environ
+django_extensions
+Werkzeug
+pyOpenSSL
+markdown2
+markdown-katex
+markdown-math
+django-silk
+lxml # for parser QTI in utils.py

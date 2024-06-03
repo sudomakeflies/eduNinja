@@ -1,0 +1,21 @@
+{% extends 'evaluations/base.html' %}
+
+{% block title %}View Answers{% endblock %}
+
+{% block content %}
+<h1>Your Answers {{ student }}</h1>
+    <ul>
+        {% for answer in user_answers %}
+            <li>
+                Evaluation: {{ answer.evaluation.name }}
+                <br>
+                Selected Options: {{ answer.selected_options }}
+                <br>
+                Score: {{ answer.score }} | Attempts: {{ answer.attempts }}
+                <br/>
+                Date: {{ answer.submission_date }}
+            </li><hr>
+        {% endfor %}
+    </ul>
+{% endblock %}
+

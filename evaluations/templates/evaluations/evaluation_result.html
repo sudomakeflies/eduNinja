@@ -1,0 +1,22 @@
+{% extends 'evaluations/base.html' %}
+
+{% block title %}Evaluation Result{% endblock %}
+
+{% block content %}
+<h1>Evaluation Result</h1>
+<p>Course: {{ evaluation.course.name }}</p>
+<p>Evaluation Date: {{ evaluation.date }}</p>
+<p>Max Score: {{ evaluation.max_score }}</p>
+
+<h2>Your Answers:</h2>
+<ul>
+    {% for answer in answers %}
+        <li>
+            <strong>Evaluation:</strong> {{ answer.evaluation.name }}<br>
+            <strong>Your Answer:</strong> {{ answer.selected_options }}<br>
+            <strong>Attempts:</strong> {{ answer.attempts }}<br>
+            <strong>Total Score:</strong> {{ answer.score }}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

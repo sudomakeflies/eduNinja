@@ -1,0 +1,14 @@
+{% extends 'evaluations/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>Available Courses</h1>
+<ul class="list-group">
+    {% for course in courses %}
+        <li class="list-group-item">
+            <a href="{% url 'course_detail' course.pk %}">{{ course.name }}</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'evaluations/base.html' %}
+
+{% block title %}Evaluation List{% endblock %}
+
+{% block content %}
+<h1>Evaluations</h1>
+<ul class="list-group">
+    {% for evaluation in evaluations %}
+        <li class="list-group-item">
+            {{ evaluation.name }} - {{ evaluation.date }} | <a href="/api/take_evaluation/{{ evaluation.id }}">Tomar Evaluación</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

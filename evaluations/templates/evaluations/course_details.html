@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Course Detail{% endblock %}
+
+{% block content %}
+<h1>{{ course.name }}</h1>
+<p>{{ course.description }}</p>
+<h2>Questions</h2>
+<ul class="list-group">
+    {% for question in course.question_set.all %}
+        <li class="list-group-item">{{ question.text }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,18 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q1" title="Mediana de Calificaciones" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En una clase de 25 estudiantes, se registraron las calificaciones de su último examen de la siguiente manera:</p>
+        <p><![CDATA[85, 90, 78, 92, 88, 76, 84, 85, 79, 91, 82, 75, 89, 80, 87, 83, 88, 77, 85, 86, 90, 84, 79, 81, 82]]></p>
+        <p>¿Cuál es la mediana de las calificaciones obtenidas por los estudiantes?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice identifier="ChoiceA">84</simpleChoice>
+            <simpleChoice identifier="ChoiceB">85</simpleChoice>
+            <simpleChoice identifier="ChoiceC">86</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>
