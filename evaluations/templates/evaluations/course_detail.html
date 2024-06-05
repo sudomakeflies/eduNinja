@@ -1,0 +1,26 @@
+{% extends 'evaluations/base.html' %}
+
+{% block title %}Course Detail{% endblock %}
+
+{% block content %}
+<h1>{{ course.name }}</h1>
+<p>{{ course.description }}</p>
+
+<h2>Evaluations</h2>
+<ul>
+  {% for evaluation in evaluations %}
+    <li>
+      <strong>Name:</strong> {{ evaluation.name }}<br>
+      <strong>Date:</strong> {{ evaluation.date }}<br>
+      <strong>Period:</strong> {{ evaluation.period }}<br>
+      <strong>Max Score:</strong> {{ evaluation.max_score }}<br>
+      <strong>Value per Question:</strong> {{ evaluation.value_per_question }}<br>
+      <a href="{% url 'take_evaluation' evaluation.pk %}">Take Evaluation</a> |
+      <a href="{% url 'evaluation_result' evaluation.pk %}">View Evaluation Result</a> |
+      <a href="{% url 'view_answers' %}">View Answers</a>
+    </li>
+  {% empty %}
+    <li>No evaluations available for this course.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

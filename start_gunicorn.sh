@@ -1,0 +1,1 @@
+gunicorn wsgi:application -c gunicorn_config.py --workers 1 

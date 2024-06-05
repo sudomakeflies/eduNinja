@@ -18,7 +18,6 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # Asigna la SECRET_KEY desde el entorno
 SECRET_KEY = env('SECRET_KEY')
 
-
 DEBUG = env('DEBUG')
 
 # Configura la URL para acceder a los archivos media
@@ -31,7 +30,16 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
+#ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
+ALLOWED_HOSTS = ['example.com', 'localhost', '127.0.0.1']
+
+#ASGI
+ASGI_APPLICATION = 'asgi.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 
 # Otros ajustes ...
 LOGIN_REDIRECT_URL = 'profile'
@@ -72,6 +80,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'silk',
+    'langchain',
+    'channels',
+    'debug_toolbar',
 ]
 
 DATABASES = {
@@ -90,6 +101,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'silk.middleware.SilkyMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+]
+
+INTERNAL_IPS = [
+    '127.0.0.1',
 ]
 
 ROOT_URLCONF = 'urls'
@@ -122,3 +138,44 @@ USE_L10N = True
 USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'django_debug.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'daphne': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'channels': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+#Daphne segurity
+SECURE_SSL_REDIRECT = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+#Cache
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}
