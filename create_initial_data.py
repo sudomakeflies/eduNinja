@@ -11,9 +11,9 @@ from evaluations.models import Course, Question, Evaluation
 
 # Crear cursos
 courses_data = [
-    {'name': f'Matemáticas {grade}', 'description': f'curso de matemáticsas para grado {grade}'} for grade in range(8, 12)
+    {'name': f'Matemáticas {grade}', 'description': f'Curso de matemáticas para grado {grade} IETC San Juan Bosco'} for grade in range(8, 12)
 ] + [
-    {'name': f'Física {grade}', 'description': f'Curso de física matemática {grade}'} for grade in range(10, 12)
+    {'name': f'Física {grade}', 'description': f'Curso de física matemática {grade} IETC San Juan Bosco'} for grade in range(10, 12)
 ]
 
 courses = []
@@ -60,9 +60,9 @@ questions_data = [
 ]
 
 # Convertir las opciones a JSON en cada pregunta
-for question_data in questions_data:
-    question = Question.objects.create(**question_data)
-    question.save()
+# for question_data in questions_data:
+#     question = Question.objects.create(**question_data)
+#     question.save()
 
 
 
@@ -94,11 +94,11 @@ evaluation_questions = {
     'Test Estadística': [3,4]
 }
 
-for eval_name, pki in evaluation_questions.items():
-    evaluation = Evaluation.objects.get(name=eval_name)
-    for i in pki:
-        question = Question.objects.get(pk=i)
-        evaluation.questions.add(question)
-    evaluation.save()
+# for eval_name, pki in evaluation_questions.items():
+#     evaluation = Evaluation.objects.get(name=eval_name)
+#     for i in pki:
+#         question = Question.objects.get(pk=i)
+#         evaluation.questions.add(question)
+#     evaluation.save()
 
 print("Initial data created successfully.")

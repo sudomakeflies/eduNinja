@@ -5,6 +5,12 @@ Werkzeug
 pyOpenSSL
 markdown2
 markdown-katex
-markdown-math
+#markdown-math
 django-silk
 lxml # for parser QTI in utils.py
+openai
+langchain
+aiohttp
+gunicorn
+gevent
+asgiref

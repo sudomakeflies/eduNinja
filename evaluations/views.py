@@ -1,3 +1,5 @@
+#import asyncio
+#from openai import OpenAI
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
@@ -10,35 +12,61 @@ from django.db.models import F
 from django.http import HttpResponse
 from django.core.exceptions import ValidationError
 from django.urls import reverse
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
+from channels.layers import get_channel_layer
+from asgiref.sync import sync_to_async
 
+@method_decorator(cache_page(60), name='dispatch')
 class HomeView(ListView):
     model = Course
     template_name = 'evaluations/home.html'
     context_object_name = 'courses'
 
+@method_decorator(cache_page(60), name='dispatch')
 class CourseListView(ListView):
     model = Course
     template_name = 'evaluations/course_list.html'
     context_object_name = 'courses'
 
+@method_decorator(cache_page(60), name='dispatch')
 class CourseDetailView(DetailView):
     model = Course
     template_name = 'evaluations/course_detail.html'
     context_object_name = 'course'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['evaluations'] = Evaluation.objects.filter(course=self.object)
+        return context
+
+@method_decorator(cache_page(60), name='dispatch')
 class QuestionListView(ListView):
     model = Question
     template_name = 'evaluations/question_list.html'
     context_object_name = 'questions'
 
+@method_decorator(cache_page(60), name='dispatch')
 class EvaluationListView(ListView):
     model = Evaluation
     template_name = 'evaluations/evaluation_list.html'
     context_object_name = 'evaluations'
 
+# Función para enviar un mensaje WebSocket
+async def send_websocket_message(answer_id, response):
+    channel_layer = get_channel_layer()
+    await sync_to_async(channel_layer.group_send)(
+        "feedback_channel",
+        {
+            "type": "generate.feedback",
+            "answer_id": answer_id,
+            "response": response,
+        }
+    )
 
 @login_required
+@cache_page(60)
 def take_evaluation(request, pk):
     evaluation = get_object_or_404(Evaluation, pk=pk)
     student = request.user
@@ -94,10 +122,17 @@ def take_evaluation(request, pk):
                 answer.attempts = F('attempts') - 1  # Reducir el contador de intentos en 1
                 # Guardar los cambios en la base de datos
                 answer.save()
+            
+            # Iniciar un proceso asíncrono para manejar la respuesta del LLM
+            #asyncio.create_task(handle_llm_response(answer))
+            # Enviar un mensaje WebSocket para manejar la respuesta del LLM
+            #asyncio.run(send_websocket_message(answer.id, evaluation.questions.all()))  
+            # O usa await send_websocket_message(answer.id, response) si el método es async
+
+
         except ValidationError as e:
             # Si se produce un error de validación, redirigir a la vista de error
             return redirect(reverse('error_view'))
-
 
         # Obtener todas las respuestas para la evaluación y el estudiante
         answers = Answer.objects.filter(evaluation=evaluation, student=student)
@@ -111,6 +146,7 @@ def take_evaluation(request, pk):
     return render(request, 'evaluations/take_evaluation.html', context)
 
 @login_required
+@cache_page(60)
 def evaluation_result(request, pk):
     evaluation = get_object_or_404(Evaluation, pk=pk)
     answers = Answer.objects.filter(evaluation=evaluation, student=request.user).exclude(score=None)
@@ -129,6 +165,7 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 @login_required
+@cache_page(60)
 def view_answers(request):
     # Obtener las respuestas del usuario autenticado
     user_answers = Answer.objects.filter(student=request.user)

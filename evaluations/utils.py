@@ -215,7 +215,6 @@ import os
 import re
 from lxml import etree
 from django.core.files import File
-from .models import Course, Question
 
 def parse_qti_directory(base_path):
     base_path = os.path.expanduser(base_path)
@@ -336,7 +335,7 @@ def parse_qti_file(file_path):
             print(f"Question Text: {question_text}")
             print(f"Options: {options}")
             print(f"Correct Answer: {correct_answer}")
-
+            from .models import Question
             question = Question(
                 subject=subject,
                 difficulty=difficulty,
@@ -346,16 +345,19 @@ def parse_qti_file(file_path):
             )
 
             # Save the question to generate an ID
-            question.save()
-
+            #question.save()
             # Process images if any
-            image_tag = item_body.find('qti:object', namespaces=namespace)
-            if image_tag is not None:
-                image_path = os.path.join(os.path.dirname(file_path), image_tag.get('data'))
-                if os.path.exists(image_path):
-                    with open(image_path, 'rb') as f:
-                        question.image.save(os.path.basename(image_path), File(f))
+            save_images(item_body, file_path, question)
             question.save()
+            
+            # Process images if any
+            #image_tag = item_body.find('qti:object', namespaces=namespace)
+            # if image_tag is not None:
+            #     image_path = os.path.join(os.path.dirname(file_path), image_tag.get('data'))
+            #     if os.path.exists(image_path):
+            #         with open(image_path, 'rb') as f:
+            #             question.image.save(os.path.basename(image_path), File(f))
+            # question.save()
     except etree.XMLSyntaxError as e:
         print(f"XML Syntax Error while parsing {file_path}: {e}")
     except Exception as e:
@@ -370,8 +372,48 @@ def get_subject_from_path(file_path):
             return part
     return 'General'
 
+def save_images(item_body, file_path, question):
+    print("Save images QTI")
+    print(item_body, file_path, question)
+    namespace = {'qti': 'http://www.imsglobal.org/xsd/imsqti_v2p1'}
+    #image_tags = item_body.findall('.//{http://www.w3.org/1999/xhtml}img')  # Cambiado para buscar imágenes en el namespace XHTML
+    import re
+    from lxml.etree import tostring
+    item_body_str = tostring(item_body, encoding='unicode')
+    image_filenames = re.findall(r'<img\s+src="images/([^"]+)"', item_body_str)
+
+    print("images_filenames...")
+    print(image_filenames)
+    # If no image filenames found, skip image saving process
+    if not image_filenames:
+        return
+    
+    for image_filename in image_filenames:
+        image_path = os.path.join(os.path.dirname(file_path), 'images', image_filename)
+        if os.path.exists(image_path):
+            with open(image_path, 'rb') as f:
+                question.image.save(image_filename, File(f), save=False)
+                question.save()
+
 def number_to_letter(number):
     """
     Convert a number to a corresponding letter (a, b, c, ...).
     """
     return chr(number + 96)  # Sumamos 96 para obtener el valor ASCII correspondiente a 'a'
+
+import requests
+from requests.exceptions import ConnectionError
+
+class FeedbackService:
+    @staticmethod
+    def send_feedback(data):
+        try:
+            response = requests.post("http://localhost:8000/ws/feedback/", json=data, headers={'Content-Type': 'application/json'})
+            response.raise_for_status()
+            return response.json()  # Return the JSON response if needed
+        except ConnectionError:
+            # Handle the connection error
+            raise FeedbackServiceError("Error connecting to the feedback service.")
+
+class FeedbackServiceError(Exception):
+    print("FeedbackServiceError Exception")
