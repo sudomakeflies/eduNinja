@@ -29,3 +29,4 @@ local_settings.py
 .DS_Store
 Thumbs.db
 
+django_debug.log
