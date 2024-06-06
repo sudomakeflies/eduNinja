@@ -1,0 +1,25 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q1" title="Mediana de Calificaciones" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>El dueño del vivero afirma que los árboles son cortados de tal manera que las alturas
+siguen una secuencia de forma creciente, a partir de un patrón. Para poder hallar la
+altura a la que se debe cortar el árbol 4, ¿cuál de los siguientes valores se debe calcular
+primero?</p>
+
+        <img src="images/altura_arboles.png" alt="Gráfico de altura arboles según patrón"/>
+
+
+
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice identifier="ChoiceA"> La división entre las alturas de los árboles 1 y 3.</simpleChoice>
+            <simpleChoice identifier="ChoiceB">La multiplicación de la altura del primer árbol por 4.</simpleChoice>
+            <simpleChoice identifier="ChoiceC">La resta entre las alturas de dos árboles consecutivos.</simpleChoice>
+             <simpleChoice identifier="ChoiceD">La suma de las alturas de los tres primeros árboles.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

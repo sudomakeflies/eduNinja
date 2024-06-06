@@ -1,0 +1,29 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q1" title="Mediana de Calificaciones" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Una universidad realizó un estudio para determinar si existe alguna relación entre el color de los
+automóviles y la seguridad vial. Del estudio se concluyó que el color plata es el más seguro, pues por
+cada 10 autos de este color, 1 fue objeto de algún accidente.
+Se obtuvo también la información de la gráfica correspondiente al porcentaje de accidentalidad de
+automóviles de varios colores.</p>
+
+        <img src="images/accidentes_automoviles_por_color.png" alt="Gráfico de altura arboles según patrón"/>
+        
+        <p>Respecto a la información anterior, ¿cuál de las siguientes afirmaciones es correcta?</p>
+        
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice identifier="ChoiceA">Como los vehículos color plata son los más vendidos con un 35%, serán los más accidentados.</simpleChoice>
+            <simpleChoice identifier="ChoiceB">Como los vehículos de color negro son los de mayor accidentalidad, y con 20% en ventas, serán los
+más accidentados.</simpleChoice>
+            <simpleChoice identifier="ChoiceC">Como los vehículos de color negro solo tienen el 20% en ventas, tendrán menos accidentes que los de
+color blanco que tienen ventas superiores.</simpleChoice>
+            <simpleChoice identifier="ChoiceD">Como los vehículos color blanco se venden 10% menos que los de color plata, y no tienen una
+accidentalidad tan alta, se accidentarán menos que los de color plata.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

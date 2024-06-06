@@ -1,0 +1,29 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q1" title="Mediana de Calificaciones" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Una universidad realizó un estudio para determinar si existe alguna relación entre el color de los
+automóviles y la seguridad vial. Del estudio se concluyó que el color plata es el más seguro, pues por
+cada 10 autos de este color, 1 fue objeto de algún accidente.
+Se obtuvo también la información de la gráfica correspondiente al porcentaje de accidentalidad de
+automóviles de varios colores.</p>
+
+        <img src="images/accidentes_automoviles_por_color.png" alt="Gráfico de altura arboles según patrón"/>
+        
+        <p>El Ministerio de Transporte, basado en esta información, quiere implementar una estrategia para bajar
+la tasa de accidentalidad. Para esto, exigirá adquirir un seguro cuyo valor a pagar por el propietario
+será proporcional al porcentaje de accidentalidad del color del automóvil. Teniendo en cuenta la
+información de la gráfica, es correcto que el valor a pagar del seguro</p>
+        
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice identifier="ChoiceA">de los automóviles color blanco será el segundo del más bajo al más alto.</simpleChoice>
+            <simpleChoice identifier="ChoiceB">de los automóviles color negro será el más alto de todos.</simpleChoice>
+            <simpleChoice identifier="ChoiceC">de los automóviles de cada color será el mismo.</simpleChoice>
+            <simpleChoice identifier="ChoiceD">de los automóviles color plata será el más alto.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

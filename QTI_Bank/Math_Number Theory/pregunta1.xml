@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q1" title="Mediana de Calificaciones" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Sofía, Natalia y Fabián van a repartir un litro de gaseosa entre los tres y, para ello: Sofía dice que, por ser tres, le corresponde 0,3 del total de la gaseosa a cada uno. <br/>
+        Natalia dice que le corresponde 1/3 de la gaseosa a cada uno. <br/>
+        Fabián dice que es mejor que sirvan tres rondas de tres vasos de gaseosa.</p>
+        <p>¿Cuál(es) de las propuestas anteriores garantiza(n) que se reparta la totalidad de la gaseosa en partes iguales?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice identifier="ChoiceA">Únicamente las propuestas de Sofía y Natalia.</simpleChoice>
+            <simpleChoice identifier="ChoiceB">Únicamente la propuesta de Natalia.</simpleChoice>
+            <simpleChoice identifier="ChoiceC">Únicamente la propuesta de Fabián.</simpleChoice>
+            <simpleChoice identifier="ChoiceD">Únicamente las propuestas de Fabián y Sofía.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

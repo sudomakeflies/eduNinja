@@ -212,7 +212,6 @@
 
 import json
 import os
-import re
 from lxml import etree
 from django.core.files import File
 
@@ -275,26 +274,13 @@ def parse_qti_file(file_path):
                 option_id = choice.get('identifier')
                 option_text = choice.text.strip()
                 # Eliminar caracteres innecesarios y formatear correctamente
-                #option_text = option_text.replace(r'\\n', '').replace(r'\\\\', '\\').strip()
-                #options[option_id] = f"${option_text}$"  # Formateo del texto de la opción y almacenamiento en el diccionario
                 # Limpiar la cadena
-                #option_text = re.sub(r'\\', '\\', option_text)  # Reemplaza \\ por \
-                #option_text = option_text.replace(r'$$\\', '$\\')  # Reemplaza \\ por \
-                #option_text = option_text.replace('\n', '')  # Elimina \n
-                #option_text = option_text.replace('$$\'', '$\'')  # Reemplaza $$ por $
                 option_text = option_text.replace('$$', '$').replace(r'\\', '\\')
                 print(option_text)
                 options[option_id] = f"${option_text}$"
             print("options.......")
             print(options)
 
-            # response_declaration = item.find('qti:responseDeclaration', namespaces=namespace)
-            # if response_declaration is not None:
-            #     correct_response = response_declaration.find('qti:correctResponse', namespaces=namespace)
-            #     if correct_response is not None:
-            #         correct_value = correct_response.find('qti:value', namespaces=namespace)
-            #         if correct_value is not None and option_id == correct_value.text:
-            #             correct_answer = option_text
             response_declaration = item.find('qti:responseDeclaration', namespaces=namespace)
             if response_declaration is not None:
                 correct_response = response_declaration.find('qti:correctResponse/qti:value', namespaces=namespace)
@@ -307,17 +293,6 @@ def parse_qti_file(file_path):
                 print(f"No options found for item in {file_path}")
                 continue
 
-            # Convert options to JSON string
-            #options_json = json.dumps({key: value.replace(r'\\\\', r'\\').replace(r'\\n', r'\n') for key, value in options.items()}, ensure_ascii=False)
-            #formatted_options = {option.replace(r'$$', '$').replace(r'\\', '\\') for option in options}
-            #print("formatted_options.......")
-            #print(formatted_options)
-
-            # Generar el JSON con el formato correcto
-            #options_json = json.dumps(options, ensure_ascii=False)
-            #formatted_options = {key: value.replace(r'$$', '$').replace(r'\\', '\\') for key, value in options.items()}
-            #options_json = json.dumps(formatted_options, ensure_ascii=False)
-            # Eliminar los dobles signos de dólar
             # Eliminar los dobles signos de dólar y los saltos de línea
             options = {key: value.replace('$$', '$').replace('\n', '').replace('\\\\', '\\') for key, value in options.items()}
 
@@ -345,19 +320,10 @@ def parse_qti_file(file_path):
             )
 
             # Save the question to generate an ID
-            #question.save()
             # Process images if any
             save_images(item_body, file_path, question)
             question.save()
             
-            # Process images if any
-            #image_tag = item_body.find('qti:object', namespaces=namespace)
-            # if image_tag is not None:
-            #     image_path = os.path.join(os.path.dirname(file_path), image_tag.get('data'))
-            #     if os.path.exists(image_path):
-            #         with open(image_path, 'rb') as f:
-            #             question.image.save(os.path.basename(image_path), File(f))
-            # question.save()
     except etree.XMLSyntaxError as e:
         print(f"XML Syntax Error while parsing {file_path}: {e}")
     except Exception as e:

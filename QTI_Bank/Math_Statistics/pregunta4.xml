@@ -1,0 +1,25 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q1" title="Mediana de Calificaciones" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>A una finca llega un virus que afecta el ganado bovino. Se toma como muestra 12
+reses para evaluar el comportamiento del virus; los resultados se muestran en la
+tabla.</p>
+
+        <img src="images/nivel_audiencia_mes.png" alt="Gráfico de nivel de audiencia por mes"/>
+
+        <p>De acuerdo con esta información, la afirmación verdadera respecto a la relación entre
+los datos observados en la muestra es:</p>
+
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice identifier="ChoiceA"> El virus no ataca a las reses con cuernos.</simpleChoice>
+            <simpleChoice identifier="ChoiceB">El virus no ataca a los machos sin cuernos.</simpleChoice>
+            <simpleChoice identifier="ChoiceC">El virus ataca a todas las reses con cuernos.</simpleChoice>
+             <simpleChoice identifier="ChoiceD">El virus ataca a todas las hembras sin cuernos.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceD</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>
