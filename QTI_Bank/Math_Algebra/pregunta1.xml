@@ -3,14 +3,14 @@
         <p>El dueño de una tienda, que únicamente vende empanadas, quiere saber si su negocio está produciendo
 ganancias o pérdidas mensuales. Él sabe que, independientemente de la cantidad de empanadas que
 venda, tiene gastos mensuales de $500.000.</p>
-        <p>Si en el mes se vende una cantidad 𝑛 de empanadas y por cada empanada vendida se obtiene una ganancia
-𝑥, entonces el negocio producirá pérdidas si</p>
+        <p>Si en el mes se vende una cantidad n de empanadas y por cada empanada vendida se obtiene una ganancia
+x, entonces el negocio producirá pérdidas si</p>
         <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
             <prompt>Selecciona una respuesta:</prompt>
-            <simpleChoice identifier="ChoiceA">$\frac{n}{x} < 500.000 $</simpleChoice>
-            <simpleChoice identifier="ChoiceB">$\frac{n}{x} > 500.000 $</simpleChoice>
-            <simpleChoice identifier="ChoiceC">$ nx < 500.000 $</simpleChoice>
-            <simpleChoice identifier="ChoiceD">$ nx < 500.000 $</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceA"><![CDATA[$\frac{n}{x}<500.000$]]></simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceB"><![CDATA[$\frac{n}{x}>500.000$]]></simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceC"><![CDATA[$nx<500.000$]]></simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceD"><![CDATA[$nx<500.000$]]></simpleChoice>
         </choiceInteraction>
     </itemBody>
     <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">

@@ -11,10 +11,10 @@ primero?</p>
 
         <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
             <prompt>Selecciona una respuesta:</prompt>
-            <simpleChoice identifier="ChoiceA"> La división entre las alturas de los árboles 1 y 3.</simpleChoice>
-            <simpleChoice identifier="ChoiceB">La multiplicación de la altura del primer árbol por 4.</simpleChoice>
-            <simpleChoice identifier="ChoiceC">La resta entre las alturas de dos árboles consecutivos.</simpleChoice>
-             <simpleChoice identifier="ChoiceD">La suma de las alturas de los tres primeros árboles.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceA"> La división entre las alturas de los árboles 1 y 3.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">La multiplicación de la altura del primer árbol por 4.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">La resta entre las alturas de dos árboles consecutivos.</simpleChoice>
+             <simpleChoice is_latex="False" identifier="ChoiceD">La suma de las alturas de los tres primeros árboles.</simpleChoice>
         </choiceInteraction>
     </itemBody>
     <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">

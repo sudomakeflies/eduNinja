@@ -1,90 +1,95 @@
-    {% extends 'evaluations/base.html' %}
+{% extends 'evaluations/base.html' %}
 
-    {% load static %}
-    {% load katex_markdown %}
+{% load static %}
+{% load katex_markdown %}
 
-    {% block title %}Take Evaluation{% endblock %}
+{% block title %}Take Evaluation{% endblock %}
 
-    {% block code_head %}
-    <style>
-        #content {
-            padding: 20px;
-        }
-        .question {
-            background-color: #ffffff;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .question-text {
-            font-size: 1.2em;
-            color: #495057;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .option {
-            margin: 10px 0;
-        }
-    </style>
-    <link rel="stylesheet" href="{% static 'katex/katex.min.css' %}">
-    {% endblock %}
+{% block code_head %}
+<style>
+    #content {
+        padding: 20px;
+    }
+    .question {
+        background-color: #ffffff;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .question-text {
+        font-size: 1.2em;
+        color: #495057;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .option {
+        margin: 10px 0;
+    }
+</style>
+<link rel="stylesheet" href="{% static 'katex/katex.min.css' %}">
+{% endblock %}
 
-    {% block content %}
-    <div id="content">
-        <h1>Evaluación</h1>
-        <h2>{{ evaluation.name }} - {{ evaluation.date }} - {{ evaluation.course.name }}</h2><br/>
-        <form method="post">
-            {% csrf_token %}
-            {% for question in evaluation.questions.all %}
-                <div class="question">
-                    <div class="question-text">
-                    <b>{{ forloop.counter }}</b>. {{ question.question_text|markdown_katex|safe }}
-                    </div>
-                    {% if question.image %}
-                        <div>
-                            <img src="{{ question.image.url }}" alt="Question Image" style="max-width: 60%; height: auto;">
-                        </div>
+{% block content %}
+<div id="content">
+    <h1>Evaluación</h1>
+    <h2>{{ evaluation.name }} - {{ evaluation.date }} - {{ evaluation.course.name }}</h2><br/>
+    <form method="post">
+        {% csrf_token %}
+        {% for question in evaluation.questions.all %}
+            <div class="question">
+                <div class="question-text {% if question.latex_format %}is_latex{% endif %}">
+                    <b>{{ forloop.counter }}</b>. 
+                    {% if question.latex_format %}
+                        {{ question.question_text|markdown_katex|safe }}
+                    {% else %}
+                        {{ question.question_text|safe }}
                     {% endif %}
-                    <div class="options">
-                        {% for key, value in question.options|parse_json_options %}
-                            {% with forloop.counter as counter %}
-                                {% with counter|convert_number_to_letter as letter %}
-                                    <div class="option">
-                                        <input type="radio" id="question_{{ question.id }}_{{ key }}" name="question_{{ question.id }}" value="{{ key }}">
-                                        <label for="question_{{ question.id }}_{{ key }}">{{ letter }}) {{ value|markdown_katex|safe }}</label>
-                                    </div>
-                                {% endwith %}
-                            {% endwith %}
-                        {% endfor %}
-                    </div>
                 </div>
-            {% endfor %}
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
-    {% endblock %}
+                {% if question.image %}
+                    <div>
+                        <img src="{{ question.image.url }}" alt="Question Image" style="max-width: 60%; height: auto;">
+                    </div>
+                {% endif %}
+                <div class="options">
+                    {% for value in question.options.all %}
+                        {% with forloop.counter|convert_number_to_letter as letter %}
+                            <div class="option">
+                                <input type="radio" id="question_{{ question.id }}_{{ forloop.counter }}" name="question_{{ question.id }}" value="{{ forloop.counter }}">
+                                <label for="question_{{ question.id }}_{{ forloop.counter }}" class="{% if value.is_latex %}is_latex{% endif %}">
+                                    {{ letter }}) 
+                                    {% if value.is_latex %}
+                                        {{ value|markdown_katex|safe }}
+                                    {% else %}
+                                        {{ value|safe }}
+                                    {% endif %}
+                                </label>
+                            </div>
+                        {% endwith %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock %}
 
-    {% block code_bottom %}
-    <script defer src="{% static 'katex/katex.min.js' %}"></script>
-    <script defer src="{% static 'katex/auto-render.min.js' %}"></script>
-    <script>
-        window.onload = function() {
-            var contentElement = document.getElementById('content');
-            if (contentElement) {
-                var options = {
-                    delimiters: [
-                        {left: "$", right: "$", display: false},
-                        {left: "\\[", right: "\\]", display: true},
-                        {left: "\\(", right: "\\)", display: false}
-                    ],
-                };
-                renderMathInElement(contentElement, options);
-                contentElement.style.display = 'block';
-            } else {
-                console.error("Elemento con id 'content' no encontrado.");
-            }
-        };
-        
-    </script>
-    {% endblock %}
+{% block code_bottom %}
+<script defer src="{% static 'katex/katex.min.js' %}"></script>
+<script defer src="{% static 'katex/auto-render.min.js' %}"></script>
+<script>
+    window.onload = function() {
+        var elements = document.querySelectorAll('.is_latex');
+        elements.forEach(function(element) {
+            renderMathInElement(element, {
+                delimiters: [
+                    {left: "$", right: "$", display: false},
+                    {left: "\\[", right: "\\]", display: true},
+                    {left: "\\(", right: "\\)", display: false}
+                ],
+            });
+        });
+    };
+</script>
+{% endblock %}

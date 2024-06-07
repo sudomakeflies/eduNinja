@@ -11,10 +11,10 @@ los datos observados en la muestra es:</p>
 
         <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
             <prompt>Selecciona una respuesta:</prompt>
-            <simpleChoice identifier="ChoiceA"> El virus no ataca a las reses con cuernos.</simpleChoice>
-            <simpleChoice identifier="ChoiceB">El virus no ataca a los machos sin cuernos.</simpleChoice>
-            <simpleChoice identifier="ChoiceC">El virus ataca a todas las reses con cuernos.</simpleChoice>
-             <simpleChoice identifier="ChoiceD">El virus ataca a todas las hembras sin cuernos.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceA"> El virus no ataca a las reses con cuernos.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">El virus no ataca a los machos sin cuernos.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">El virus ataca a todas las reses con cuernos.</simpleChoice>
+             <simpleChoice is_latex="False" identifier="ChoiceD">El virus ataca a todas las hembras sin cuernos.</simpleChoice>
         </choiceInteraction>
     </itemBody>
     <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">

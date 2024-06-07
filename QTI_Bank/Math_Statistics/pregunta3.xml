@@ -8,11 +8,11 @@
 
     <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="5">
       <prompt>Selecciona la respuesta correcta:</prompt>
-      <simpleChoice identifier="ChoiceA">1. Piña, 2. Naranja, 3. Limón, 4. Uva, 5. Manzana</simpleChoice>
-      <simpleChoice identifier="ChoiceB">1. Manzana, 2. Uva, 3. Limón, 4. Naranja, 5. Piña</simpleChoice>
-      <simpleChoice identifier="ChoiceC">1. Piña, 2. Manzana, 3. Uva, 4. Limón, 5. Naranja</simpleChoice>
-      <simpleChoice identifier="ChoiceD">1. Manzana, 2. Limón, 3. Uva, 4. Naranja, 5. Piña</simpleChoice>
-      <simpleChoice identifier="ChoiceE">1. Uva, 2. Limón, 3. Naranja, 4. Manzana, 5. Piña</simpleChoice>
+      <simpleChoice is_latex="False" identifier="ChoiceA">1. Piña, 2. Naranja, 3. Limón, 4. Uva, 5. Manzana</simpleChoice>
+      <simpleChoice is_latex="False" identifier="ChoiceB">1. Manzana, 2. Uva, 3. Limón, 4. Naranja, 5. Piña</simpleChoice>
+      <simpleChoice is_latex="False" identifier="ChoiceC">1. Piña, 2. Manzana, 3. Uva, 4. Limón, 5. Naranja</simpleChoice>
+      <simpleChoice is_latex="False" identifier="ChoiceD">1. Manzana, 2. Limón, 3. Uva, 4. Naranja, 5. Piña</simpleChoice>
+      <simpleChoice is_latex="False" identifier="ChoiceE">1. Uva, 2. Limón, 3. Naranja, 4. Manzana, 5. Piña</simpleChoice>
     </choiceInteraction>
   </itemBody>
   <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">

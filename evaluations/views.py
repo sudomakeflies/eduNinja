@@ -38,7 +38,7 @@ class CourseDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['evaluations'] = Evaluation.objects.filter(course=self.object)
+        context['evaluations'] = Evaluation.objects.filter(course=self.object).select_related('course')
         return context
 
 @method_decorator(cache_page(60), name='dispatch')
@@ -66,9 +66,10 @@ async def send_websocket_message(answer_id, response):
     )
 
 @login_required
-@cache_page(60)
+#@cache_page(60)
 def take_evaluation(request, pk):
-    evaluation = get_object_or_404(Evaluation, pk=pk)
+    #evaluation = get_object_or_404(Evaluation, pk=pk)
+    evaluation = get_object_or_404(Evaluation.objects.select_related('course').prefetch_related('questions'), pk=pk)
     student = request.user
     context = {
         'evaluation': evaluation,
@@ -80,48 +81,18 @@ def take_evaluation(request, pk):
 
     if request.method == 'POST':
         try:
+            total_score, selected_options = process_student_answers(request, evaluation)
 
-            # Procesar las respuestas del estudiante
-            # Calcular la calificación
-            total_score = 0
-            value_per_question = evaluation.value_per_question
-            selected_options = {}
-
-            for question in evaluation.questions.all():
-                selected_option = request.POST.get(f'question_{question.id}')
-                correct_answer = question.correct_answer
-                is_correct = selected_option == correct_answer
-                print(selected_option) 
-                print(correct_answer)
-
-                # Calcular el puntaje
-                score = value_per_question if is_correct else 0
-                total_score += score
-                selected_options[str(question.id)] = selected_option  # Store the selected option
-
-            if not answer_exists:
-                # Crear un nuevo registro de Answer si no existe uno previo
-                answer = Answer.objects.create(
-                    evaluation=evaluation,
-                    student=student,
-                    selected_options=selected_options,
-                    feedback = '',
-                    score= total_score,
-                    attempts=3  # Comienza con 3 intentos
-                )
-                #answer.question.set(evaluation.questions.all())
-            else:
-                # Actualizar el registro existente y reducir el contador de intentos
-                answer = Answer.objects.get(evaluation=evaluation, student=student)
-                # Actualizar los campos con los datos del POST
-                #answer.question = question
-                #answer.question.set(evaluation.questions.all())
-                answer.selected_options = selected_options
-                answer.feedback = ''  # O puedes actualizar con el valor deseado
-                answer.score = total_score
-                answer.attempts = F('attempts') - 1  # Reducir el contador de intentos en 1
-                # Guardar los cambios en la base de datos
-                answer.save()
+            answer, created = Answer.objects.update_or_create(
+                evaluation=evaluation,
+                student=student,
+                defaults={
+                    'selected_options': selected_options,
+                    'feedback': '',
+                    'score': total_score,
+                    'attempts': F('attempts') - 1 if not created else 3
+                }
+            )
             
             # Iniciar un proceso asíncrono para manejar la respuesta del LLM
             #asyncio.create_task(handle_llm_response(answer))
@@ -145,12 +116,30 @@ def take_evaluation(request, pk):
 
     return render(request, 'evaluations/take_evaluation.html', context)
 
+def process_student_answers(request, evaluation):
+    total_score = 0
+    value_per_question = evaluation.value_per_question
+    selected_options = {}
+
+    for question in evaluation.questions.all():
+        selected_option = request.POST.get(f'question_{question.id}')
+        correct_answer = question.correct_answer
+        is_correct = selected_option == correct_answer
+
+        score = value_per_question if is_correct else 0
+        total_score += score
+        selected_options[str(question.id)] = selected_option
+
+    return total_score, selected_options
+
 @login_required
 @cache_page(60)
 def evaluation_result(request, pk):
-    evaluation = get_object_or_404(Evaluation, pk=pk)
-    answers = Answer.objects.filter(evaluation=evaluation, student=request.user).exclude(score=None)
+    #evaluation = get_object_or_404(Evaluation, pk=pk)
+    #answers = Answer.objects.filter(evaluation=evaluation, student=request.user).exclude(score=None)
     #total_score = sum(answer.score for answer in answers if answer.score is not None)
+    evaluation = get_object_or_404(Evaluation.objects.select_related('course'), pk=pk)
+    answers = Answer.objects.filter(evaluation=evaluation, student=request.user).exclude(score=None).select_related('evaluation')
     return render(request, 'evaluations/evaluation_result.html', {'evaluation': evaluation, 'answers': answers})
 
 def register(request):
@@ -168,7 +157,8 @@ def register(request):
 @cache_page(60)
 def view_answers(request):
     # Obtener las respuestas del usuario autenticado
-    user_answers = Answer.objects.filter(student=request.user)
+    #user_answers = Answer.objects.filter(student=request.user)
+    user_answers = Answer.objects.filter(student=request.user).select_related('evaluation', 'evaluation__course')
     return render(request, 'evaluations/view_answers.html', {'user_answers': user_answers, 'student': request.user})
 
 def error_view(request):

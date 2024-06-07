@@ -10,7 +10,7 @@ function show_help {
     echo "  --run-django-server  Iniciar el servidor usando el servidor de desarrollo de Django"
     echo "  --import-qti         Importar datos QTI"
     echo "  --all                Realizar todas las acciones anteriores"
-    echo "  --delete-db          Borrar la base de datos existente (db.sqlite3)"
+    echo "  --delete-db          Borrar la base de datos existente"
     echo "  --help               Mostrar esta ayuda"
 }
 
@@ -21,12 +21,12 @@ function setup_env {
 
 function create_initial_data {
     echo "Generando datos iniciales..."
-    python3 create_initial_data.py
+    python create_initial_data.py
 }
 
 function import_qti {
     echo "Importando datos QTI..."
-    python3.10 manage.py import_qti QTI_Bank
+    python manage.py import_qti QTI_Bank
 }
 
 function run_server {
@@ -36,20 +36,35 @@ function run_server {
 
 function run_django_server {
     echo "Iniciando el servidor de desarrollo de Django..."
-    python3 manage.py runserver_plus --cert-file localhost.pem --key-file localhost-key.pem
+    python manage.py runserver_plus --cert-file localhost.pem --key-file localhost-key.pem
 }
 
-function delete_db {
-    if [ -f "db.sqlite3" ]; then
-        read -p "¿Está seguro de que desea eliminar db.sqlite3? (s/n): " confirm
-        if [[ $confirm == [sS] ]]; then
-            rm db.sqlite3
-            echo "Base de datos db.sqlite3 eliminada."
-        else
-            echo "Operación cancelada."
-        fi
+# Función para borrar y recrear la base de datos y el usuario
+function delete_database {
+    read -p "¿Está seguro de que desea borrar la base de datos existente? (s/n): " confirm
+    if [[ $confirm =~ ^[Ss]$ ]]; then
+        echo "Eliminando la base de datos existente..."
+        dropdb -h localhost -p 5432 -U sudomf posgresdb
+        echo "Creando la base de datos y el usuario..."
+        sudo -u postgres psql -c "DROP DATABASE IF EXISTS posgresdb;"
+        sudo -u postgres psql -c "DROP USER IF EXISTS sudomf;"
+        sudo -u postgres psql -c "CREATE USER sudomf WITH PASSWORD 'sudomakingflies';"
+        sudo -u postgres psql -c "CREATE DATABASE posgresdb OWNER sudomf;"
+        echo "Base de datos y usuario creados exitosamente."
     else
-        echo "No se encontró la base de datos db.sqlite3."
+        echo "Operación cancelada. La base de datos no ha sido eliminada."
+    fi
+}
+
+function start_postgresql_service {
+    echo "Iniciando el servicio PostgreSQL..."
+    sudo service postgresql start
+}
+
+function check_postgresql_service {
+    if ! pgrep -x "postgres" >/dev/null; then
+        echo "El servicio PostgreSQL no está en ejecución. Iniciando..."
+        start_postgresql_service
     fi
 }
 
@@ -77,13 +92,16 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
+# Verificar y comenzar el servicio PostgreSQL si es necesario
+check_postgresql_service
+
 # Ejecutar acciones basadas en los argumentos
 if $SETUP; then
     setup_env
 fi
 
 if $DELETE_DB; then
-    delete_db
+    delete_database
 fi
 
 if $INITIAL_DATA; then
@@ -104,7 +122,7 @@ fi
 
 # Si no se especifica ningún argumento, se asume que se quiere realizar todo el proceso en orden específico
 if ! $DELETE_DB && ! $SETUP && ! $INITIAL_DATA && ! $IMPORT_QTI && ! $RUN_SERVER && ! $RUN_DJANGO_SERVER; then
-    delete_db
+    delete_database
     setup_env
     create_initial_data
     import_qti

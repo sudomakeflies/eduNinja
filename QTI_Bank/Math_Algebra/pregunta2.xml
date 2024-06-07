@@ -5,10 +5,10 @@ adicionales por cada año de experiencia que tenga el aspirante. ¿Cuál de los 
 permite calcular el salario de un aspirante cualquiera?</p>
         <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
             <prompt>Selecciona una respuesta:</prompt>
-            <simpleChoice identifier="ChoiceA">Multiplicar $950.000 por $75.000 y sumar los años de experiencia.</simpleChoice>
-            <simpleChoice identifier="ChoiceB">Multiplicar $950.000 por los años de experiencia y adicionar $75.000.</simpleChoice>
-            <simpleChoice identifier="ChoiceC">Sumar $950.000 al resultado de multiplicar $75.000 por los años de experiencia.</simpleChoice>
-            <simpleChoice identifier="ChoiceD">Sumar $950.000 y $75.000, y multiplicar el resultado por los años de experiencia.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Multiplicar $950.000 por $75.000 y sumar los años de experiencia.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Multiplicar $950.000 por los años de experiencia y adicionar $75.000.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Sumar $950.000 al resultado de multiplicar $75.000 por los años de experiencia.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Sumar $950.000 y $75.000, y multiplicar el resultado por los años de experiencia.</simpleChoice>
         </choiceInteraction>
     </itemBody>
     <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">

@@ -29,15 +29,15 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'  # Esta es la ruta donde se recopilan tod
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-
-#ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
-ALLOWED_HOSTS = ['example.com', 'localhost', '127.0.0.1']
-
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 #ASGI
 ASGI_APPLICATION = 'asgi.application'
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('redis://localhost:6379')],
+        },
     },
 }
 
@@ -46,12 +46,15 @@ LOGIN_REDIRECT_URL = 'profile'
 LOGOUT_REDIRECT_URL = 'login'
 
 # Seguridad adicional
-SECURE_BROWSER_XSS_FILTER = True
-X_FRAME_OPTIONS = 'DENY'
-SECURE_CONTENT_TYPE_NOSNIFF = True
-SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', default=True)
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+#Daphne segurity
+SECURE_SSL_REDIRECT = False
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
+SECURE_BROWSER_XSS_FILTER = False
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+SECURE_CONTENT_TYPE_NOSNIFF = False
+SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', default=False)
+#SECURE_HSTS_SECONDS = 0  # Disable HSTS for local development
 
 TEMPLATES = [
     {
@@ -79,16 +82,23 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
-    'silk',
     'langchain',
     'channels',
-    'debug_toolbar',
+    #'whitenoise.runserver_nostatic',
 ]
+
+
+if DEBUG:
+    INSTALLED_APPS += ['silk', 'debug_toolbar']
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'posgresdb',
+        'USER': 'sudomf',
+        'PASSWORD': 'sudomakingflies',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -100,9 +110,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'silk.middleware.SilkyMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    #'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+
+# Agregar middlewares adicionales si estamos en modo DEBUG
+if DEBUG:
+    MIDDLEWARE += ['silk.middleware.SilkyMiddleware', 'debug_toolbar.middleware.DebugToolbarMiddleware']
+
 
 INTERNAL_IPS = [
     '127.0.0.1',
@@ -168,14 +182,18 @@ LOGGING = {
     },
 }
 
-#Daphne segurity
-SECURE_SSL_REDIRECT = True
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
 
-#Cache
-CACHES = {
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION': 'redis://127.0.0.1:6379/1',
+#         'OPTIONS': {
+#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+#         }
+#     }
+# }
+CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-    }
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
 }

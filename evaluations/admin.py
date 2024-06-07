@@ -1,9 +1,14 @@
 from django.contrib import admin
-from .models import Course, Question, Evaluation, Answer
+from .models import Course, Question, Evaluation, Answer, Option
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
+
+
+@admin.register(Option)
+class OptionAdmin(admin.ModelAdmin):
+    list_display = ('text', 'is_latex')
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):

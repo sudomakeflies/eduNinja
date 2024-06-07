@@ -13,6 +13,8 @@ def convert_number_to_letter(number):
 
 @register.filter(name='markdown_katex')
 def markdown_katex_filter(text):
+    if not isinstance(text, str):
+        text = str(text)  # Ensure text is a string
     md = markdown.Markdown(extensions=[ExtraExtension(), KatexExtension()])
     return md.convert(text)
 
@@ -60,3 +62,10 @@ def parse_json_options(value):
     except json.JSONDecodeError:
         # Si falla el análisis como JSON, devolver el valor tal cual
         return value
+    
+@register.filter(name='chr')
+def chr_filter(value):
+    try:
+        return chr(value)
+    except (TypeError, ValueError):
+        return ''

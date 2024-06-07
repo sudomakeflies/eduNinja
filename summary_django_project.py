@@ -18,36 +18,36 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
 django.setup()
 
 def list_models():
-    print("\nMODELOS")
+    #print("\nMODELOS")
     for app in apps.get_app_configs():
-        print(f"\nApp: {app.label}")
+        #print(f"\nApp: {app.label}")
         for model in app.get_models():
-            print(f"  Model: {model.__name__}")
+            #print(f"  Model: {model.__name__}")
 
 def list_views():
-    print("\nVISTAS")
+    #print("\nVISTAS")
     for app in apps.get_app_configs():
-        print(f"\nApp: {app.label}")
+        #print(f"\nApp: {app.label}")
         try:
             module = __import__(f"{app.name}.views", fromlist=[''])
             for name, obj in inspect.getmembers(module):
                 if inspect.isclass(obj) and issubclass(obj, View):
-                    print(f"  View Class: {name}")
+                    #print(f"  View Class: {name}")
                 elif inspect.isfunction(obj):
-                    print(f"  View Function: {name}")
+                    #print(f"  View Function: {name}")
         except ModuleNotFoundError:
-            print(f"  No views module in {app.label}")
+            #print(f"  No views module in {app.label}")
 
 def list_urls(urlpatterns=None, prefix=''):
     if urlpatterns is None:
-        print("\nURLS")
+        #print("\nURLS")
         resolver = get_resolver()
         urlpatterns = resolver.url_patterns
     for pattern in urlpatterns:
         if isinstance(pattern, URLPattern):
-            print(f"{prefix}{pattern.pattern}")
+            #print(f"{prefix}{pattern.pattern}")
         elif isinstance(pattern, URLResolver):
-            print(f"{prefix}{pattern.pattern}/")
+            #print(f"{prefix}{pattern.pattern}/")
             list_urls(pattern.url_patterns, prefix + '    ')
 
 if __name__ == "__main__":
@@ -56,6 +56,6 @@ if __name__ == "__main__":
         list_views()
         list_urls()
     except AttributeError as e:
-        print(f"Error: {e}")
+        #print(f"Error: {e}")
         if not hasattr(settings, 'ROOT_URLCONF'):
-            print("Asegúrate de que la configuración de Django esté correcta y que 'ROOT_URLCONF' esté definida en tu archivo settings.py.")
+            #print("Asegúrate de que la configuración de Django esté correcta y que 'ROOT_URLCONF' esté definida en tu archivo settings.py.")

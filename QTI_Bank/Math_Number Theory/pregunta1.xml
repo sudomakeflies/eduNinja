@@ -6,10 +6,10 @@
         <p>¿Cuál(es) de las propuestas anteriores garantiza(n) que se reparta la totalidad de la gaseosa en partes iguales?</p>
         <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
             <prompt>Selecciona una respuesta:</prompt>
-            <simpleChoice identifier="ChoiceA">Únicamente las propuestas de Sofía y Natalia.</simpleChoice>
-            <simpleChoice identifier="ChoiceB">Únicamente la propuesta de Natalia.</simpleChoice>
-            <simpleChoice identifier="ChoiceC">Únicamente la propuesta de Fabián.</simpleChoice>
-            <simpleChoice identifier="ChoiceD">Únicamente las propuestas de Fabián y Sofía.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Únicamente las propuestas de Sofía y Natalia.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Únicamente la propuesta de Natalia.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Únicamente la propuesta de Fabián.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Únicamente las propuestas de Fabián y Sofía.</simpleChoice>
         </choiceInteraction>
     </itemBody>
     <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">

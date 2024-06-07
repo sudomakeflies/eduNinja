@@ -12,12 +12,12 @@ automóviles de varios colores.</p>
         
         <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
             <prompt>Selecciona una respuesta:</prompt>
-            <simpleChoice identifier="ChoiceA">Como los vehículos color plata son los más vendidos con un 35%, serán los más accidentados.</simpleChoice>
-            <simpleChoice identifier="ChoiceB">Como los vehículos de color negro son los de mayor accidentalidad, y con 20% en ventas, serán los
+            <simpleChoice is_latex="False" identifier="ChoiceA">Como los vehículos color plata son los más vendidos con un 35%, serán los más accidentados.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Como los vehículos de color negro son los de mayor accidentalidad, y con 20% en ventas, serán los
 más accidentados.</simpleChoice>
-            <simpleChoice identifier="ChoiceC">Como los vehículos de color negro solo tienen el 20% en ventas, tendrán menos accidentes que los de
+            <simpleChoice is_latex="False" identifier="ChoiceC">Como los vehículos de color negro solo tienen el 20% en ventas, tendrán menos accidentes que los de
 color blanco que tienen ventas superiores.</simpleChoice>
-            <simpleChoice identifier="ChoiceD">Como los vehículos color blanco se venden 10% menos que los de color plata, y no tienen una
+            <simpleChoice is_latex="False" identifier="ChoiceD">Como los vehículos color blanco se venden 10% menos que los de color plata, y no tienen una
 accidentalidad tan alta, se accidentarán menos que los de color plata.</simpleChoice>
         </choiceInteraction>
     </itemBody>

@@ -15,10 +15,10 @@ información de la gráfica, es correcto que el valor a pagar del seguro</p>
         
         <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
             <prompt>Selecciona una respuesta:</prompt>
-            <simpleChoice identifier="ChoiceA">de los automóviles color blanco será el segundo del más bajo al más alto.</simpleChoice>
-            <simpleChoice identifier="ChoiceB">de los automóviles color negro será el más alto de todos.</simpleChoice>
-            <simpleChoice identifier="ChoiceC">de los automóviles de cada color será el mismo.</simpleChoice>
-            <simpleChoice identifier="ChoiceD">de los automóviles color plata será el más alto.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceA">de los automóviles color blanco será el segundo del más bajo al más alto.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">de los automóviles color negro será el más alto de todos.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">de los automóviles de cada color será el mismo.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">de los automóviles color plata será el más alto.</simpleChoice>
         </choiceInteraction>
     </itemBody>
     <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">

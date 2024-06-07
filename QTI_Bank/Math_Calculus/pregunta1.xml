@@ -12,10 +12,10 @@ conclusión del empleado?</p>
 
         <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
             <prompt>Selecciona una respuesta:</prompt>
-            <simpleChoice identifier="ChoiceA">Sí, porque las funciones $𝑃(𝑥)\, y\, 𝑄(𝑥)$ tienen rangos diferentes.</simpleChoice>
-            <simpleChoice identifier="ChoiceB">No, porque las funciones $𝑃(𝑥) y 𝑄(𝑥)$ tienen dominios iguales.</simpleChoice>
-            <simpleChoice identifier="ChoiceC">Sí, porque $𝑃(𝑥) = 𝑄(𝑥) − 20$ por tanto, 𝑄(𝑥) es mayor.</simpleChoice>
-             <simpleChoice identifier="ChoiceD">No, porque $𝑃(𝑥) = 𝑄(𝑥) + 20$ por tanto, 𝑃(𝑥) es mayor.</simpleChoice>
+            <simpleChoice  is_latex="False" identifier="ChoiceA">Sí, porque las funciones 𝑃(𝑥) y 𝑄(𝑥) tienen rangos diferentes.</simpleChoice>
+            <simpleChoice  is_latex="False" identifier="ChoiceB">No, porque las funciones 𝑃(𝑥) y 𝑄(𝑥) tienen dominios iguales.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Sí, porque 𝑃(𝑥) = 𝑄(𝑥) − 20 por tanto, 𝑄(𝑥) es mayor.</simpleChoice>
+             <simpleChoice is_latex="False" identifier="ChoiceD">No, porque 𝑃(𝑥) = 𝑄(𝑥) + 20 por tanto, 𝑃(𝑥) es mayor.</simpleChoice>
         </choiceInteraction>
     </itemBody>
     <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
