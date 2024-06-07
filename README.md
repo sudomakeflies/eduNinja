@@ -1,5 +1,6 @@
 # evals
 Proyecto Django para evaluaciones múltiple respuesta optimizadas en matemáticas y ciencias. Integra modelo LLM local para retroalimentación adicional.
+<<<<<<< HEAD
 
 Proyecto Evaluaciones STEAM
 Este proyecto Django facilita la creación y administración de evaluaciones de opción múltiple en matemáticas y ciencias (STEAM). Permite a los usuarios tomar evaluaciones con retroalimentación instantánea y utiliza un modelo de lenguaje de aprendizaje automático local para una retroalimentación adicional.
@@ -29,3 +30,5 @@ Este proyecto está licenciado bajo la Licencia MIT.
 
 
 
+=======
+>>>>>>> 88861f469da654b413dbdcd70befae6bc520c781
