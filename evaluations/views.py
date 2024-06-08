@@ -83,16 +83,24 @@ def take_evaluation(request, pk):
         try:
             total_score, selected_options = process_student_answers(request, evaluation)
 
-            answer, created = Answer.objects.update_or_create(
+            answer, created = Answer.objects.get_or_create(
                 evaluation=evaluation,
                 student=student,
                 defaults={
                     'selected_options': selected_options,
                     'feedback': '',
                     'score': total_score,
-                    'attempts': F('attempts') - 1 if not created else 3
+                    'attempts': 2
                 }
             )
+
+            if not created:
+                print("Print actualizando answer evaluation model")
+                answer.selected_options = selected_options
+                answer.feedback = ''
+                answer.score = total_score
+                answer.attempts = F('attempts') - 1
+                answer.save()
             
             # Iniciar un proceso asíncrono para manejar la respuesta del LLM
             #asyncio.create_task(handle_llm_response(answer))
@@ -124,8 +132,12 @@ def process_student_answers(request, evaluation):
     for question in evaluation.questions.all():
         selected_option = request.POST.get(f'question_{question.id}')
         correct_answer = question.correct_answer
+        num_to_letter = lambda selected_option: 'Choice' + chr(64 + int(selected_option)) if selected_option.isdigit() and 1 <= int(selected_option) <= 10 else selected_option
+        selected_option = num_to_letter(selected_option)  # Aquí se llama a la función lambda para transformar selected_option
         is_correct = selected_option == correct_answer
-
+        print("DEBUGdiego: correct_anster:"), print(correct_answer)
+        print("DEBUGdiego: selected_option:"), print(selected_option)
+        print("DEBUGdiego: is_correct:"), print(is_correct)
         score = value_per_question if is_correct else 0
         total_score += score
         selected_options[str(question.id)] = selected_option

@@ -19,6 +19,8 @@ function migrate_database {
     echo "Migrando la base de datos..."
     python manage.py makemigrations
     python manage.py migrate
+    python manage.py makemigrations evaluations
+    python manage.py migrate evaluations
 }
 
 

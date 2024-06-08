@@ -1,4 +1,6 @@
-Django>=3.2,<4.0
+Django>=4.2,<5.0
+psycopg2>=2.9,<3.0
+psycopg2-binary==2.9.1
 django-environ
 django_extensions
 Pillow
@@ -19,3 +21,4 @@ langchain
 #gevent
 asgiref
 django-redis
+daphne

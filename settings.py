@@ -88,16 +88,16 @@ INSTALLED_APPS = [
 ]
 
 
-if DEBUG:
-    INSTALLED_APPS += ['silk', 'debug_toolbar']
+#if DEBUG:
+#    INSTALLED_APPS += ['silk', 'debug_toolbar']
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'posgresdb',
-        'USER': 'sudomf',
-        'PASSWORD': 'sudomakingflies',
-        'HOST': 'localhost',
+        'NAME': 'evalsdb',
+        'USER': 'admin',
+        'PASSWORD': 'password',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
@@ -114,8 +114,8 @@ MIDDLEWARE = [
 ]
 
 # Agregar middlewares adicionales si estamos en modo DEBUG
-if DEBUG:
-    MIDDLEWARE += ['silk.middleware.SilkyMiddleware', 'debug_toolbar.middleware.DebugToolbarMiddleware']
+#if DEBUG:
+#    MIDDLEWARE += ['silk.middleware.SilkyMiddleware', 'debug_toolbar.middleware.DebugToolbarMiddleware']
 
 
 INTERNAL_IPS = [
