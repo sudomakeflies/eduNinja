@@ -1,0 +1,22 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q1" title="Excursión al parque natural" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Un grupo de 5 amigos planea ir de excursión a un parque natural durante 3 días. Para calcular la cantidad de kilogramos de comida que deben llevar, el parque propone el siguiente procedimiento, que depende del número de excursionistas y de los días de la excursión:</p>
+        <p>Paso 1. A la cantidad de participantes sumarle 2.</p>
+        <p>Paso 2. Al número de días que dura la excursión sumarle 1.</p>
+        <p>Paso 3. Multiplicar el resultado del paso 1 por el resultado del paso 2.</p>
+        <p>El resultado del paso 3 corresponde a la cantidad de kilogramos de comida que deben llevar los excursionistas.</p>
+        <p>De acuerdo con el procedimiento planteado, ¿cuántos kilogramos de comida debe llevar el grupo de amigos a la excursión?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False"  identifier="ChoiceA">28 kg.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">30 kg.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">42 kg.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">56 kg.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

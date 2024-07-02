@@ -25,14 +25,21 @@ services:
   web:
     build: .
     container_name: django_web
-    command: sh -c "python manage.py migrate && ./start_app.sh --run-server"
+    #command: sh -c "python manage.py makemigrations && python manage.py migrate && ./start_app.sh --initial-data && ./start_app.sh --import-qti && python manage.py shell -c \"from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'admin')\" && python manage.py runserver 0.0.0.0:8000"
+    #command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    command: sh -c "./start_app.sh"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@eduninja.co
+      - DJANGO_SUPERUSER_PASSWORD=admin
     volumes:
       - .:/app
     ports:
       - "8000:8000"
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     networks:
       - app_network
     restart: always

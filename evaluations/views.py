@@ -15,9 +15,6 @@ from django.urls import reverse
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 
-from channels.layers import get_channel_layer
-from asgiref.sync import sync_to_async
-
 @method_decorator(cache_page(60), name='dispatch')
 class HomeView(ListView):
     model = Course
@@ -52,18 +49,6 @@ class EvaluationListView(ListView):
     model = Evaluation
     template_name = 'evaluations/evaluation_list.html'
     context_object_name = 'evaluations'
-
-# Función para enviar un mensaje WebSocket
-async def send_websocket_message(answer_id, response):
-    channel_layer = get_channel_layer()
-    await sync_to_async(channel_layer.group_send)(
-        "feedback_channel",
-        {
-            "type": "generate.feedback",
-            "answer_id": answer_id,
-            "response": response,
-        }
-    )
 
 @login_required
 #@cache_page(60)
@@ -102,12 +87,6 @@ def take_evaluation(request, pk):
                 answer.attempts = F('attempts') - 1
                 answer.save()
             
-            # Iniciar un proceso asíncrono para manejar la respuesta del LLM
-            #asyncio.create_task(handle_llm_response(answer))
-            # Enviar un mensaje WebSocket para manejar la respuesta del LLM
-            #asyncio.run(send_websocket_message(answer.id, evaluation.questions.all()))  
-            # O usa await send_websocket_message(answer.id, response) si el método es async
-
 
         except ValidationError as e:
             # Si se produce un error de validación, redirigir a la vista de error
@@ -127,22 +106,30 @@ def take_evaluation(request, pk):
 def process_student_answers(request, evaluation):
     total_score = 0
     value_per_question = evaluation.value_per_question
-    selected_options = {}
+    selected_options = []
 
     for question in evaluation.questions.all():
         selected_option = request.POST.get(f'question_{question.id}')
-        correct_answer = question.correct_answer
-        num_to_letter = lambda selected_option: 'Choice' + chr(64 + int(selected_option)) if selected_option.isdigit() and 1 <= int(selected_option) <= 10 else selected_option
-        selected_option = num_to_letter(selected_option)  # Aquí se llama a la función lambda para transformar selected_option
-        is_correct = selected_option == correct_answer
-        print("DEBUGdiego: correct_anster:"), print(correct_answer)
-        print("DEBUGdiego: selected_option:"), print(selected_option)
-        print("DEBUGdiego: is_correct:"), print(is_correct)
-        score = value_per_question if is_correct else 0
-        total_score += score
-        selected_options[str(question.id)] = selected_option
+        
+        if selected_option:
+            correct_answer = question.correct_answer
+            num_to_letter = lambda selected_option: 'Choice' + chr(64 + int(selected_option)) if selected_option.isdigit() and 1 <= int(selected_option) <= 10 else selected_option
+            selected_option = num_to_letter(selected_option)
+            is_correct = selected_option == correct_answer
+            score = value_per_question if is_correct else 0
+            total_score += score
+        else:
+            selected_option = None
+            score = 0
+
+        selected_options.append(selected_option)
+
+    # Si todas las respuestas son None, devolvemos una lista vacía
+    if all(option is None for option in selected_options):
+        selected_options = {}
 
     return total_score, selected_options
+
 
 @login_required
 @cache_page(60)

@@ -1,0 +1,19 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q4" title="Tiempo de Caminata de Mateo" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Mateo camina 30 minutos todos los días de su casa al trabajo, siguiendo la ruta punteada en la figura. Una mañana decide caminar por el parque, siguiendo la ruta con el trazo continuo (ver figura). Como es la primera vez que utiliza esta ruta, no sabe cuánto se va a demorar.</p>
+        <p>Mateo afirma que, con la misma velocidad de siempre, el nuevo camino le tomará más de 30 minutos. ¿Es correcta su afirmación?</p>
+        <p><img src="images/mateo_ruta_casa_trabajo.jpg" /></p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Sí, porque la suma de los trayectos de la casa al parque y del parque al trabajo, es mayor que el trayecto punteado.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Sí, porque Mateo puede deducir cuánto duran los trayectos de la casa al parque y del parque al trabajo.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">No, porque Mateo desconoce exactamente cuánto duran los trayectos de la casa al parque y del parque al trabajo.</simpleChoice>
+            <simpleChoice is_latex="False" dentifier="ChoiceD">No, porque la suma del trayecto punteado con cualquiera de los otros dos trayectos es mayor que el tercer trayecto.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

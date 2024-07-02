@@ -1,0 +1,95 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q3" title="Correlación Lineal de Conjuntos de Datos" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En la gráfica se presenta la probabilidad de que una variable tome los valores 𝑥1, 𝑥2, 𝑥3, 𝑥4, 𝑥5, 𝑥6, 𝑥7 y 𝑥8.</p>
+        <p>¿Cuál tabla muestra los valores que tienen asociada una probabilidad menos que 0,1?</p>
+        <img src="images/probabilidad_variable_tome_valores.jpg" alt="Gráfico de probabilidad"/>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">
+                <table>
+                    <tr>
+                        <th>Valor</th>
+                        <th>Probabilidad</th>
+                    </tr>
+                    <tr>
+                        <td>𝑥1</td>
+                        <td>0,20</td>
+                    </tr>
+                    <tr>
+                        <td>𝑥2</td>
+                        <td>0,02</td>
+                    </tr>
+                    <tr>
+                        <td>𝑥3</td>
+                        <td>0,16</td>
+                    </tr>
+                </table>
+            </simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">
+            <table>
+                    <tr>
+                        <th>Valor</th>
+                        <th>Probabilidad</th>
+                    </tr>
+                    <tr>
+                        <td>𝑥2</td>
+                        <td>0,02</td>
+                    </tr>
+                    <tr>
+                        <td>𝑥3</td>
+                        <td>0,16</td>
+                    </tr>
+                    <tr>
+                        <td>𝑥6</td>
+                        <td>0,12</td>
+                    </tr>
+                </table>
+            </simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">
+            <table>
+                    <tr>
+                        <th>Valor</th>
+                        <th>Probabilidad</th>
+                    </tr>
+                    <tr>
+                        <td>𝑥2</td>
+                        <td>0,02</td>
+                    </tr>
+                    <tr>
+                        <td>𝑥5</td>
+                        <td>0,05</td>
+                    </tr>
+                    <tr>
+                        <td>𝑥7</td>
+                        <td>0,05</td>
+                    </tr>
+                </table>
+            </simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">
+            <table>
+                    <thead>
+                        <th>Valor</th>
+                        <th>Probabilidad</th>
+                    </thead>
+                    <tr>
+                        <td>𝑥1</td>
+                        <td>0,20</td>
+                    </tr>
+                    <tr>
+                        <td>𝑥3</td>
+                        <td>0,16</td>
+                    </tr>
+                    <tr>
+                        <td>𝑥4</td>
+                        <td>0,25</td>
+                    </tr>
+                </table>
+            </simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

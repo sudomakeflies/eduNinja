@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q2" title="Distancia entre el punto de lanzamiento y la base principal" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Una cancha de béisbol tiene cuatro bases que forman un cuadrado de 20 metros de lado, tal y como se muestra en la imagen.</p>
+        <p><img src="images/cancha_beisbol.png" /></p>
+        <p>Si el punto de lanzamiento se ubica en el centro del cuadrado, ¿cuál es la distancia que hay entre el punto de lanzamiento y la base principal?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">10 metros.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">20 metros.</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceC">$\(\frac{\sqrt{360}}{2}\)$ metros.</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceD">$\(\frac{\sqrt{800}}{2}\)$ metros.</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">True</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceD</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

@@ -8,23 +8,73 @@
 {% block code_head %}
 <style>
     #content {
-        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
     }
+
+    #evaluationInfo {
+        background-color: var(--info-bg-color);
+        border: 1px solid var(--info-border-color);
+        border-radius: 5px;
+        padding: 15px;
+        box-shadow: 0 2px 5px var(--shadow-color);
+        margin-bottom: 20px;
+    }
+
+    #evaluationContent {
+        width: 100%;
+    }
+
     .question {
-        background-color: #ffffff;
-        padding: 20px;
-        margin: 20px 0;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
     }
+
     .question-text {
-        font-size: 1.2em;
-        color: #495057;
-        font-weight: bold;
+        /*font-size: 1rem;*/
         margin-bottom: 10px;
     }
+
+    .options {
+        display: flex;
+        flex-direction: column;
+    }
+
     .option {
-        margin: 10px 0;
+        margin-bottom: 10px;
+    }
+
+    .option label {
+        display: flex;
+        align-items: center;
+        font-size: 1.2em;
+    }
+
+    .option input[type="radio"] {
+        margin-right: 10px;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    @media (min-width: 768px) {
+        #content {
+            flex-direction: row;
+        }
+
+        #evaluationInfo {
+            position: sticky;
+            top: 70px;
+            width: 250px;
+            align-self: flex-start;
+            margin-right: 20px;
+        }
+
+        #evaluationContent {
+            flex: 1;
+        }
     }
 </style>
 <link rel="stylesheet" href="{% static 'katex/katex.min.css' %}">
@@ -32,46 +82,59 @@
 
 {% block content %}
 <div id="content">
-    <h1>Evaluación</h1>
-    <h2>{{ evaluation.name }} - {{ evaluation.date }} - {{ evaluation.course.name }}</h2><br/>
-    <form method="post">
-        {% csrf_token %}
-        {% for question in evaluation.questions.all %}
-            <div class="question">
-                <div class="question-text {% if question.latex_format %}is_latex{% endif %}">
-                    <b>{{ forloop.counter }}</b>. 
-                    {% if question.latex_format %}
-                        {{ question.question_text|markdown_katex|safe }}
-                    {% else %}
-                        {{ question.question_text|safe }}
-                    {% endif %}
-                </div>
-                {% if question.image %}
-                    <div>
-                        <img src="{{ question.image.url }}" alt="Question Image" style="max-width: 90%; height: auto;">
+    <div id="evaluationInfo">
+        <h3>Información de la Evaluación</h3>
+        <p id="questionCounter">Preguntas respondidas: 0 / {{ evaluation.questions.all|length }}</p>
+        {% if evaluation.time_limit %}
+        <p id="timer">Tiempo restante: {{ evaluation.time_limit }} minutos</p>
+        {% endif %}
+    </div>
+    <div id="evaluationContent">
+        <h1>Evaluación</h1>
+        <h2>{{ evaluation.name }} - {{ evaluation.date }} - {{ evaluation.course.name }}</h2>
+        <form method="post" id="evaluationForm">
+            {% csrf_token %}
+            {% for question in evaluation.questions.all %}
+                <div class="question">
+                    <div class="question-text {% if question.latex_format %}is_latex{% endif %}">
+                        <b>{{ forloop.counter }}</b>. 
+                        {% if question.latex_format %}
+                            {{ question.question_text|markdown_katex|safe }}
+                        {% else %}
+                            {{ question.question_text|safe }}
+                        {% endif %}
                     </div>
-                {% endif %}
-                <div class="options">
-                    {% for value in question.options.all %}
-                        {% with forloop.counter|convert_number_to_letter as letter %}
-                            <div class="option">
-                                <input type="radio" id="question_{{ question.id }}_{{ forloop.counter }}" name="question_{{ question.id }}" value="{{ forloop.counter }}">
-                                <label for="question_{{ question.id }}_{{ forloop.counter }}" class="{% if value.is_latex %}is_latex{% endif %}">
-                                    {{ letter }}) 
-                                    {% if value.is_latex %}
-                                        {{ value|markdown_katex|safe }}
-                                    {% else %}
-                                        {{ value|safe }}
-                                    {% endif %}
-                                </label>
-                            </div>
-                        {% endwith %}
-                    {% endfor %}
+                    {% if question.image %}
+                        <div>
+                            <img src="{{ question.image.url }}" alt="Question Image" loading="lazy">
+                        </div>
+                    {% endif %}
+                    <div class="options">
+                        {% for value in question.options.all %}
+                            {% with forloop.counter|convert_number_to_letter as letter %}
+                                <div class="option">
+                                    <input type="radio" id="question_{{ question.id }}_{{ forloop.counter }}" name="question_{{ question.id }}" value="{{ forloop.counter }}">
+                                    <label for="question_{{ question.id }}_{{ forloop.counter }}" class="{% if value.is_latex %}is_latex{% endif %}">
+                                        {{ letter }}) 
+                                        {% if value.image %}
+                                        <div>
+                                            <img src="{{ value.image.url }}" alt="Option Image" loading="lazy">
+                                        </div>
+                                        {% elif value.is_latex %}
+                                            {{ value.text|markdown_katex|safe }}
+                                        {% else %}
+                                            {{ value.text|safe }}
+                                        {% endif %}
+                                    </label>
+                                </div>
+                            {% endwith %}
+                        {% endfor %}
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
 </div>
 {% endblock %}
 
@@ -91,5 +154,126 @@
             });
         });
     };
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('evaluationForm');
+    const totalQuestions = {{ evaluation.questions.all|length }};
+    const initialTimeLimit = {{ evaluation.time_limit.total_seconds|default:0 }};
+    const questionCounter = document.getElementById('questionCounter');
+    const timerElement = document.getElementById('timer');
+    const submitButton = form.querySelector('button[type="submit"]');
+
+    let answeredQuestions = 0;
+    let timeRemaining;
+    // Eliminar valores guardados al inicio
+    localStorage.removeItem('evaluationAnswers');
+    localStorage.removeItem('evaluationTimeRemaining');
+
+    function updateQuestionCounter() {
+        answeredQuestions = document.querySelectorAll('.question input[type="radio"]:checked').length;
+        questionCounter.textContent = `Preguntas respondidas: ${answeredQuestions} / ${totalQuestions}`;
+        submitButton.disabled = answeredQuestions < totalQuestions;
+    }
+
+    function saveAnswers() {
+        const answers = {};
+        document.querySelectorAll('.question').forEach((question, index) => {
+            const checkedRadio = question.querySelector('input[type="radio"]:checked');
+            if (checkedRadio) {
+                answers[index] = checkedRadio.value;
+            }
+        });
+        localStorage.setItem('evaluationAnswers', JSON.stringify(answers));
+    }
+
+    function loadAnswers() {
+        const savedAnswers = JSON.parse(localStorage.getItem('evaluationAnswers') || '{}');
+        Object.entries(savedAnswers).forEach(([index, value]) => {
+            const radio = document.querySelector(`.question:nth-child(${parseInt(index) + 1}) input[type="radio"][value="${value}"]`);
+            if (radio) {
+                radio.checked = true;
+            }
+        });
+        updateQuestionCounter();
+    }
+
+    function saveTimeRemaining() {
+        localStorage.setItem('evaluationTimeRemaining', timeRemaining.toString());
+    }
+
+    function loadTimeRemaining() {
+        const savedTime = localStorage.getItem('evaluationTimeRemaining');
+        return savedTime ? parseInt(savedTime) : initialTimeLimit;
+    }
+
+    function startTimer() {
+        timeRemaining = loadTimeRemaining();
+        const timer = setInterval(() => {
+            timeRemaining--;
+            saveTimeRemaining();
+            
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            timerElement.textContent = `Tiempo restante: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeRemaining <= 0) {
+                clearInterval(timer);
+                alert('¡Tiempo agotado! El formulario se enviará automáticamente.');
+                window.onbeforeunload = null;
+                localStorage.removeItem('evaluationAnswers');
+                localStorage.removeItem('evaluationTimeRemaining');
+                form.submit();
+            }
+        }, 1000);
+    }
+
+    if (initialTimeLimit > 0) {
+        startTimer();
+    }
+
+    // Modificar loadAnswers para cargar solo si hay datos
+    function loadAnswers() {
+        const savedAnswers = JSON.parse(localStorage.getItem('evaluationAnswers') || '{}');
+        if (Object.keys(savedAnswers).length > 0) {
+            Object.entries(savedAnswers).forEach(([index, value]) => {
+                const radio = document.querySelector(`.question:nth-child(${parseInt(index) + 1}) input[type="radio"][value="${value}"]`);
+                if (radio) {
+                    radio.checked = true;
+                }
+            });
+            updateQuestionCounter();
+        }
+    }
+
+    window.onbeforeunload = function() {
+        saveAnswers();
+        saveTimeRemaining();
+        return "¿Estás seguro de que quieres salir? Tu progreso y tiempo restante se han guardado localmente.";
+    };
+
+    form.addEventListener('change', function() {
+        updateQuestionCounter();
+        saveAnswers();
+    });
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        if (answeredQuestions < totalQuestions) {
+            alert(`Por favor, responde todas las preguntas. Has respondido ${answeredQuestions} de ${totalQuestions}.`);
+        } else {
+            if (confirm('¿Estás seguro de que quieres enviar la evaluación?')) {
+                window.onbeforeunload = null;
+                //localStorage.removeItem('evaluationAnswers');
+                //localStorage.removeItem('evaluationTimeRemaining');
+                form.submit();
+            }
+        }
+    });
+
+    loadAnswers();
+    updateQuestionCounter();
+});
 </script>
 {% endblock %}

@@ -1,0 +1,33 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5C6BC0;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gradGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#000000;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#333333;stop-opacity:1" />
+    </linearGradient>
+    <!-- Defining the path for text -->
+    <path id="textPath" d="M 38, 124 a 65,65 0 1,1 130,0 a 65,65 0 1,1 -130,0" />
+  </defs>
+  <!-- Fondo gris oscuro -->
+  <rect width="200" height="200" fill="none" />
+  <!-- Círculo de fondo -->
+  <circle cx="100" cy="100" r="90" fill="url(#grad1)" />
+  <!-- Libro abierto -->
+  <path d="M60 85 L100 75 L140 85 L140 145 L100 155 L60 145 Z" fill="#FFFFFF" />
+  <path d="M100 75 L100 155" stroke="#5C6BC0" stroke-width="2" />
+  <!-- Silueta ninja -->
+  <path d="M85 110 Q100 95 115 110 L115 135 Q100 145 85 135 Z" fill="#5C6BC0" />
+  <path d="M90 115 L95 120 M110 115 L105 120" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+  <!-- Cinta de ninja -->
+  <path d="M75 105 Q100 100 125 105" stroke="#5C6BC0" stroke-width="4" fill="none" />
+  <path d="M70 105 L130 105" stroke="#5C6BC0" stroke-width="4" stroke-linecap="round" />
+  <!-- Texto -->
+  <text font-family="Arial, sans-serif" font-size="38" font-weight="bold" text-anchor="middle" fill="#FFFFFF" text-shadow="2px 2px 4px rgba(0,0,0,0.5)">
+    <textPath href="#textPath" startOffset="25%">
+      eduNinja
+    </textPath>
+  </text>
+</svg>

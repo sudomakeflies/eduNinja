@@ -1,0 +1,70 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q4" title="Bonificación de Empleados" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>La tabla 1 muestra la distribución por estrato socioeconómico de 50 empleados de una fábrica.</p>
+        <table>
+            <caption>Table #: 1</caption>
+            <thead>
+                <th>Estrato</th>
+                <th>Número de empleados</th>
+            </thead>
+            <tr>
+                <td>1</td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>20</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>0</td>
+            </tr>
+        </table>
+        <p>La tabla 2 muestra la clasificación por estrato que hace la empresa.</p>
+        <table>
+            <caption>Table #: 2</caption>
+            <thead>
+                <th>Estrato</th>
+                <th>Clasificación</th>
+            </thead>
+            <tr>
+                <td>1 - 2</td>
+                <td>Bajo</td>
+            </tr>
+            <tr>
+                <td>3 - 4</td>
+                <td>Medio</td>
+            </tr>
+            <tr>
+                <td>5 - 6</td>
+                <td>Alto</td>
+            </tr>
+        </table>
+        <p>El administrador de la fábrica ordenó los estratos socioeconómicos de menor a mayor según
+la cantidad de empleados que pertenezcan a cada estrato. La lista que obtuvo es:</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="True" identifier="ChoiceA">$ 1. \text{Alto}, 2. \text{Bajo}, 3. \text{Medio} $</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceB">$ 1. \text{Alto}, 2. \text{Medio}, 3. \text{Bajo} $</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceC">$ 1. \text{Medio}, 2. \text{Bajo}, 3. \text{Alto} $</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceD">$ 1. \text{Bajo}, 2. \text{Medio}, 3. \text{Alto} $</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

@@ -1,0 +1,21 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q1" title="Índice de crecimiento de cultivo" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Sebastián tiene un cultivo de café y calcula el índice de crecimiento de la siguiente forma:</p>
+        <p>Paso 1. Cuenta la cantidad inicial de semillas.</p>
+        <p>Paso 2. Calcula el 1 % de ese valor.</p>
+        <p>Si el índice de crecimiento del cultivo fue 4, ¿cuántas semillas había inicialmente?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False"  identifier="ChoiceA">100</simpleChoice>
+            <simpleChoice is_latex="False"  identifier="ChoiceB">10</simpleChoice>
+            <simpleChoice is_latex="False"  identifier="ChoiceC">400</simpleChoice>
+            <simpleChoice is_latex="False"  identifier="ChoiceD">40</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

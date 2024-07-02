@@ -3,12 +3,17 @@
 {% block title %}Evaluation List{% endblock %}
 
 {% block content %}
-<h1>Evaluations</h1>
-<ul class="list-group">
-    {% for evaluation in evaluations %}
-        <li class="list-group-item">
-            {{ evaluation.name }} - {{ evaluation.date }} | <a href="/api/take_evaluation/{{ evaluation.id }}">Tomar Evaluación</a>
-        </li>
-    {% endfor %}
-</ul>
+<div class="container mt-4">
+    <h1 class="mb-4">Evaluations</h1>
+    <ul class="list-group">
+        {% for evaluation in evaluations %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>{{ evaluation.course }}</strong> - {{ evaluation.name }} - {{ evaluation.date }}
+                </div>
+                <a href="/api/take_evaluation/{{ evaluation.id }}" class="btn btn-primary">Tomar Evaluación</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

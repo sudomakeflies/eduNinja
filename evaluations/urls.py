@@ -1,6 +1,19 @@
 from django.urls import path, include
 from . import views
 
+#API
+from rest_framework.routers import DefaultRouter
+from .views_api  import CourseViewSet, OptionViewSet, QuestionViewSet, EvaluationViewSet, AnswerViewSet
+
+router = DefaultRouter()
+router.register(r'courses', CourseViewSet)
+router.register(r'options', OptionViewSet)
+router.register(r'questions', QuestionViewSet)
+router.register(r'evaluations', EvaluationViewSet)
+router.register(r'answers', AnswerViewSet)
+
+#Urls http
+
 urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
     path('courses/', views.CourseListView.as_view(), name='course_list'),
@@ -15,4 +28,7 @@ urlpatterns = [
 
     path('accounts/', include('django.contrib.auth.urls')),
     path('register/', views.register, name='register'),
+    #API
+    path('restful/', include(router.urls)),
+
 ]

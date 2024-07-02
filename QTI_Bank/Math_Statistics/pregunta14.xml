@@ -1,0 +1,62 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q3" title="Correlación Lineal de Conjuntos de Datos" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Una manera de saber si dos conjuntos, con el mismo número de datos, tienen correlación lineal es realizando el siguiente procedimiento:</p>
+        <p>Paso 1. Se halla el promedio de cada uno de los dos conjuntos y a cada dato de cada conjunto de datos se le resta el promedio de su propio conjunto.</p>
+        <p>Paso 2. Las restas obtenidas en cada conjunto de datos en el paso 1 se multiplican entre sí; de esta manera se obtienen dos valores.</p>
+        <p>Paso 3. Se suman los dos valores obtenidos en el paso 2.</p>
+        <p>Paso 4. Se hallan las desviaciones estándar de los dos conjuntos de datos iniciales y se multiplican entre sí.</p>
+        <p>Paso 5. Se divide el resultado del paso 3 entre el resultado del paso 4.</p>
+        <p>En la tabla se registran los datos de cinco personas.</p>
+        <table>
+                <thead>
+                    <th>Nombre</th>
+                    <th>Peso (kg)</th>
+                    <th>Edad</th>
+                    <th>Color de ojos</th>
+                </thead>
+                <tr>
+                    <td>Paola</td>
+                    <td>60</td>
+                    <td>30</td>
+                    <td>Verde</td>
+                </tr>
+                <tr>
+                    <td>Andrea</td>
+                    <td>50</td>
+                    <td>23</td>
+                    <td>Azul</td>
+                </tr>
+                <tr>
+                    <td>Gloria</td>
+                    <td>55</td>
+                    <td>50</td>
+                    <td>Café</td>
+                </tr>
+                <tr>
+                    <td>Luis</td>
+                    <td>52</td>
+                    <td>18</td>
+                    <td>Azul</td>
+                </tr>
+                <tr>
+                    <td>Mario</td>
+                    <td>53</td>
+                    <td>20</td>
+                    <td>Café</td>
+                </tr>
+        </table>
+        <p>¿A cuáles de los siguientes conjuntos de datos puede aplicársele el procedimiento anterior?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Al conjunto de las edades de todos los sujetos y el conjunto de los pesos de todos los sujetos.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Al conjunto formado por las edades de las mujeres y al conjunto formado por los nombres de los hombres.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Al conjunto formado por la edad de Paola y al conjunto formado por el peso de Paola.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Al conjunto de color de ojos de todos los sujetos y al conjunto de los pesos de todos los sujetos.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

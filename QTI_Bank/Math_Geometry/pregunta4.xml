@@ -1,0 +1,21 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q1" title="Mediana de Calificaciones" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Un estudiante dibuja un triángulo equilátero en un plano cartesiano, como se muestra en la figura.
+Al reflejar el triángulo respecto al eje y, se obtiene:</p>
+
+        <img src="images/triangulo_equilatero_plano.png" alt="Gráfico de triangulo equilatero plano"/>
+
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice  is_latex="False" identifier="ChoiceA" image="triangulo_equilatero_plano_choice_a.png"></simpleChoice>
+            <simpleChoice  is_latex="False" identifier="ChoiceB" image="triangulo_equilatero_plano_choice_b.png"></simpleChoice>
+            <simpleChoice  is_latex="False" identifier="ChoiceC" image="triangulo_equilatero_plano_choice_c.png"></simpleChoice>
+            <simpleChoice  is_latex="False" identifier="ChoiceD" image="triangulo_equilatero_plano_choice_d.png"></simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceD</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

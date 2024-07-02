@@ -1,0 +1,26 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q2" title="Determinación de Valores Dominantes" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Los valores dominantes en un conjunto de datos son aquellos que aparecen con mayor frecuencia, siempre y cuando dicha frecuencia sea mayor o igual que dos. Una manera de calcularlos es efectuando el siguiente procedimiento:</p>
+        <p>
+          <ol>
+            <li>Contar la cantidad de veces que aparece cada dato.</li>
+            <li>Seleccionar el dato o los datos que más se repiten, teniendo en cuenta que el número de apariciones debe ser mayor o igual que dos.</li>
+          </ol>
+        </p>
+        <p>En la siguiente tabla se muestran los datos obtenidos en un curso de 5 estudiantes:</p>
+        <p><img src="images/peso_edad_estatura.png" alt="Tabla de datos de peso, estatura y edad" /></p>
+        <p>¿Para cuál o cuáles de los datos de la tabla es posible determinar los valores dominantes utilizando el procedimiento descrito?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Únicamente para edad.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Únicamente para peso.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Para edad y para estatura.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Para peso y para estatura.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

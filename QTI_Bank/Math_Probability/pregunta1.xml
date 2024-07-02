@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q1" title="Repetición del orden de viaje en auto" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Para transportarse hasta su sitio de trabajo, Juan, Pedro, Luis, Carmen y Orlando viajan en un auto que tiene 5 puestos incluido el del conductor. De las 5 personas solamente Juan sabe conducir y tiene licencia, por lo que ninguna de las demás personas puede ocupar el puesto del conductor. Si todos los días las personas se ubican en diferente orden, ¿cuántos días pasarán para que se repita el orden del primer día?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">10</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">15</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">24</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">120</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

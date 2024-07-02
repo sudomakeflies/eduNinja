@@ -1,0 +1,18 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q2" title="Variabilidad de Ganancias Trimestrales" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Para analizar la variabilidad de sus ganancias, la empresa compara los cuatro trimestres del año (enero-marzo; abril-junio; julio-septiembre; octubre-diciembre) por separado, y establece el rango estadístico para cada uno, que es la diferencia entre el mayor y menor valor de un grupo de datos numéricos. El menor rango estadístico se dio en el trimestre octubre-diciembre, porque</p>
+        <p><img src="images/ganancias_empresa_mes.jpg" /></p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">se registraron las mayores ganancias.</simpleChoice>
+            <simpleChoice is_latex="False" videntifier="ChoiceB">las ganancias mensuales en este trimestre fueron menores que las de septiembre.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">la suma de las ganancias de estos tres meses es menor que la suma de las ganancias anteriores.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">se obtuvieron ganancias casi iguales en los tres meses.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceD</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

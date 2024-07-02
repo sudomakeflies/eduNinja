@@ -3,20 +3,32 @@
 {% block title %}Evaluation Result{% endblock %}
 
 {% block content %}
-<h1>Evaluation Result</h1>
-<p>Course: {{ evaluation.course.name }}</p>
-<p>Evaluation Date: {{ evaluation.date }}</p>
-<p>Max Score: {{ evaluation.max_score }}</p>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="mt-4">Evaluation Result</h1>
+      <p class="lead">Course: {{ evaluation.course.name }}</p>
+      <p>Evaluation Date: {{ evaluation.date }}</p>
+      <p>Max Score: {{ evaluation.max_score }}</p>
+    </div>
+  </div>
 
-<h2>Your Answers:</h2>
-<ul>
-    {% for answer in answers %}
-        <li>
-            <strong>Evaluation:</strong> {{ answer.evaluation.name }}<br>
-            <strong>Your Answer:</strong> {{ answer.selected_options }}<br>
-            <strong>Attempts:</strong> {{ answer.attempts }}<br>
-            <strong>Total Score:</strong> {{ answer.score }}
-        </li>
-    {% endfor %}
-</ul>
+  <div class="row">
+    <div class="col-12">
+      <h2 class="mt-4">Your Answers:</h2>
+      <ul class="list-group">
+        {% for answer in answers %}
+          <li class="list-group-item">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{ answer.evaluation.name }}</h5>
+              <small>Attempts: {{ answer.attempts }}</small>
+            </div>
+            <p class="mb-1">Your Answer: {{ answer.selected_options }}</p>
+            <p class="mb-1">Total Score: {{ answer.score }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
 {% endblock %}

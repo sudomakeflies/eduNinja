@@ -1,0 +1,31 @@
+<!-- personalized_learning/templates/personalized_learning/dashboard.html -->
+{% extends "personalized_learning/base.html" %}
+
+{% block content %}
+    <h2>Dashboard</h2>
+    <ul>
+        {% for path in learning_paths %}
+            <li>
+                <a href="{% url 'learning_path' path.id %}">{{ path.course.title }}</a>
+                - Progress: {{ path.progress }}%
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Adaptive Recommendations</h3>
+    <p>{{ adaptive_recommendations }}</p>
+
+    <h3>Ask for Tutoring Help</h3>
+    <form method="post" action="{% url 'get_tutoring_response' %}">
+        {% csrf_token %}
+        <label for="query">Your Question:</label>
+        <input type="text" id="query" name="query" required>
+        <label for="course_title">Course Title:</label>
+        <input type="text" id="course_title" name="course_title" required>
+        <button type="submit">Get Help</button>
+    </form>
+    {% if feedback %}
+    <h3>Tutoring Feedback</h3>
+    <p>{{ feedback }}</p>
+    {% endif %}
+{% endblock %}

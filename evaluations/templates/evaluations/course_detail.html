@@ -3,24 +3,38 @@
 {% block title %}Course Detail{% endblock %}
 
 {% block content %}
-<h1>{{ course.name }}</h1>
-<p>{{ course.description }}</p>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="mt-4">{{ course.name }}</h1>
+      <p class="lead">{{ course.description }}</p>
+    </div>
+  </div>
 
-<h2>Evaluations</h2>
-<ul>
-  {% for evaluation in evaluations %}
-    <li>
-      <strong>Name:</strong> {{ evaluation.name }}<br>
-      <strong>Date:</strong> {{ evaluation.date }}<br>
-      <strong>Period:</strong> {{ evaluation.period }}<br>
-      <strong>Max Score:</strong> {{ evaluation.max_score }}<br>
-      <strong>Value per Question:</strong> {{ evaluation.value_per_question }}<br>
-      <a href="{% url 'take_evaluation' evaluation.pk %}">Take Evaluation</a> |
-      <a href="{% url 'evaluation_result' evaluation.pk %}">View Evaluation Result</a> |
-      <a href="{% url 'view_answers' %}">View Answers</a>
-    </li>
-  {% empty %}
-    <li>No evaluations available for this course.</li>
-  {% endfor %}
-</ul>
+  <div class="row">
+    <div class="col-12">
+      <h2 class="mt-4">Evaluations</h2>
+      <ul class="list-group">
+        {% for evaluation in evaluations %}
+          <li class="list-group-item">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{ evaluation.name }}</h5>
+              <small>{{ evaluation.date }}</small>
+            </div>
+            <p class="mb-1">Period: {{ evaluation.period }}</p>
+            <p class="mb-1">Max Score: {{ evaluation.max_score }}</p>
+            <p class="mb-1">Value per Question: {{ evaluation.value_per_question }}</p>
+            <div>
+              <a href="{% url 'take_evaluation' evaluation.pk %}" class="btn btn-primary btn-sm">Take</a>
+              <a href="{% url 'evaluation_result' evaluation.pk %}" class="btn btn-secondary btn-sm">Result</a>
+              <a href="{% url 'view_answers' %}" class="btn btn-info btn-sm">Feedback</a>
+            </div>
+          </li>
+        {% empty %}
+          <li class="list-group-item">No evaluations available for this course.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
 {% endblock %}

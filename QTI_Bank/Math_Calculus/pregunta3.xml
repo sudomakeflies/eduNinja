@@ -1,0 +1,92 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q5" title="Cálculo de h(x) = g(f(x))" adaptive="false" timeDependent="false">
+    <itemBody>        <!-- Table 1 -->
+        
+        <table border="1">
+            <caption>Table #: 1</caption>
+            <thead>
+                <tr>
+                    <th>X</th>
+                    <th>f(x)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>-2</td>
+                    <td>-4</td>
+                </tr>
+                <tr>
+                    <td>-1</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>4</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Table 2 -->
+        <table border="1">
+        <caption>Table #: 2</caption>
+            <thead>
+                <tr>
+                    <th>X</th>
+                    <th>g(x)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>-2</td>
+                    <td>-2</td>
+                </tr>
+                <tr>
+                    <td>-1</td>
+                    <td>-3</td>
+                </tr>
+                <tr>
+                    <td>0</td>
+                    <td>-2</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>-1</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Las tablas 1 y 2 muestran algunos valores de las funciones f(x) y g(x), respectivamente.</p>
+        <p>Con estas funciones se puede crear una nueva función: h(x) = g( f(x) ). Para calcular los valores de esta función a partir de las tablas 1 y 2, se debe efectuar este procedimiento:</p>
+        <p>
+            <ol>
+            <li>Escoger el valor de x con que se va a calcular h(x).</li>
+            <li>Ubicar el valor escogido en el paso 1 en la columna de x de la tabla 1, y tomar el valor de f(x) que se encuentra frente a este.</li>
+            <li>Ubicar el valor hallado en el paso 2 en la columna x de la tabla 2, y tomar el valor de g(x) que se encuentra frente a este.</li>
+            <li>El valor encontrado en el paso 3 corresponde h(x).</li>
+            </ol>
+        </p>
+        <p>Con base en lo anterior, ¿es posible hallar el valor de h(-2)?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">No, porque se desconoce la fórmula utilizada para calcular los valores de f(x).</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Sí, porque se conocen los valores de f(x) y g(x) para los mismos valores de x.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">No, porque falta información sobre la función g(x) para completar el procedimiento.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Sí, porque ese valor de x aparece en ambas columnas de las tablas de f(x) y g(x).</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

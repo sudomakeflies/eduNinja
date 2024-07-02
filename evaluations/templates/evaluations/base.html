@@ -7,7 +7,6 @@
     <title>{% block title %}Evaluations{% endblock %}</title>
     <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'fontawesome/css/all.min.css' %}" rel="stylesheet">
-    <!-- Favicon and app icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
@@ -15,43 +14,393 @@
     <link rel="mask-icon" href="{% static 'favicon/safari-pinned-tab.svg' %}" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f8f9fa;
+            --text-color: #333333;
+            --border-color: #dee2e6;
+            --hover-color: rgba(74, 144, 226, 0.1);
+            --question-table-header: #6c757d;
+            --question-table-header-text: #ffffff;
+            --background-color: #ffffff;
+            --navbar-bg: #343a40;
+            --navbar-color: #ffffff;
+            --dropdown-bg: #ffffff;
+            --dropdown-color: #333333;
+            --dropdown-hover-bg: #f8f9fa;
+            --info-bg-color: #f8f9fa;
+            --info-border-color: #dee2e6;
+            --shadow-color: rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--secondary-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        #content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .navbar-brand {
+            font-weight: bold; /* Bold text for emphasis */
+            font-size: 1.5rem; /* Larger font size for better visibility */
+            color: var(--primary-color); /* Dark color for better contrast against the background */
+            letter-spacing: 1px; /* Slightly increased letter spacing for readability */
+            padding: 0.5rem 1rem; /* Padding to ensure touch targets are large enough */
+            transition: color 0.3s ease; /* Smooth transition for color changes */
+            display: flex; /* Use flexbox for better alignment */
+            align-items: center; /* Center items vertically */
+        }
+
+        .navbar-brand img {
+            margin-right: 0.5rem; /* Space between the logo and the text */
+        }
+
+        .navbar-brand:hover,
+        .navbar-brand:focus {
+            color: #007bff; /* Change color on hover/focus for interactive feedback */
+            text-decoration: none; /* Ensure no underline on hover/focus */
+        }
+
+        .question {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .option {
+            margin: 0.8rem 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .option input[type="radio"],
+        .option input[type="checkbox"] {
+            margin-right: 0.5rem;
+            cursor: pointer;
+        }
+
+        .option label {
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+
+        .option label:hover {
+            background-color: var(--hover-color);
+        }
+
+        table {
+            width: 100%;
+            margin-bottom: 1.5rem;
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table th,
+        table td {
+            padding: 1rem;
+            text-align: left;
+        }
+
+        table thead th {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        table tbody tr:nth-of-type(even) {
+            background-color: var(--secondary-color);
+        }
+
+        table tbody tr:hover {
+            background-color: var(--hover-color);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media (max-width: 768px) {
+            #content {
+                padding: 1rem;
+            }
+            
+            .question {
+                padding: 1rem;
+            }
+            
+            table th,
+            table td {
+                padding: 0.75rem;
+            }
+
+            .navbar-nav .nav-link {
+                padding: 0.75rem 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            #content {
+                padding: 0.5rem;
+            }
+            
+            .question {
+                padding: 0.75rem;
+                margin: 1rem 0;
+            }
+            
+            table th,
+            table td {
+                padding: 0.5rem;
+            }
+
+            body {
+                font-size: 1.2em;
+                line-height: 1.5;
+            }
+
+            .question-text {
+                font-size: 1.3em;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+            }
+        }
+
+        /* Estilos específicos para el tema oscuro */
+        body.dark-theme {
+            --primary-color: #64a9f7;
+            --secondary-color: #2c3e50;
+            --text-color: #e0e0e0;
+            --border-color: #4a4a4a;
+            --hover-color: rgba(100, 169, 247, 0.2);
+            --question-table-header: #525252;
+            --question-table-header-text: #e0e0e0;
+            --background-color: #1a1a1a;
+            --navbar-bg: #1a1a1a;
+            --navbar-color: #e0e0e0;
+            --dropdown-bg: #2c3e50;
+            --dropdown-color: #e0e0e0;
+            --dropdown-hover-bg: #34495e;
+            --info-bg-color: #2c3e50;
+            --info-border-color: #4a4a4a;
+            --shadow-color: rgba(255,255,255,0.1);
+        }
+
+        body.dark-theme {
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        body.dark-theme .navbar {
+            background-color: var(--navbar-bg) !important;
+        }
+
+        body.dark-theme .navbar-dark .navbar-nav .nav-link {
+            color: var(--navbar-color);
+        }
+
+        body.dark-theme .dropdown-menu {
+            background-color: var(--dropdown-bg);
+            border-color: var(--border-color);
+        }
+
+        body.dark-theme .dropdown-item {
+            color: var(--dropdown-color);
+        }
+
+        body.dark-theme .dropdown-item:hover, 
+        body.dark-theme .dropdown-item:focus {
+            background-color: var(--dropdown-hover-bg);
+        }
+
+        body.dark-theme .question {
+            background-color: var(--secondary-color);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-theme .question-text {
+            color: var(--primary-color);
+        }
+
+        body.dark-theme .option label:hover {
+            background-color: var(--hover-color);
+        }
+
+        body.dark-theme table {
+            border-color: var(--border-color);
+        }
+
+        body.dark-theme table th,
+        body.dark-theme table td {
+            border-color: var(--border-color);
+        }
+
+        body.dark-theme table thead th {
+            background-color: var(--question-table-header);
+            color: var(--question-table-header-text);
+        }
+
+        body.dark-theme table tbody tr:nth-of-type(even) {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        body.dark-theme table tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-theme .form-control,
+        body.dark-theme .form-select {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            border-color: var(--border-color);
+        }
+
+        body.dark-theme .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        body.dark-theme .btn-primary:hover {
+            background-color: #5277a3;
+            border-color: #5277a3;
+        }
+
+        body.dark-theme a {
+            color: var(--primary-color);
+        }
+
+        body.dark-theme a:hover {
+            color: #5277a3;
+        }
+
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+    </style>
     {% block code_head %}{% endblock %}
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" style="padding-left: 15px;" href="{% url 'home' %}"> 
-            <img src="{% static 'favicon/favicon-32x32.png' %}" width="30" height="30" alt="Logo" />
-            Evals         
-        </a> 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home' %}"> 
+                <img src="{% static 'logo.svg' %}" width="40" height="40" alt="Logo" loading="lazy" />
+                eduNinja         
+            </a> 
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+                                {% csrf_token %}
+                            </form>
+                            <a class="nav-link" href="#" onclick="document.getElementById('logout-form').submit();">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'register' %}">Register</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Menu
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/api/evaluations">Evaluations</a></li>
+                            <li><a class="dropdown-item" href="/api/view-answers">Your Answers</a></li>
+                            <li><a class="dropdown-item" href="/api/courses">All Courses</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <div class="dropdown-item">
+                                    <label class="theme-switch" for="checkbox">
+                                        <input type="checkbox" id="checkbox" />
+                                        <span class="slider round"></span>
+                                    </label>
+                                    <span class="ms-2">Dark Mode</span>
+                                </div>
+                            </li>
+                        </ul>
                     </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'register' %}">Register</a>
-                    </li>
-                {% endif %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Menu
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="/api/evaluations">Evaluations</a></li>
-                        <li><a class="dropdown-item" href="/api/view-answers">Answers</a></li>
-                        <li><a class="dropdown-item" href="/api/courses">Courses</a></li>
-                        <li><a class="dropdown-item" href="/api/questions">Questions</a></li>
-                    </ul>
-                </li>
-            </ul>
+                </ul>
+            </div>
         </div>
     </nav>
     <div class="container mt-4">
@@ -60,5 +409,28 @@
     <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'fontawesome/js/all.min.js' %}"></script>
     {% block code_bottom %}{% endblock %}
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const checkbox = document.getElementById('checkbox');
+            
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-theme');
+                    checkbox.checked = true;
+                } else {
+                    document.body.classList.remove('dark-theme');
+                    checkbox.checked = false;
+                }
+                localStorage.setItem('theme', theme);
+            }
+
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            setTheme(savedTheme);
+
+            checkbox.addEventListener('change', (e) => {
+                setTheme(e.target.checked ? 'dark' : 'light');
+            });
+        });
+    </script>
 </body>
 </html>

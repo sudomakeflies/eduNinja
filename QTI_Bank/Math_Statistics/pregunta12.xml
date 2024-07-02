@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q3" title="Interpretación de Gráfica de Barras" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>La gráfica muestra el porcentaje de ventas del último año de una empresa de álbumes musicales en tres idiomas: inglés, francés y español.</p>
+        <p><img src="images/ventas_ultimo_ano_albunes_music.png" alt="Gráfica de porcentaje de ventas por idioma" /></p>
+        <p>Al ver la gráfica, un ejecutivo de la empresa interpreta que la menor parte de los álbumes musicales vendidos en el último año fueron los del idioma francés.</p>
+        <p>¿La interpretación del ejecutivo es correcta?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Sí, porque la barra de los álbumes en francés está al extremo derecho de la gráfica.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">No, porque la barra de mayor altura es la de los álbumes en español y los otros dos idiomas tienen ventas menores.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Sí, porque la barra que representa los álbumes vendidos en francés es la de menor altura.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">No, porque el menor valor corresponde a los álbumes en inglés que están a la izquierda, en el eje horizontal.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

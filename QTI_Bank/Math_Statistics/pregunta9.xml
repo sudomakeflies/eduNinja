@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q1" title="Reporte estadístico del clima" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Un estudiante cuenta solamente con los datos de la siguiente imagen para realizar un estudio sobre el comportamiento del clima en una ciudad.</p>
+        <p><img src="images/pronostico_tiempo_semana.png" /></p>
+        <p>Para realizar el reporte estadístico de los datos de la semana, el estudiante debe calcular el promedio y la desviación estándar. En este caso, ¿para cuál conjunto de datos, de los que aparecen en la imagen, puede el estudiante realizar el reporte estadístico?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Días de la semana.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Temperaturas máximas.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Probabilidad de precipitaciones.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Condiciones climáticas de cada día.</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

@@ -3,19 +3,29 @@
 {% block title %}View Answers{% endblock %}
 
 {% block content %}
-<h1>Your Answers {{ student }}</h1>
-    <ul>
+<div class="container mt-4">
+    <h1 class="mb-4">Your Answers, {{ student }}</h1>
+    <div class="row">
         {% for answer in user_answers %}
-            <li>
-                Evaluation: {{ answer.evaluation.name }}
-                <br>
-                Selected Options: {{ answer.selected_options }}
-                <br>
-                Score: {{ answer.score }} | Attempts: {{ answer.attempts }}
-                <br/>
-                Date: {{ answer.submission_date }}
-            </li><hr>
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Evaluation:</strong> {{ answer.evaluation.name }}
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-2"><strong>Selected Options:</strong> {{ answer.selected_options }}</p>
+                        <p class="mb-2"><strong>Score:</strong> {{ answer.score }} | <strong>Attempts:</strong> {{ answer.attempts }}</p>
+                        <!-- Feedback Section -->
+                        <div class="alert alert-info" role="alert">
+                            <strong>Feedback:</strong> {{ answer.feedback }}
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <strong>Date:</strong> {{ answer.submission_date }}
+                    </div>
+                </div>
+            </div>
         {% endfor %}
-    </ul>
+    </div>
+</div>
 {% endblock %}
-

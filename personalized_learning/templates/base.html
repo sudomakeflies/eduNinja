@@ -1,0 +1,22 @@
+<!-- personalized_learning/templates/personalized_learning/base.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EduNinja App</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>EduNinja</h1>
+        <nav>
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'list_task' %}">List Task</a>
+            <a href="{% url 'list_course' %}">List Course</a>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>

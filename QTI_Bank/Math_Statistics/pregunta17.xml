@@ -1,0 +1,52 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q1" title="Cálculo de gasto promedio por tipo de grano" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Ramiro tiene una tienda, y en esta vende productos alimenticios en paquetes con diferente peso. En la tabla se presenta información correspondiente a las ventas durante una semana.</p>
+            <table>
+                <tbody>
+                    <thead>
+                        <th>Tipo de Grano</th>
+                        <th>Peso por paquete</th>
+                        <th>Precio por paquete</th>
+                        <th>Número de paquetes vendidos</th>
+                    </thead>
+                    <tr>
+                        <td>Fríjol</td>
+                        <td>500 g</td>
+                        <td>$ 2.000</td>
+                        <td>250</td>
+                    </tr>
+                    <tr>
+                        <td>Garbanzo</td>
+                        <td>350 g</td>
+                        <td>$ 2.100</td>
+                        <td>200</td>
+                    </tr>
+                    <tr>
+                        <td>Arveja</td>
+                        <td>400 g</td>
+                        <td>$ 1.600</td>
+                        <td>150</td>
+                    </tr>
+                    <tr>
+                        <td>Lenteja</td>
+                        <td>450 g</td>
+                        <td>$ 2.200</td>
+                        <td>300</td>
+                    </tr>
+                </tbody>
+            </table>
+        <p>Andrea compra 4 paquetes de fríjol, 5 paquetes de garbanzo, 3 paquetes de arveja y 7 paquetes de lenteja. Si Andrea necesita calcular el gasto promedio por tipo de grano que compra, ¿cuáles datos necesita?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Número de paquetes vendidos y precio por paquete para cada grano.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Número de paquetes vendidos y peso por paquete para cada grano.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Número de paquetes comprados y precio por paquete para cada grano.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Número de paquetes comprados y peso por paquete para cada grano.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

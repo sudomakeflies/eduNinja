@@ -4,7 +4,90 @@
 reses para evaluar el comportamiento del virus; los resultados se muestran en la
 tabla.</p>
 
-        <img src="images/nivel_audiencia_mes.png" alt="Gráfico de nivel de audiencia por mes"/>
+        <table>
+                <thead>
+                    <tr>
+                        <th>CÓDIGO ANIMAL</th>
+                        <th>Estado</th>
+                        <th>Género</th>
+                        <th>Característica</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Enfermo</td>
+                        <td>Macho</td>
+                        <td class="sin-cuernos">Sin cuernos</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Enfermo</td>
+                        <td>Hembra</td>
+                        <td class="sin-cuernos">Sin cuernos</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Sano</td>
+                        <td>Hembra</td>
+                        <td class="con-cuernos">Con cuernos</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Enfermo</td>
+                        <td>Hembra</td>
+                        <td class="sin-cuernos">Sin cuernos</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Sano</td>
+                        <td>Macho</td>
+                        <td class="sin-cuernos">Sin cuernos</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Sano</td>
+                        <td>Macho</td>
+                        <td class="con-cuernos">Con cuernos</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>Sano</td>
+                        <td>Macho</td>
+                        <td class="con-cuernos">Con cuernos</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>Enfermo</td>
+                        <td>Hembra</td>
+                        <td class="sin-cuernos">Sin cuernos</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>Sano</td>
+                        <td>Hembra</td>
+                        <td class="con-cuernos">Con cuernos</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>Enfermo</td>
+                        <td>Hembra</td>
+                        <td class="sin-cuernos">Sin cuernos</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>Enfermo</td>
+                        <td>Hembra</td>
+                        <td class="sin-cuernos">Sin cuernos</td>
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td>Enfermo</td>
+                        <td>Macho</td>
+                        <td class="con-cuernos">Con cuernos</td>
+                    </tr>
+                </tbody>
+            </table>
 
         <p>De acuerdo con esta información, la afirmación verdadera respecto a la relación entre
 los datos observados en la muestra es:</p>

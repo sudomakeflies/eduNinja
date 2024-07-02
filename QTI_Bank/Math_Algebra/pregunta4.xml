@@ -1,0 +1,40 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q1" title="Comparación de temperaturas" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>La tabla muestra algunos datos que evidencian la relación entre dos unidades de medida de la temperatura.</p>
+        <table>
+            <thead>
+                <th>°C</th>
+                <th>K</th>
+            </thead>
+            <tr>
+                <td>-273</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>-3</td>
+                <td>270</td>
+            </tr>
+            <tr>
+                <td>0</td>
+                <td>273</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>283</td>
+            </tr>
+        </table>
+        <p>Una persona afirma que los datos de la columna K siempre serán mayores que los de la columna °C. ¿Es verdadera esta afirmación?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">No, porque, en la primera fila, el valor de °C es mayor que el de K.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Sí, porque la columna K es 273 unidades mayor que la columna °C.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">No, porque la columna K aumenta independientemente de la columna °C.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Sí, porque, en la última fila, el valor de °C y de K son positivos.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

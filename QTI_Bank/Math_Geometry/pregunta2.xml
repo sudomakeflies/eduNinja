@@ -1,0 +1,19 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q1" title="Longitudes de segmentos en figura geométrica" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En la figura se cumple que el área del rectángulo 1 equivale a la suma de las áreas del cuadrado 1 y del rectángulo 2.</p>
+        <p><img src="images/area_rectangulo_cuadrado.jpg" /></p>
+        <p>Las longitudes de los segmentos NP y MH son</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona la respuesta correcta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">NP=10 cm y MH=13 cm.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">NP= 10 cm y MH= 104 cm.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">NP= 14 cm y MH= 20 cm.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">NP= 14 cm y MH= 160 cm.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

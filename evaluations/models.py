@@ -7,6 +7,11 @@ from django.db import IntegrityError
 #from django.http import JsonResponse
 #from .utils import FeedbackService, FeedbackServiceError
 
+from django.conf import settings
+from datetime import timedelta
+
+
+
 class Course(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -15,11 +20,12 @@ class Course(models.Model):
         return self.name
 
 class Option(models.Model):
-    text = models.TextField()
+    text = models.TextField(null=True)
     is_latex = models.BooleanField(default=False)
+    image = models.ImageField(upload_to='option_images/', null=True, blank=True)  # New field for option images
 
     def __str__(self):
-        return self.text
+        return str(self.pk)
 
 class Question(models.Model):
     SUBJECT_CHOICES = (
@@ -61,14 +67,18 @@ class Question(models.Model):
     question_text = models.TextField()
     image = models.ImageField(upload_to='question_images/', null=True, blank=True)  # Opcional: imagen asociada a la pregunta
     latex_format = models.BooleanField(default=False)
-    options = models.ManyToManyField('Option')
+    options = models.ManyToManyField('Option')    
     #options = models.JSONField(default=list, blank=True, null=True, verbose_name='Opciones de respuesta')
     correct_answer = models.CharField(max_length=200)
     
     def __str__(self):
-        return f'{self.subject} - {self.question_text[:20]}'
+        return f'({self.pk}) {self.subject} - {self.question_text[:20]}'
 
 class Evaluation(models.Model):
+    LLM_CHOICES = [
+        ('ollama', 'Ollama'),
+        ('anthropic', 'Anthropic Claude 3.5'),
+    ]
     name = models.CharField(max_length=100, default="Matemáticas")
     course = models.ForeignKey('Course', on_delete=models.CASCADE, default=1)
     period = models.CharField(max_length=10, default=1, db_index=True)  # Por ejemplo: I, II, III
@@ -76,6 +86,13 @@ class Evaluation(models.Model):
     value_per_question = models.DecimalField(max_digits=5, decimal_places=2, default=1)
     date = models.DateField(default=datetime.now, db_index=True)
     questions = models.ManyToManyField(Question)
+    llm_model = models.CharField(max_length=10, choices=LLM_CHOICES, default='ollama')
+    time_limit = models.DurationField(
+        null=True, 
+        blank=True, 
+        default=timedelta(hours=1.7), 
+        help_text="Tiempo límite para la evaluación (HH:MM:SS)"
+    )
     
     def __str__(self):
         return f'{self.name} - {self.date} - ´{self.period}'
@@ -83,9 +100,10 @@ class Evaluation(models.Model):
 
 class Answer(models.Model):
     evaluation = models.ForeignKey('Evaluation', on_delete=models.CASCADE, related_name='answers', db_index=True)
-    student = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True)
+    student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_index=True)
     selected_options = models.JSONField(default=list, blank=True, null=True, verbose_name='Lista de respuestas')
     feedback = models.TextField(blank=True, null=True)
+    feedback_check = models.BooleanField(default=False)
     submission_date = models.DateTimeField(auto_now_add=True, db_index=True)
     score = models.FloatField(null=True, blank=True)
     attempts = models.PositiveSmallIntegerField(default=2)

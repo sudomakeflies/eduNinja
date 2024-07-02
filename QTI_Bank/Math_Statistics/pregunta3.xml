@@ -4,7 +4,7 @@
 
     <img src="images/venta_bebidas.png" alt="Gráfico de ventas de bebidas gaseosas por sabor"/>
 
-    <p>Teniendo en cuenta la información anterior, ¿cuál de las siguientes listas de sabores de seosa está organizada de mayor a menor, de acuerdo con las cantidades vendidas en el mes?</p>
+    <p>Teniendo en cuenta la información anterior, ¿cuál de las siguientes listas de sabores de gaseosa está organizada de mayor a menor, de acuerdo con las cantidades vendidas en el mes?</p>
 
     <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="5">
       <prompt>Selecciona la respuesta correcta:</prompt>

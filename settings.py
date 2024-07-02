@@ -41,6 +41,13 @@ CHANNEL_LAYERS = {
     },
 }
 
+# Allow all origins (for testing purposes)
+CORS_ALLOW_ALL_ORIGINS = True
+
+
+# Antrophic KEY
+ANTHROPIC_API_KEY = env('ANTHROPIC_API_KEY')
+
 # Otros ajustes ...
 LOGIN_REDIRECT_URL = 'profile'
 LOGOUT_REDIRECT_URL = 'login'
@@ -74,6 +81,7 @@ TEMPLATES = [
 
 INSTALLED_APPS = [
     # ...
+    'personalized_learning',
     'evaluations',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -82,8 +90,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
-    'langchain',
-    'channels',
+    #'langchain',
+    #'channels',
+    'corsheaders',
+    'rest_framework',
     #'whitenoise.runserver_nostatic',
 ]
 
@@ -105,8 +115,8 @@ DATABASES = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -118,9 +128,9 @@ MIDDLEWARE = [
 #    MIDDLEWARE += ['silk.middleware.SilkyMiddleware', 'debug_toolbar.middleware.DebugToolbarMiddleware']
 
 
-INTERNAL_IPS = [
+"""INTERNAL_IPS = [
     '127.0.0.1',
-]
+]"""
 
 ROOT_URLCONF = 'urls'
 
@@ -197,3 +207,4 @@ CHANNEL_LAYERS = {
         'BACKEND': 'channels.layers.InMemoryChannelLayer',
     },
 }
+#AUTH_USER_MODEL = 'personalized_learning.NinjaUser'

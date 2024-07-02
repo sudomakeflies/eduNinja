@@ -8,7 +8,7 @@ python manage.py makemigrations
 python manage.py migrate
 
 # Crear superusuario
-echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'diego.beltran@sedtolima.edu.co', 'adminEVA')" | python manage.py shell
+echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'diego.beltran@sedtolima.edu.co', 'admin')" | python manage.py shell
 
 # Crear directorio para datos iniciales
 mkdir -p initial_data
