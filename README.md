@@ -1,4 +1,4 @@
-# ![eduNinja logo](statics/logo.svg) eduNinja
+# ![eduNinja logo](static/logo.svg) eduNinja
 eduNinja es el resultado de varios años de investigación autogestionada y autofinanciada, emergiendo como un sistema integral de apoyo al aprendizaje personalizado. Centrado en un enfoque "evaluación-prioritaria" y "offline-first", eduNinja pone un fuerte énfasis en STEAM (Ciencia, Tecnología, Ingeniería, Artes y Matemáticas). Ofrece evaluaciones de opción múltiple optimizadas específicamente para matemáticas y ciencias, e incorpora un sistema de retroalimentación y recomendaciones asistido por inteligencia artificial, proporcionando una experiencia de aprendizaje adaptativa y eficaz.
 
 
