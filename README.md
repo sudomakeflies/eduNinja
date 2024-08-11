@@ -3,7 +3,7 @@ eduNinja es el resultado de varios años de investigación autogestionada y auto
 
 
 ## eduNinja-Evals
-eduNinja-Evals facilita la creación y administración de evaluaciones de opción múltiple en matemáticas y ciencias (STEAM). Permite a los usuarios tomar evaluaciones con retroalimentación instantánea y utiliza un modelo de lenguaje de aprendizaje automático local para una retroalimentación adicional.
+eduNinja-Evals facilita la creación y administración de evaluaciones de opción múltiple en matemáticas y ciencias (STEAM). Permite a los usuarios tomar evaluaciones con retroalimentación instantánea utilizando un modelo de lenguaje de aprendizaje automático local vía ollama o usando Claude 3.5 Sonnet via Anthropic api para una retroalimentación asistida por IA.
 
 ### Características:
 Creación y gestión de cursos, preguntas y evaluaciones.
@@ -20,9 +20,11 @@ Personalized Learning system, right now is only a dummy implementation!
 Personalized learning es un sistema de apoyo al aprendizaje a partir de unas preferencias declaradas por el usuario y un set de pruebas diagnosticas de manera apropiada permite recibir recomendaciones y feedback de modelos LLM's. 
 
 ## Instalación y Uso:
-Instala Docker
-Clona este repositorio: git clone https://github.com/sudomakeflies/eduNinja.git
+#Instala Docker
+#Clona este repositorio: git clone https://github.com/sudomakeflies/eduNinja.git
 cd eduNinja
+mv .env_example .env
+#In your .env lets put your custom API KEYS and others.
 docker-compose up --build
 
 Lets explot it in localhost!

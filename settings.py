@@ -18,6 +18,9 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # Asigna la SECRET_KEY desde el entorno
 SECRET_KEY = env('SECRET_KEY')
 
+#Flexibiliza o relaja las restricciones de password en el registro de usuarios
+AUTH_PASSWORD_VALIDATORS = []
+
 DEBUG = env('DEBUG')
 
 # Configura la URL para acceder a los archivos media
