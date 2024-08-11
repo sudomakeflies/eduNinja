@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q3" title="Evaluación de Impacto de Aplicación Móvil" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Un grupo de estudiantes ha creado un prototipo de aplicación móvil para reducir el desperdicio de alimentos en los hogares. ¿Cuál sería el mejor método para evaluar su impacto potencial?</p>
+        <choiceInteraction responseIdentifier="RESPONSE3" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Contar el número de descargas en la tienda de aplicaciones</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Realizar una encuesta sobre la intención de uso</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Medir la reducción real de desperdicio en hogares de prueba</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Analizar las reseñas de usuarios en la tienda de aplicaciones</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE3" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

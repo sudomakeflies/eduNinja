@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q5" title="Altura Máxima en Lanzamiento Vertical" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Un objeto se lanza verticalmente hacia arriba con una velocidad inicial de 20 m/s. Despreciando la resistencia del aire, ¿cuál será su altura máxima? (g = 9.8 m/s²)</p>
+        <choiceInteraction responseIdentifier="RESPONSE5" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice identifier="ChoiceA" is_latex="False">10.2 m</simpleChoice>
+            <simpleChoice identifier="ChoiceB" is_latex="False">20.4 m</simpleChoice>
+            <simpleChoice identifier="ChoiceC" is_latex="False">40.8 m</simpleChoice>
+            <simpleChoice identifier="ChoiceD" is_latex="False">81.6 m</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE5" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

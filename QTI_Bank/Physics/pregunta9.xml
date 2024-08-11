@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q9" title="Leyes de Newton en Sistema de Referencia en Movimiento" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En un sistema de referencia en movimiento, como un tren, ¿qué ley de Newton se cumple para los objetos dentro del tren?</p>
+        <choiceInteraction responseIdentifier="RESPONSE9" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice identifier="ChoiceA" is_latex="False">Primera ley de Newton</simpleChoice>
+            <simpleChoice identifier="ChoiceB" is_latex="False">Segunda ley de Newton</simpleChoice>
+            <simpleChoice identifier="ChoiceC" is_latex="False">Tercera ley de Newton</simpleChoice>
+            <simpleChoice identifier="ChoiceD" is_latex="False">Ninguna de las anteriores</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE9" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

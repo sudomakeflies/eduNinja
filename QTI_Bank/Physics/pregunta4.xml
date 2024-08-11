@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q4" title="Velocidad Promedio en Laboratorio" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En el laboratorio de cinemática, una esfera rueda por una rampa. Si la esfera recorre 2 metros en 0.5 segundos, ¿cuál es su velocidad promedio?</p>
+        <choiceInteraction responseIdentifier="RESPONSE4" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice identifier="ChoiceA" is_latex="False">1 m/s</simpleChoice>
+            <simpleChoice identifier="ChoiceB" is_latex="False">2 m/s</simpleChoice>
+            <simpleChoice identifier="ChoiceC" is_latex="False">4 m/s</simpleChoice>
+            <simpleChoice identifier="ChoiceD" is_latex="False">0.25 m/s</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE4" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

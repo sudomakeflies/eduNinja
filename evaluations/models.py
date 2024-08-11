@@ -53,6 +53,7 @@ class Question(models.Model):
     ('Physics_Dynamics', 'Física - Dinámica'),
     ('Physics_Energy', 'Física - Energía'),
     # Puedes agregar más subcategorías según sea necesario
+    ('Technology', 'Tecnología y sociedad'),
 )
 
     

@@ -130,17 +130,6 @@ def process_student_answers(request, evaluation):
 
     return total_score, selected_options
 
-
-@login_required
-@cache_page(60)
-def evaluation_result(request, pk):
-    #evaluation = get_object_or_404(Evaluation, pk=pk)
-    #answers = Answer.objects.filter(evaluation=evaluation, student=request.user).exclude(score=None)
-    #total_score = sum(answer.score for answer in answers if answer.score is not None)
-    evaluation = get_object_or_404(Evaluation.objects.select_related('course'), pk=pk)
-    answers = Answer.objects.filter(evaluation=evaluation, student=request.user).exclude(score=None).select_related('evaluation')
-    return render(request, 'evaluations/evaluation_result.html', {'evaluation': evaluation, 'answers': answers})
-
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -151,6 +140,16 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
+
+@login_required
+@cache_page(60)
+def evaluation_result(request, pk):
+    #evaluation = get_object_or_404(Evaluation, pk=pk)
+    #answers = Answer.objects.filter(evaluation=evaluation, student=request.user).exclude(score=None)
+    #total_score = sum(answer.score for answer in answers if answer.score is not None)
+    evaluation = get_object_or_404(Evaluation.objects.select_related('course'), pk=pk)
+    answers = Answer.objects.filter(evaluation=evaluation, student=request.user).exclude(score=None).select_related('evaluation')
+    return render(request, 'evaluations/evaluation_result.html', {'evaluation': evaluation, 'answers': answers})
 
 @login_required
 @cache_page(60)

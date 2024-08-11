@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q10" title="Evaluación de Prototipo de Sistema de Energía Solar" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En la evaluación de un prototipo de sistema de energía solar para hogares, ¿qué dato proporciona información más valiosa sobre su eficiencia energética?</p>
+        <choiceInteraction responseIdentifier="RESPONSE10" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">El tamaño de los paneles solares</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">El costo inicial de instalación</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">La relación entre energía producida y consumida anualmente</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">El color de los paneles solares</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE10" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

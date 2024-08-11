@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q8" title="Evaluación de Prototipo de Sistema de Purificación de Agua" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En la evaluación de un prototipo de sistema de purificación de agua para comunidades rurales, ¿qué factor es más relevante para su implementación exitosa?</p>
+        <choiceInteraction responseIdentifier="RESPONSE8" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">La capacidad de purificación por hora</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">El diseño estético del sistema</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">La facilidad de mantenimiento y reparación local</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">El país de origen de la tecnología</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE8" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

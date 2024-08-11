@@ -38,15 +38,46 @@ def create_questions():
     print("Preguntas creadas o verificadas.")
 
 def create_students():
-    students_data = [
+    """students_data = [
         {'username': 'student1', 'email': 'student1@example.com', 'password': 'password'},
         {'username': 'student2', 'email': 'student2@example.com', 'password': 'password'}
+    ]"""
+    students_data = [
+    {'username': 'julian.barreto', 'email': 'julian.barreto@eduninja.co', 'password': '1106453109'},
+    {'username': 'angie.barrios', 'email': 'angie.barrios@eduninja.co', 'password': '1104943363'},
+    {'username': 'maira.barrios', 'email': 'maira.barrios@eduninja.co', 'password': '1104943364'},
+    {'username': 'johan.bernante', 'email': 'johan.bernante@eduninja.co', 'password': '1190213002'},
+    {'username': 'miguel.cabezas', 'email': 'miguel.cabezas@eduninja.co', 'password': '1106453134'},
+    {'username': 'anyi.capera', 'email': 'anyi.capera@eduninja.co', 'password': '1059841894'},
+    {'username': 'ines.colmenares', 'email': 'ines.colmenares@eduninja.co', 'password': '5734871'},
+    {'username': 'kevin.cruz', 'email': 'kevin.cruz@eduninja.co', 'password': '1110490927'},
+    {'username': 'brimy.duran', 'email': 'brimy.duran@eduninja.co', 'password': '1105677619'},
+    {'username': 'ovidio.gutierrez', 'email': 'ovidio.gutierrez@eduninja.co', 'password': '1030280171'},
+    {'username': 'ana.guzman', 'email': 'ana.guzman@eduninja.co', 'password': '1015412002'},
+    {'username': 'edna.murillo', 'email': 'edna.murillo@eduninja.co', 'password': '1030281951'},
+    {'username': 'mauricio.ortegon', 'email': 'mauricio.ortegon@eduninja.co', 'password': '1108931737'},
+    {'username': 'dallana.oviedo', 'email': 'dallana.oviedo@eduninja.co', 'password': '1108930092'},
+    {'username': 'angie.peñaloza', 'email': 'angie.peñaloza@eduninja.co', 'password': '1106452085'},
+    {'username': 'erica.peñaloza', 'email': 'erica.peñaloza@eduninja.co', 'password': '1106452380'},
+    {'username': 'carol.prada', 'email': 'carol.prada@eduninja.co', 'password': '1106453197'},
+    {'username': 'yency.prada', 'email': 'yency.prada@eduninja.co', 'password': '1106452363'},
+    {'username': 'daniel.preciado', 'email': 'daniel.preciado@eduninja.co', 'password': '1028883099'},
+    {'username': 'sandy.pulecio', 'email': 'sandy.pulecio@eduninja.co', 'password': '1108932206'},
+    {'username': 'william.tafur', 'email': 'william.tafur@eduninja.co', 'password': '1106452929'}
     ]
 
+
+    from django.contrib.auth.hashers import make_password
+
     for student_data in students_data:
-        User.objects.get_or_create(username=student_data['username'], defaults={
-            'email': student_data['email']
-        })
+        password = student_data['password']  # Asegúrate de tener la contraseña en tus datos
+        user, created = User.objects.get_or_create(
+            username=student_data['username'], 
+            defaults={
+                'email': student_data['email'],
+                'password': make_password(password)  # Hashear la contraseña
+            }
+        )
     print("Estudiantes creados o verificados.")
 
 def create_evaluations():

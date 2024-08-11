@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q4" title="Evaluación de Prototipo de Sistema de Riego" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En la evaluación de un prototipo de sistema de riego inteligente para agricultura, ¿qué aspecto es más relevante desde una perspectiva de sostenibilidad?</p>
+        <choiceInteraction responseIdentifier="RESPONSE4" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">El costo de producción del sistema</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">La facilidad de instalación</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">La eficiencia en el uso del agua</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">El diseño de la interfaz de usuario</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE4" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

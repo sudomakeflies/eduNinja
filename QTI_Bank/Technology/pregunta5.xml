@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q6" title="Evaluación de Prototipo de Vehículo Eléctrico" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En la evaluación de un prototipo de vehículo eléctrico, ¿qué prueba proporciona información más valiosa sobre su viabilidad en el mercado?</p>
+        <choiceInteraction responseIdentifier="RESPONSE6" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Pruebas de velocidad máxima en pista</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Análisis del costo total de propiedad a largo plazo</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Encuestas sobre preferencias de color de la carrocería</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Medición de la aceleración de 0 a 100 km/h</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE6" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

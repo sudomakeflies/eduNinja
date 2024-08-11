@@ -58,9 +58,10 @@ def get_llm_feedback(context, llm_model):
     
 
 def get_ollama_feedback(prompt):
-    url = "http://host.docker.internal:11434/api/generate"
+    #url = "http://host.docker.internal:11434/api/generate"
+    url = "http://192.168.0.105:11434/api/generate"
     data = {
-        "model": "qwen2",
+        "model": "phi3",
         "prompt": prompt,
         "stream": False
     }
@@ -76,12 +77,24 @@ def get_ollama_feedback(prompt):
 
 def get_anthropic_feedback(prompt):
     try:
-        response = anthropic.completions.create(
-            model="claude-3-sonnet-20240229",
-            max_tokens_to_sample=1000,
-            prompt=f"Human: {prompt}\n\nAssistant:",
+        response = anthropic.messages.create(
+            model="claude-3-5-sonnet-20240620",
+            max_tokens=1000,
+	    temperature=0,
+	    system="You are a Ph.D. in mathematics and science education with extensive experience in providing constructive feedback to K-12 students. Your goal is to offer responses that are both encouraging and informative, helping students to develop a deep understanding of mathematical and scientific concepts. When responding, consider the student’s current level of knowledge, their potential misconceptions, and offer guidance that promotes critical thinking and problem-solving skills. Use language that is accessible to the student’s grade level while ensuring that the feedback is rigorous and thought-provoking.",
+	    messages=[
+	        {
+	            "role": "user",
+	            "content": [
+	                {
+	                    "type": "text",
+	                    "text": prompt
+	                }
+	            ]
+	        }
+	    ]
         )
-        return response.completion.strip()
+        return response.content
     except Exception as e:
         print(f"Error making request to Anthropic API: {e}")
         return "Error fetching feedback from Anthropic."

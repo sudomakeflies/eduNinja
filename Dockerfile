@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
     git \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Establece el directorio de trabajo en /app

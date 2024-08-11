@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q8" title="Distancia de Lanzamiento de Bomba" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Un avión vuela horizontalmente a 200 m/s a una altura de 500 m. ¿A qué distancia horizontal del objetivo debe soltar una bomba para que impacte en el blanco? (Desprecia la resistencia del aire)</p>
+        <choiceInteraction responseIdentifier="RESPONSE8" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice identifier="ChoiceA" is_latex="False">632 m</simpleChoice>
+            <simpleChoice identifier="ChoiceB" is_latex="False">1000 m</simpleChoice>
+            <simpleChoice identifier="ChoiceC" is_latex="False">1414 m</simpleChoice>
+            <simpleChoice identifier="ChoiceD" is_latex="False">2000 m</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE8" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

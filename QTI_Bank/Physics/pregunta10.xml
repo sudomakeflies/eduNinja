@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q10" title="Movimiento Relativo entre Sistemas de Referencia" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Si un objeto se mueve con velocidad constante en un sistema de referencia A, pero se observa que acelera en un sistema de referencia B, ¿qué se puede concluir?</p>
+        <choiceInteraction responseIdentifier="RESPONSE10" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice identifier="ChoiceA" is_latex="False">El sistema A está acelerando respecto a B</simpleChoice>
+            <simpleChoice identifier="ChoiceB" is_latex="False">El sistema B está acelerando respecto a A</simpleChoice>
+            <simpleChoice identifier="ChoiceC" is_latex="False">Ambos sistemas están acelerando</simpleChoice>
+            <simpleChoice identifier="ChoiceD" is_latex="False">Es imposible que ocurra esta situación</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE10" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

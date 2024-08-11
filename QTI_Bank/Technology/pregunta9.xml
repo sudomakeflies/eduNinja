@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q2" title="Evaluación de Prototipo de Dron" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En el desarrollo de un dron para entrega de paquetes, ¿qué factor es más crítico evaluar desde una perspectiva de ingeniería?</p>
+        <choiceInteraction responseIdentifier="RESPONSE2" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">El diseño estético del dron</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">La capacidad de carga y autonomía de vuelo</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">El color del empaque del producto</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">La popularidad de la marca en redes sociales</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE2" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

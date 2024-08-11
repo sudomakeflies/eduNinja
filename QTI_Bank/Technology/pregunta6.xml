@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q5" title="Evaluación de Prototipo de Gafas de Realidad Aumentada" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Un equipo ha desarrollado un prototipo de gafas de realidad aumentada para asistir en cirugías. ¿Cuál de los siguientes criterios de evaluación es el más crítico?</p>
+        <choiceInteraction responseIdentifier="RESPONSE5" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">La comodidad de las gafas durante uso prolongado</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">La precisión de la información superpuesta en tiempo real</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">El precio de venta al público</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">La variedad de colores disponibles</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE5" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

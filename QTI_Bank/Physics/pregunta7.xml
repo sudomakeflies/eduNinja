@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q7" title="Factores en Experimento de Esfera Rodando" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En el experimento de la esfera rodando, ¿qué factor NO afecta directamente la velocidad promedio de la esfera?</p>
+        <choiceInteraction responseIdentifier="RESPONSE7" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice identifier="ChoiceA" is_latex="False">La masa de la esfera</simpleChoice>
+            <simpleChoice identifier="ChoiceB" is_latex="False">El ángulo de inclinación de la rampa</simpleChoice>
+            <simpleChoice identifier="ChoiceC" is_latex="False">La longitud de la rampa</simpleChoice>
+            <simpleChoice identifier="ChoiceD" is_latex="False">El coeficiente de fricción entre la esfera y la rampa</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE7" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

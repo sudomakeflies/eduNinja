@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q1" title="Movimiento Uniforme en Sistema Inercial" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En un sistema de referencia inercial, ¿qué se mantiene constante para un objeto en movimiento uniforme?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice identifier="ChoiceA" is_latex="False">Aceleración</simpleChoice>
+            <simpleChoice identifier="ChoiceB" is_latex="False">Velocidad</simpleChoice>
+            <simpleChoice identifier="ChoiceC" is_latex="False">Posición</simpleChoice>
+            <simpleChoice identifier="ChoiceD" is_latex="False">Fuerza</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

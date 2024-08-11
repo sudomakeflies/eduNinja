@@ -61,7 +61,7 @@ EOF
 main() {
     wait_for_db
     apply_migrations
-    create_initial_data
+    #create_initial_data
     import_qti
     create_superuser
     echo "Iniciando servidor Django..."
