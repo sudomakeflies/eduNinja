@@ -1,36 +1,53 @@
 # ![eduNinja logo](static/logo.svg) eduNinja
-eduNinja es el resultado de varios años de investigación autogestionada y autofinanciada, emergiendo como un sistema integral de apoyo al aprendizaje personalizado. Centrado en un enfoque "evaluación-prioritaria" y "offline-first", eduNinja pone un fuerte énfasis en STEAM (Ciencia, Tecnología, Ingeniería, Artes y Matemáticas). Ofrece evaluaciones de opción múltiple optimizadas específicamente para matemáticas y ciencias, e incorpora un sistema de retroalimentación y recomendaciones asistido por inteligencia artificial, proporcionando una experiencia de aprendizaje adaptativa y eficaz.
 
+**eduNinja** is the culmination of years of self-directed and self-funded research, emerging as a comprehensive system for personalized learning support. Focused on a "prioritized assessment" and "offline-first" approach, eduNinja emphasizes STEAM (Science, Technology, Engineering, Arts, and Mathematics). It offers optimized multiple-choice assessments for mathematics and science, integrating an AI-assisted feedback and recommendation system to provide an adaptive and effective learning experience.
 
-## eduNinja-Evals
-eduNinja-Evals facilita la creación y administración de evaluaciones de opción múltiple en matemáticas y ciencias (STEAM). Permite a los usuarios tomar evaluaciones con retroalimentación instantánea utilizando un modelo de lenguaje de aprendizaje automático local vía ollama o usando Claude 3.5 Sonnet via Anthropic api para una retroalimentación asistida por IA.
+## 🚀 eduNinja-Evals
 
-### Características:
-Creación y gestión de cursos, preguntas y evaluaciones.
-Toma de evaluaciones con retroalimentación instantánea.
-Integración de modelo de lenguaje para retroalimentación via ollama or anthropic api.
-Funcionalidad de inicio de sesión y registro de cuentas.
-Renderizado latex para mejor calidad de ecuaciones.
-Incluye banco de preguntas.
+**eduNinja-Evals** facilitates the creation and management of multiple-choice assessments in mathematics and science (STEAM). It allows users to take assessments with instant feedback using a locally deployed machine learning language model via Ollama or Claude 3.5 Sonnet through Anthropic API for AI-assisted feedback.
 
-#### TODO
-Personalized Learning system, right now is only a dummy implementation!
+### Key Features:
 
-## eduNinja-PL
-Personalized learning es un sistema de apoyo al aprendizaje a partir de unas preferencias declaradas por el usuario y un set de pruebas diagnosticas de manera apropiada permite recibir recomendaciones y feedback de modelos LLM's. 
+- **Course & Assessment Management:** Create and manage courses, questions, and assessments.
+- **Instant Feedback:** Take assessments with immediate AI-assisted feedback.
+- **AI Integration:** Leverage language models for feedback via Ollama or Anthropic API.
+- **Account Management:** Includes functionality for user registration and login.
+- **LaTeX Rendering:** High-quality equation rendering for a better learning experience.
+- **Question Bank:** Access an extensive question bank for assessments.
 
-## Instalación y Uso:
-#Instala Docker
-#Clona este repositorio: git clone https://github.com/sudomakeflies/eduNinja.git
-cd eduNinja
-mv .env_example .env
-#In your .env lets put your custom API KEYS and others.
-docker-compose up --build
+### Upcoming Features:
+- **Personalized Learning System:** Currently a placeholder, with plans for full implementation soon.
 
-Lets explot it in localhost!
+## 🔧 eduNinja-PL
 
-## Contribución:
-¡Las contribuciones son bienvenidas! Si tienes ideas para nuevas características, correcciones de errores o mejoras en el código, siéntete libre de abrir un problema o enviar una solicitud de extracción.
+**eduNinja-PL** is a personalized learning support system. Based on user-declared preferences and diagnostic tests, it provides recommendations and feedback from LLMs (Large Language Models).
 
-## Licencia:
-Este proyecto está licenciado bajo la Licencia GPLv3.
+## 🛠️ Installation & Usage
+
+1. **Install Docker.**
+2. **Clone this repository:**
+    ```bash
+    git clone https://github.com/sudomakeflies/eduNinja.git
+    ```
+3. **Navigate to the project directory:**
+    ```bash
+    cd eduNinja
+    ```
+4. **Copy the example environment file and customize it with your API keys:**
+    ```bash
+    mv .env_example .env
+    ```
+5. **Build and run the project:**
+    ```bash
+    docker-compose up --build
+    ```
+
+6. **Access the application on localhost and start exploring!**
+
+## 🤝 Contribution
+
+Contributions are welcome! If you have ideas for new features, bug fixes, or code improvements, feel free to open an issue or submit a pull request.
+
+## 📝 License
+
+This project is licensed under the GPLv3 License.
