@@ -18,22 +18,13 @@
                         <p class="mb-2"><strong>Score:</strong> {{ answer.score }} | <strong>Attempts:</strong> {{ answer.attempts }}</p>
                         <!-- Feedback Section -->
 			<div class="feedback">
-            {% if answer.feedback %}
-                {% if answer.feedback|length > 0 %}
-                    <p>Renderizado: {{ answer.feedback|render_textblock }}</p>
-                {% else %}
-                    <p>Feedback está vacío</p>
-                {% endif %}
-            {% else %}
-                <p>No hay feedback</p>
-            {% endif %}
-            </div>
 			{% if answer.feedback %}
             			<div class="alert alert-info" role="alert">
                 		    <strong>Feedback:</strong>
                     		    {{ answer.feedback|render_textblock }}
             			</div>
         		{% endif %}
+			</div>
                     </div>
                     <div class="card-footer text-muted">
                         <strong>Date:</strong> {{ answer.submission_date }}

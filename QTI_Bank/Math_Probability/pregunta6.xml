@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q10" title="Probabilidad condicionada" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En una bolsa hay 3 canicas rojas y 5 canicas azules. Si se saca una canica al azar y resulta ser roja, ¿cuál es la probabilidad de que al sacar una segunda canica esta también sea roja, sin devolver la primera?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="True" identifier="ChoiceA">$\frac{2}{7}$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceB">$\frac{1}{2}$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceC">$\frac{3}{7}$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceD">$\frac{5}{8}$</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

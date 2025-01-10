@@ -1,0 +1,18 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q2" title="Dominio de función racional" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>¿Cuál es el dominio de la función $ f(x) = \frac{2x + 3}{x - 4} $?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="True" identifier="ChoiceA">$ x \neq -3 $</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceB">$ x \neq 4 $</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceC">$ x \neq 0 $</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceD">$ x > 4 $</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">True</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

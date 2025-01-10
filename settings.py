@@ -19,7 +19,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = env('SECRET_KEY')
 
 #Flexibiliza o relaja las restricciones de password en el registro de usuarios
-AUTH_PASSWORD_VALIDATORS = []
+#AUTH_PASSWORD_VALIDATORS = []
 
 DEBUG = env('DEBUG')
 

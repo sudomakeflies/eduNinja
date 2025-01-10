@@ -1,0 +1,18 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q3" title="Crecimiento de función exponencial" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Para la función $ f(x) = 2^x $, ¿cuál es el comportamiento de la función cuando $ x $ se hace cada vez más grande?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="True" identifier="ChoiceA">Se aproxima a 0</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceB">Crece indefinidamente</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceC">Se aproxima a 2</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceD">Disminuye indefinidamente</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">True</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

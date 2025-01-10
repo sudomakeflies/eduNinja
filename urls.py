@@ -17,7 +17,7 @@ urlpatterns = [
     #path('silk/', include('silk.urls', namespace='silk')),
     #Auth views
     path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
-    path('accounts/logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
+    path('accounts/logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
     path('accounts/profile/', profile, name='profile'),  # Perfil de usuario
     path('profile/edit/', edit_profile, name='edit_profile'),
     path('accounts/register/', register, name='register'),  # Registro de usuario

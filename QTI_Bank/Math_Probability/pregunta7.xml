@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q11" title="Probabilidad de evento independiente" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Si se lanza una moneda dos veces, ¿cuál es la probabilidad de que ambos lanzamientos den cara?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="True" identifier="ChoiceA">$\frac{1}{4}$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceB">$\frac{1}{2}$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceC">$\frac{1}{8}$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceD">$\frac{3}{4}$</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

@@ -26,8 +26,8 @@ urlpatterns = [
 
     path('error/', views.error_view, name='error_view'),  # Define la URL y asigna un nombre a la vista
 
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('register/', views.register, name='register'),
+    #path('accounts/', include('django.contrib.auth.urls')),
+    #path('register/', views.register, name='register'),
     #API
     path('restful/', include(router.urls)),
 

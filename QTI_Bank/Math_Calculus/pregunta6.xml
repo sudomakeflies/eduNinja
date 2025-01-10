@@ -1,0 +1,19 @@
+
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q4" title="Rango de función exponencial" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>¿Cuál es el rango de la función $ g(x) = 2^x $?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="True" identifier="ChoiceA">$ y > 0 $</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceB">$ y \leq 0 $</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceC">$ y \geq 1 $</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceD">$ y < 0 $</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">True</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

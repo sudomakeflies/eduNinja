@@ -1,0 +1,18 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q6" title="Comportamiento de función exponencial para valores negativos" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Para la función $ f(x) = 2^x $, ¿qué sucede con los valores de $ f(x) $ cuando $ x \to -\infty $?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="True" identifier="ChoiceA">$ f(x) \to 0 $</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceB">$ f(x) \to -\infty $</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceC">$ f(x) \to 1 $</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceD">$ f(x) \to \infty $</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">True</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>
