@@ -1,33 +1,63 @@
 {% extends 'evaluations/base.html' %}
+{% load custom_filters feedback_markdown %}
 
-{% block title %}Evaluation Result{% endblock %}
+{% block title %}Resultado de la Evaluación{% endblock %}
 
 {% block content %}
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <h1 class="mt-4">Evaluation Result</h1>
-      <p class="lead">Course: {{ evaluation.course.name }}</p>
-      <p>Evaluation Date: {{ evaluation.date }}</p>
-      <p>Max Score: {{ evaluation.max_score }}</p>
+      <h1 class="mt-4">Resultado de la Evaluación</h1>
+      <p class="lead">Curso: {{ evaluation.course.name }}</p>
+      <p>Fecha de la Evaluación: {{ evaluation.date }}</p>
+      <p>Puntuación Máxima: {{ evaluation.max_score }}</p>
     </div>
   </div>
 
   <div class="row">
     <div class="col-12">
-      <h2 class="mt-4">Your Answers:</h2>
-      <ul class="list-group">
+      <h2 class="mt-4">Tus Respuestas:</h2>
         {% for answer in answers %}
-          <li class="list-group-item">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">{{ answer.evaluation.name }}</h5>
-              <small>Attempts: {{ answer.attempts }}</small>
+            <div class="mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Evaluación:</strong> {{ answer.evaluation.name }}
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-2"><strong>Respuestas guardadas:</strong></p>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Opción Seleccionada</th>
+                                        <th>Correcta</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for question, selected_option in answer.evaluation.questions.all|zip_lists:answer.selected_options %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ selected_option }}</td>
+                                            <td>
+                                                {% if question.correct_answer == selected_option %}
+                                                    &#10004;
+                                                {% else %}
+                                                    &#10060;
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        <p class="mb-2"><strong>Puntaje:</strong> {{ answer.score }} | <strong>Intentos restantes:</strong> {{ answer.attempts }}</p>
+                        <!-- Feedback Section -->
+                    </div>
+                    <div class="card-footer text-muted">
+                        <strong>Fecha:</strong> {{ answer.submission_date }}
+                    </div>
+                </div>
             </div>
-            <p class="mb-1">Your Answer: {{ answer.selected_options }}</p>
-            <p class="mb-1">Total Score: {{ answer.score }}</p>
-          </li>
         {% endfor %}
-      </ul>
     </div>
   </div>
 </div>

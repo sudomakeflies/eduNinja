@@ -1,6 +1,6 @@
 {% extends 'evaluations/base.html' %}
 
-{% block title %}Course Detail{% endblock %}
+{% block title %}Detalle del Curso{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -13,7 +13,7 @@
 
   <div class="row">
     <div class="col-12">
-      <h2 class="mt-4">Evaluations</h2>
+      <h2 class="mt-4">Evaluaciones</h2>
       <ul class="list-group">
         {% for evaluation in evaluations %}
           <li class="list-group-item">
@@ -21,17 +21,17 @@
               <h5 class="mb-1">{{ evaluation.name }}</h5>
               <small>{{ evaluation.date }}</small>
             </div>
-            <p class="mb-1">Period: {{ evaluation.period }}</p>
-            <p class="mb-1">Max Score: {{ evaluation.max_score }}</p>
-            <p class="mb-1">Value per Question: {{ evaluation.value_per_question }}</p>
+            <p class="mb-1">Periodo: {{ evaluation.period }}</p>
+            <p class="mb-1">Puntuación Máxima: {{ evaluation.max_score }}</p>
+            <p class="mb-1">Valor por Pregunta: {{ evaluation.value_per_question }}</p>
             <div>
-              <a href="{% url 'take_evaluation' evaluation.pk %}" class="btn btn-primary btn-sm">Take</a>
-              <a href="{% url 'evaluation_result' evaluation.pk %}" class="btn btn-secondary btn-sm">Result</a>
-              <a href="{% url 'view_answers' %}" class="btn btn-info btn-sm">Feedback</a>
+<a href="{% url 'take_evaluation' evaluation.pk %}" class="btn btn-success btn-sm">Tomar</a>
+<a href="{% url 'evaluation_result' evaluation.pk %}" class="btn btn-primary btn-sm">Resultado</a>
+<a href="{% url 'view_answers' %}" class="btn btn-secondary btn-sm">Retroalimentación</a>
             </div>
           </li>
         {% empty %}
-          <li class="list-group-item">No evaluations available for this course.</li>
+          <li class="list-group-item">No hay evaluaciones disponibles para este curso.</li>
         {% endfor %}
       </ul>
     </div>

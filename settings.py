@@ -48,6 +48,9 @@ CHANNEL_LAYERS = {
 CORS_ALLOW_ALL_ORIGINS = True
 
 
+#GEMINI KEY
+GEMINI_API_KEY = env('GEMINI_API_KEY')
+
 # Antrophic KEY
 ANTHROPIC_API_KEY = env('ANTHROPIC_API_KEY')
 
@@ -142,15 +145,15 @@ WGSI_APPLICATION = 'wsgi.application'
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'OPTIONS': {
+            'max_similarity': 0.9,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'OPTIONS': {
+            'min_length': 4,
+        }
     },
 ]
 

@@ -3,7 +3,7 @@
 {% load static %}
 {% load katex_markdown %}
 
-{% block title %}Take Evaluation{% endblock %}
+{% block title %}Tomar Evaluación{% endblock %}
 
 {% block code_head %}
 <style>
@@ -59,7 +59,7 @@
         height: auto;
     }
 
-    @media (min-width: 768px) {
+    @media (min-width: 992px) {
         #content {
             flex-direction: row;
         }
@@ -74,6 +74,14 @@
 
         #evaluationContent {
             flex: 1;
+        }
+    }
+    @media (max-width: 768px) {
+        #evaluationInfo {
+            width: 100%;
+            margin-right: 0;
+            margin-bottom: 10px;
+            position: static;
         }
     }
 </style>
@@ -92,6 +100,7 @@
     <div id="evaluationContent">
         <h1>Evaluación</h1>
         <h2>{{ evaluation.name }} - {{ evaluation.date }} - {{ evaluation.course.name }}</h2>
+        <div id="messageBox" style="display: none; background-color: #f0f0f0; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;"></div>
         <form method="post" id="evaluationForm">
             {% csrf_token %}
             {% for question in evaluation.questions.all %}
@@ -132,7 +141,7 @@
                     </div>
                 </div>
             {% endfor %}
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Enviar</button>
         </form>
     </div>
 </div>
@@ -164,6 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const questionCounter = document.getElementById('questionCounter');
     const timerElement = document.getElementById('timer');
     const submitButton = form.querySelector('button[type="submit"]');
+    const messageBox = document.getElementById('messageBox');
 
     let answeredQuestions = 0;
     let timeRemaining;
@@ -190,13 +200,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function loadAnswers() {
         const savedAnswers = JSON.parse(localStorage.getItem('evaluationAnswers') || '{}');
-        Object.entries(savedAnswers).forEach(([index, value]) => {
-            const radio = document.querySelector(`.question:nth-child(${parseInt(index) + 1}) input[type="radio"][value="${value}"]`);
-            if (radio) {
-                radio.checked = true;
-            }
-        });
-        updateQuestionCounter();
+        if (Object.keys(savedAnswers).length > 0) {
+            Object.entries(savedAnswers).forEach(([index, value]) => {
+                const radio = document.querySelector(`.question:nth-child(${parseInt(index) + 1}) input[type="radio"][value="${value}"]`);
+                if (radio) {
+                    radio.checked = true;
+                }
+            });
+            updateQuestionCounter();
+        }
     }
 
     function saveTimeRemaining() {
@@ -208,19 +220,29 @@ document.addEventListener('DOMContentLoaded', function() {
         return savedTime ? parseInt(savedTime) : initialTimeLimit;
     }
 
+    function showMessage(message, type = 'info') {
+        messageBox.textContent = message;
+        messageBox.style.display = 'block';
+        messageBox.style.backgroundColor = type === 'error' ? '#ffe6e6' : '#f0f0f0';
+        messageBox.style.borderColor = type === 'error' ? '#ffcccc' : '#ccc';
+        setTimeout(() => {
+            messageBox.style.display = 'none';
+        }, 5000);
+    }
+
     function startTimer() {
         timeRemaining = loadTimeRemaining();
         const timer = setInterval(() => {
             timeRemaining--;
             saveTimeRemaining();
-            
+
             const minutes = Math.floor(timeRemaining / 60);
             const seconds = timeRemaining % 60;
             timerElement.textContent = `Tiempo restante: ${minutes}:${seconds.toString().padStart(2, '0')}`;
-            
+
             if (timeRemaining <= 0) {
                 clearInterval(timer);
-                alert('¡Tiempo agotado! El formulario se enviará automáticamente.');
+                showMessage('¡Tiempo agotado! El formulario se enviará automáticamente.', 'error');
                 window.onbeforeunload = null;
                 localStorage.removeItem('evaluationAnswers');
                 localStorage.removeItem('evaluationTimeRemaining');
@@ -233,19 +255,6 @@ document.addEventListener('DOMContentLoaded', function() {
         startTimer();
     }
 
-    // Modificar loadAnswers para cargar solo si hay datos
-    function loadAnswers() {
-        const savedAnswers = JSON.parse(localStorage.getItem('evaluationAnswers') || '{}');
-        if (Object.keys(savedAnswers).length > 0) {
-            Object.entries(savedAnswers).forEach(([index, value]) => {
-                const radio = document.querySelector(`.question:nth-child(${parseInt(index) + 1}) input[type="radio"][value="${value}"]`);
-                if (radio) {
-                    radio.checked = true;
-                }
-            });
-            updateQuestionCounter();
-        }
-    }
 
     window.onbeforeunload = function() {
         saveAnswers();
@@ -261,12 +270,10 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', function(event) {
         event.preventDefault();
         if (answeredQuestions < totalQuestions) {
-            alert(`Por favor, responde todas las preguntas. Has respondido ${answeredQuestions} de ${totalQuestions}.`);
+            showMessage(`Por favor, responde todas las preguntas. Has respondido ${answeredQuestions} de ${totalQuestions}.`, 'error');
         } else {
             if (confirm('¿Estás seguro de que quieres enviar la evaluación?')) {
                 window.onbeforeunload = null;
-                //localStorage.removeItem('evaluationAnswers');
-                //localStorage.removeItem('evaluationTimeRemaining');
                 form.submit();
             }
         }

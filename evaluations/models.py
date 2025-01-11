@@ -79,6 +79,7 @@ class Evaluation(models.Model):
     LLM_CHOICES = [
         ('ollama', 'Ollama'),
         ('anthropic', 'Anthropic Claude 3.5'),
+        ('gemini', 'Gemini 2.0 flash'),
     ]
     name = models.CharField(max_length=100, default="Matemáticas")
     course = models.ForeignKey('Course', on_delete=models.CASCADE, default=1)
@@ -87,7 +88,7 @@ class Evaluation(models.Model):
     value_per_question = models.DecimalField(max_digits=5, decimal_places=2, default=1)
     date = models.DateField(default=datetime.now, db_index=True)
     questions = models.ManyToManyField(Question)
-    llm_model = models.CharField(max_length=10, choices=LLM_CHOICES, default='ollama')
+    llm_model = models.CharField(max_length=10, choices=LLM_CHOICES, default='gemini')
     time_limit = models.DurationField(
         null=True, 
         blank=True, 

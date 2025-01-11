@@ -1,0 +1,28 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+    {{ block.super }}
+    <style>
+        .import-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+    
+    <div id="content-header">
+        {{ block.super }}
+        <div class="import-button-container">
+            <a href="{% url 'customadmin:import_users_csv' %}" class="import-button">Import Users from CSV</a>
+        </div>
+    </div>
+    <style>
+        .import-button-container {
+            display: inline-block;
+            margin-left: 20px;
+        }
+    </style>
+{% endblock %}

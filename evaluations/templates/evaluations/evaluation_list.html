@@ -1,15 +1,15 @@
 {% extends 'evaluations/base.html' %}
 
-{% block title %}Evaluation List{% endblock %}
+{% block title %}Lista de Evaluaciones{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h1 class="mb-4">Evaluations</h1>
+    <h1 class="mb-4">Evaluaciones</h1>
     <ul class="list-group">
         {% for evaluation in evaluations %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div>
-                    <strong>{{ evaluation.course }}</strong> - {{ evaluation.name }} - {{ evaluation.date }}
+                    <strong>{{ evaluation.course }}</strong> - {{ evaluation.name }} - {{ evaluation.date|date:"Y-m-d" }}
                 </div>
                 <a href="/api/take_evaluation/{{ evaluation.id }}" class="btn btn-primary">Tomar Evaluación</a>
             </li>

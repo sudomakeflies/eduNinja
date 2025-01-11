@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -53,10 +53,10 @@
             font-size: 1.5rem; /* Larger font size for better visibility */
             color: var(--primary-color); /* Dark color for better contrast against the background */
             letter-spacing: 1px; /* Slightly increased letter spacing for readability */
-            padding: 0.5rem 1rem; /* Padding to ensure touch targets are large enough */
-            transition: color 0.3s ease; /* Smooth transition for color changes */
-            display: flex; /* Use flexbox for better alignment */
-            align-items: center; /* Center items vertically */
+            padding: 0.75rem 1.25rem;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
         }
 
         .navbar-brand img {
@@ -75,11 +75,12 @@
             margin: 1.5rem 0;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: box-shadow 0.3s ease;
+            transition: box-shadow 0.3s ease, transform 0.2s ease;
         }
 
         .question:hover {
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
         }
 
         .question-text {
@@ -124,7 +125,7 @@
 
         table th,
         table td {
-            padding: 1rem;
+            padding: 1rem 0.75rem;
             text-align: left;
         }
 
@@ -133,6 +134,7 @@
             color: #ffffff;
             font-weight: 600;
             letter-spacing: 0.5px;
+            padding: 1.2rem 1rem;
         }
 
         table tbody tr:nth-of-type(even) {
@@ -148,22 +150,47 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1200px) {
+            #content {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 992px) {
             #content {
                 padding: 1rem;
             }
-            
             .question {
                 padding: 1rem;
             }
-            
             table th,
             table td {
                 padding: 0.75rem;
             }
-
             .navbar-nav .nav-link {
-                padding: 0.75rem 1rem;
+                padding: 0.75rem 1.25rem;
+                margin-right: 0.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #content {
+                padding: 0.75rem;
+            }
+            .question {
+                padding: 0.75rem;
+                margin: 0.75rem 0;
+            }
+            table th,
+            table td {
+                padding: 0.6rem;
+            }
+             body {
+                font-size: 1.1em;
+                line-height: 1.4;
+            }
+            .question-text {
+                font-size: 1.2em;
             }
         }
 
@@ -171,24 +198,20 @@
             #content {
                 padding: 0.5rem;
             }
-            
             .question {
-                padding: 0.75rem;
-                margin: 1rem 0;
+                padding: 0.5rem;
+                margin: 0.5rem 0;
             }
-            
             table th,
             table td {
-                padding: 0.5rem;
+                padding: 0.4rem;
             }
-
             body {
-                font-size: 1.2em;
-                line-height: 1.5;
+                font-size: 1em;
+                line-height: 1.3;
             }
-
             .question-text {
-                font-size: 1.3em;
+                font-size: 1.1em;
             }
         }
 
@@ -234,6 +257,8 @@
         body.dark-theme .dropdown-menu {
             background-color: var(--dropdown-bg);
             border-color: var(--border-color);
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         body.dark-theme .dropdown-item {
@@ -295,6 +320,15 @@
         body.dark-theme .btn-primary:hover {
             background-color: #5277a3;
             border-color: #5277a3;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .btn-primary {
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
         }
 
         body.dark-theme a {
@@ -384,9 +418,9 @@
                             Menu
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/api/evaluations">Evaluations</a></li>
-                            <li><a class="dropdown-item" href="/api/view-answers">Your Answers</a></li>
-                            <li><a class="dropdown-item" href="/api/courses">All Courses</a></li>
+                            <li><a class="dropdown-item" href="/api/evaluations">Evaluaciones</a></li>
+                            <li><a class="dropdown-item" href="/api/view-answers">Tus Respuestas y feedbacks</a></li>
+                            <li><a class="dropdown-item" href="/api/courses">Todos los cursos</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <div class="dropdown-item">

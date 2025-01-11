@@ -18,3 +18,11 @@ def render_textblock(text_content):
             # Si no encuentra el patrón, devuelve el contenido original
             return mark_safe(text_content.replace('\n', '<br>'))
     return '[Contenido no es una cadena de texto]'
+
+@register.filter
+def split_string(value, delimiter):
+    return value.split(delimiter)
+
+@register.filter
+def zip_lists(a, b):
+    return zip(a, b)

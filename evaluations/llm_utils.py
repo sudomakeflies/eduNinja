@@ -3,7 +3,7 @@ from django.conf import settings
 from anthropic import Anthropic
 import traceback
 import logging
-
+from google import genai
 
 anthropic = Anthropic(api_key=settings.ANTHROPIC_API_KEY)
 
@@ -51,11 +51,22 @@ def get_llm_feedback(context, llm_model):
     elif llm_model == 'anthropic':
         logging.debug("Feedback generado usando el modelo 'anthropic'")
         return get_anthropic_feedback(prompt)
+    elif llm_model == 'gemini':
+        logging.debug("Feedback generado usando el modelo 'gemini'")
+        return get_gemini_feedback(prompt)
     else:
         logging.error(f"Modelo LLM no soportado: {llm_model}")
         return "Modelo LLM no soportado."
 
-    
+def get_gemini_feedback(prompt):
+    try:
+        client = genai.Client(api_key=settings.GEMINI_API_KEY)
+        response = client.models.generate_content(model='gemini-2.0-flash-exp', contents=prompt)
+        return response.text
+    except Exception as e:
+        print(f"Error making request to Gemini API: {e}")
+        return "Error fetching feedback from Gemini."
+
 
 def get_ollama_feedback(prompt):
     #url = "http://host.docker.internal:11434/api/generate"

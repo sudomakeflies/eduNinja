@@ -2,7 +2,7 @@
 {% load static %}
 {% load katex_markdown %}
 
-{% block title %}Question List{% endblock %}
+{% block title %}Lista de Preguntas{% endblock %}
 
 
 {% block code_head %}
@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-<h1>Questions</h1>
+<h1>Preguntas</h1>
 <ul class="list-group">
     {% for question in questions %}
         <li class="list-group-item">{{ forloop.counter }}. {{ question.question_text|markdown_katex|safe }}</li>

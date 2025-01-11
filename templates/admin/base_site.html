@@ -1,0 +1,9 @@
+{% extends "admin/base.html" %}
+
+{% block bodyclass %}{{ block.super }} app-{{ request.resolver_match.app_name }} model-{{ request.resolver_match.model_name }}{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name"><a href="{% url 'admin:index' %}">EduNinja Admin</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

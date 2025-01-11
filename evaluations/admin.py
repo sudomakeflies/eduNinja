@@ -5,7 +5,11 @@ from .llm_utils import get_llm_feedback
 from django.contrib.admin import AdminSite
 from django.core.exceptions import ObjectDoesNotExist
 import logging
-
+from django import forms
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.urls import path
+import csv
 
 # Configuración básica del logging
 logging.basicConfig(
@@ -17,10 +21,42 @@ logging.basicConfig(
     ]
 )
 
+class CsvImportForm(forms.Form):
+    csv_file = forms.FileField()
+
+def import_users_from_csv(request):
+    if request.method == "POST":
+        form = CsvImportForm(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['csv_file']
+            reader = csv.DictReader(csv_file.read().decode('utf-8').splitlines())
+            for row in reader:
+                try:
+                    username = row.get('username')
+                    password = row.get('password')
+                    if username and password:
+                        User.objects.create_user(username=username, password=password)
+                    else:
+                        logging.warning(f"Skipping row due to missing required fields: {row}")
+                except Exception as e:
+                     logging.error(f"Error creating user from row: {row}. Error: {e}")
+            CourseAdmin(Course, custom_admin_site).message_user(request, "Users imported successfully")
+            return HttpResponseRedirect(request.path_info)
+    else:
+        form = CsvImportForm()
+    return render(request, 'admin/csv_form.html', {'form': form})
+
 class CustomAdminSite(AdminSite):
     site_header = 'eduNinja Admin'
     site_title = 'eduNinja Admin'
     index_title = 'Welcome to eduNinja Admin'
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path('import_users_csv/', self.admin_view(import_users_from_csv), name='import_users_csv'),
+        ]
+        return custom_urls + urls
 
 custom_admin_site = CustomAdminSite(name='customadmin')
 
@@ -38,10 +74,20 @@ class ScoreFilter(admin.SimpleListFilter):
             return queryset.filter(score__gte=3.0)
 
 def generate_feedback(modeladmin, request, queryset):
-    logging.info("Iniciando generación de feedback para las evaluaciones seleccionadas")
-    for evaluation in queryset:
-        logging.debug(f"Procesando evaluación: {evaluation.name}")
-        answers = Answer.objects.filter(evaluation=evaluation)
+    logging.info("Iniciando generación de feedback para los objetos seleccionados")
+    for obj in queryset:
+        if isinstance(obj, Evaluation):
+            evaluation = obj
+            logging.debug(f"Procesando evaluación: {evaluation.name}")
+            answers = Answer.objects.filter(evaluation=evaluation)
+        elif isinstance(obj, Answer):
+            answer = obj
+            evaluation = answer.evaluation
+            logging.debug(f"Procesando respuesta del estudiante: {answer.student.username} para la evaluación: {evaluation.name}")
+            answers = [answer]
+        else:
+            logging.warning(f"Objeto desconocido en el queryset: {obj}")
+            continue
         
         for answer in answers:
             logging.debug(f"Procesando respuesta del estudiante: {answer.student.username}")
@@ -50,23 +96,19 @@ def generate_feedback(modeladmin, request, queryset):
             questions_and_answers = []
             selected_options = answer.selected_options if answer.selected_options else []
 
-            # Vamos a recorrer las preguntas y simplemente obtener la opción seleccionada
-            for question in evaluation.questions.all():
+            # Vamos a recorrer las preguntas y obtener la opción seleccionada para cada una
+            for i, question in enumerate(evaluation.questions.all()):
                 logging.debug(f"Procesando pregunta: {question.question_text}")
-                try:
-                    # Buscamos la opción seleccionada por el usuario
-                    student_answer = next((option for option in selected_options if option), "No contestada")
-
-                except (KeyError, ObjectDoesNotExist) as e:
-                    logging.error(f"Error al procesar la pregunta {question.question_text}: {str(e)}")
-                    student_answer = "No contestada"
+                student_answer = "No contestada"
+                if i < len(selected_options):
+                    student_answer = selected_options[i]
 
                 # Añadir los detalles de la pregunta y la respuesta al contexto
                 questions_and_answers.append({
                     "question": question.question_text,
                     "correct_answer": question.correct_answer,
-                    "student_answer": student_answer,
-                    "is_correct": student_answer == question.correct_answer  # Esto se mantiene para completar el contexto
+                    "student_answer": student_answer.text if hasattr(student_answer, 'text') else student_answer,
+                    "is_correct": student_answer.text == question.correct_answer if hasattr(student_answer, 'text') else student_answer == question.correct_answer
                 })
 
             # Crear el contexto para la generación de feedback
@@ -84,12 +126,13 @@ def generate_feedback(modeladmin, request, queryset):
             
             # Guardar el feedback en la base de datos
             answer.feedback = feedback
+            answer.feedback_check = True
             answer.save()
             logging.info(f"Feedback generado para el estudiante {user.username}")
 
     # Notificar al usuario que la generación de feedback ha terminado
-    modeladmin.message_user(request, "Feedback generation completed for selected evaluations")
-    logging.info("Generación de feedback completada para las evaluaciones seleccionadas")
+    modeladmin.message_user(request, "Feedback generation completed for selected objects")
+    logging.info("Generación de feedback completada para los objetos seleccionados")
 
 generate_feedback.short_description = "Generate feedback for selected evaluations"
 
@@ -117,7 +160,11 @@ class AnswerAdmin(admin.ModelAdmin):
     list_display = ['evaluation', 'student', 'selected_options', 'submission_date', 'score', 'attempts', 'feedback_check']
     search_fields = ['evaluation__name', 'student__username']
     list_filter = ['submission_date', 'evaluation__name', 'feedback_check', ScoreFilter]
+    actions = [generate_feedback]
+
+class UserAdmin(admin.ModelAdmin):
+    pass
 
 # Register the User and Group models with the custom admin site
-custom_admin_site.register(User, admin.ModelAdmin)
+custom_admin_site.register(User, UserAdmin)
 custom_admin_site.register(Group, admin.ModelAdmin)
