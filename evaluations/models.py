@@ -10,6 +10,13 @@ from django.db import IntegrityError
 from django.conf import settings
 from datetime import timedelta
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
+    grado = models.CharField(max_length=50, blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.user.username} - {self.grado}'
+
 
 
 class Course(models.Model):

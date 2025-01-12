@@ -205,5 +205,41 @@ def number_to_letter(number):
 #             # Handle the connection error
 #             raise FeedbackServiceError("Error connecting to the feedback service.")
 
+import qrcode
+from io import BytesIO
+from django.core.files.base import ContentFile
+from django.conf import settings
+from django.core.signing import TimestampSigner
+from urllib.parse import quote
+
+
+def generate_qr_code(user, request):
+    base_url = settings.HOSTNAME
+    signer = TimestampSigner()
+    token = signer.sign(str(user.id))  # Firma el user_id
+    login_url = f"{base_url}/api/qr_login/?token={quote(token)}"
+    
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(login_url)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="black", back_color="white")
+    
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
+    
+    file_name = f"qr_code_{user.username}.png"
+    file_path = os.path.join("static", "Content", "QRs", file_name)
+    
+    with open(file_path, "wb") as f:
+        f.write(buffer.getvalue())
+    
+    return f"/static/Content/QRs/{file_name}"
+    
 # class FeedbackServiceError(Exception):
 #     print("FeedbackServiceError....", Exception)

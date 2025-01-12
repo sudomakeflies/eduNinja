@@ -29,3 +29,4 @@ celery
 requests
 google-genai
 django-select2
+qrcode

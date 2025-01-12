@@ -9,11 +9,12 @@ from .models import Course, Question, Evaluation, Answer
 from django.contrib.auth.decorators import login_required
 from .utils import number_to_letter  # Importa la función desde archivo de utilidades
 from django.db.models import F
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 @method_decorator(cache_page(60), name='dispatch')
 class HomeView(ListView):
@@ -161,3 +162,28 @@ def view_answers(request):
 
 def error_view(request):
     return render(request, 'evaluations/error_template.html')
+
+
+@csrf_exempt
+def qr_login(request):
+    from django.core.signing import TimestampSigner
+    from urllib.parse import unquote
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+
+    if request.method == 'GET':
+        token = request.GET.get('token')
+        token_decodificado = unquote(token)
+        signer = TimestampSigner()
+        try:
+            # Extrae el user_id del token
+            user_id = signer.unsign(token_decodificado, max_age=60)  # Valida el token (expira en 60 segundos)
+            
+            # Busca el usuario en la base de datos
+            user = User.objects.get(id=user_id)
+            # Autentica al usuario sin contraseña (inicio de sesión directo)
+            user.backend = 'django.contrib.auth.backends.ModelBackend'  # Define el backend de autenticación
+            login(request, user)
+            return redirect('/')  # Redirige a la página principal después del login
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': 'Invalid or expired token'}, status=401)
