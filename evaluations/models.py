@@ -73,7 +73,7 @@ class Question(models.Model):
     correct_answer = models.CharField(max_length=200)
     
     def __str__(self):
-        return f'({self.pk}) {self.subject} - {self.question_text[:20]}'
+        return f'({self.pk}) {self.subject} - {self.question_text[:50]}'
 
 class Evaluation(models.Model):
     LLM_CHOICES = [
@@ -108,7 +108,7 @@ class Answer(models.Model):
     feedback_check = models.BooleanField(default=False)
     submission_date = models.DateTimeField(auto_now_add=True, db_index=True)
     score = models.FloatField(null=True, blank=True)
-    attempts = models.PositiveSmallIntegerField(default=2)
+    attempts = models.PositiveSmallIntegerField(default=1)
 
     # def save(self, *args, **kwargs):
     #     if self.pk is None:  # Check if the instance is new

@@ -10,6 +10,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import path
 import csv
+from .forms import EvaluationForm
 
 # Configuración básica del logging
 logging.basicConfig(
@@ -161,6 +162,7 @@ class EvaluationAdmin(admin.ModelAdmin):
     list_display = ['name', 'course', 'date', 'period', 'llm_model', 'time_limit']
     list_filter = ['llm_model', 'course', 'period', 'time_limit']
     actions = [generate_feedback]
+    form = EvaluationForm
 
 @admin.register(Answer, site=custom_admin_site)
 class AnswerAdmin(admin.ModelAdmin):

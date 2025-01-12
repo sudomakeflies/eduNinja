@@ -75,7 +75,7 @@ def take_evaluation(request, pk):
                     'selected_options': selected_options,
                     'feedback': '',
                     'score': total_score,
-                    'attempts': 2
+                    'attempts': 1
                 }
             )
 

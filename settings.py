@@ -100,6 +100,7 @@ INSTALLED_APPS = [
     #'channels',
     'corsheaders',
     'rest_framework',
+    'django_select2',
     #'whitenoise.runserver_nostatic',
 ]
 
