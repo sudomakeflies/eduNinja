@@ -35,11 +35,18 @@ def import_users_from_csv(request):
                     username = row.get('username')
                     password = row.get('password')
                     if username and password:
-                        User.objects.create_user(username=username, password=password)
+                        try:
+                            user = User.objects.get(username=username)
+                            user.set_password(password)
+                            user.save()
+                            logging.info(f"Updated password for existing user: {username}")
+                        except ObjectDoesNotExist:
+                            User.objects.create_user(username=username, password=password)
+                            logging.info(f"Created new user: {username}")
                     else:
                         logging.warning(f"Skipping row due to missing required fields: {row}")
                 except Exception as e:
-                     logging.error(f"Error creating user from row: {row}. Error: {e}")
+                    logging.error(f"Error processing user from row: {row}. Error: {e}")
             CourseAdmin(Course, custom_admin_site).message_user(request, "Users imported successfully")
             return HttpResponseRedirect(request.path_info)
     else:
