@@ -32,6 +32,7 @@ services:
       - DJANGO_SUPERUSER_USERNAME=admin
       - DJANGO_SUPERUSER_EMAIL=admin@eduninja.co
       - DJANGO_SUPERUSER_PASSWORD=admin
+      - HOSTNAME=${HOSTNAME}
     volumes:
       - .:/app
     ports:

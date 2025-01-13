@@ -47,6 +47,8 @@ CHANNEL_LAYERS = {
 # Allow all origins (for testing purposes)
 CORS_ALLOW_ALL_ORIGINS = True
 
+#Hostname
+HOSTNAME  = env('HOSTNAME')
 
 #GEMINI KEY
 GEMINI_API_KEY = env('GEMINI_API_KEY')
@@ -100,6 +102,7 @@ INSTALLED_APPS = [
     #'channels',
     'corsheaders',
     'rest_framework',
+    'django_select2',
     #'whitenoise.runserver_nostatic',
 ]
 

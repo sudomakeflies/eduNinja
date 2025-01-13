@@ -1,11 +1,11 @@
-username,password
-user1,password123
-user2,0qwerty456
-user3,0123456abc
-user4,0pass@7890
-user5,0admin12345
-user6,0guest9876
-user7,0helloWorld!
-user8,0securePassword2025
-user9,0randomP@ssw0rd
-user10,0testuser!2024
+username,password,grado
+user1,password123,grado 8
+user4,0pass@7890,grado 8
+user7,0helloWorld!,grado 8
+user10,0testuser!2024,grado 8
+user2,0qwerty456,grado 9
+user5,0admin12345,grado 9
+user8,0securePassword2025,grado 9
+user3,0123456abc,grado 10
+user6,0guest9876,grado 10
+user9,0randomP@ssw0rd,grado 10

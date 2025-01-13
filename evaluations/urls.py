@@ -30,5 +30,5 @@ urlpatterns = [
     #path('register/', views.register, name='register'),
     #API
     path('restful/', include(router.urls)),
-
+    path('qr_login/', views.qr_login, name='qr_login'),
 ]

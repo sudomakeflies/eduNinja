@@ -10,6 +10,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import path
 import csv
+from .forms import EvaluationForm, UserAdminForm, QuestionAdminForm
 
 # Configuración básica del logging
 logging.basicConfig(
@@ -41,8 +42,18 @@ def import_users_from_csv(request):
                             user.save()
                             logging.info(f"Updated password for existing user: {username}")
                         except ObjectDoesNotExist:
-                            User.objects.create_user(username=username, password=password)
+                            user = User.objects.create_user(username=username, password=password)
                             logging.info(f"Created new user: {username}")
+                        
+                        grado = row.get('grado')
+                        if grado:
+                            from .models import UserProfile
+                            profile, created = UserProfile.objects.get_or_create(user=user)
+                            profile.grado = grado
+                            profile.save()
+                            logging.info(f"Updated or created profile for user: {username} with grado: {grado}")
+                        else:
+                            logging.warning(f"No grado provided for user: {username}")
                     else:
                         logging.warning(f"Skipping row due to missing required fields: {row}")
                 except Exception as e:
@@ -152,15 +163,22 @@ class OptionAdmin(admin.ModelAdmin):
     list_display = ('text', 'is_latex', 'image')
 
 @admin.register(Question, site=custom_admin_site)
+
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('question_text', 'subject', 'difficulty', 'image', 'latex_format', 'correct_answer')
+    list_display = ('question_text', 'subject', 'difficulty', 'image', 'latex_format', 'correct_answer', 'display_options')
     list_filter = ('subject', 'latex_format', 'difficulty')
+    form = QuestionAdminForm
+
+    def display_options(self, obj):
+        return ", ".join([option.text for option in obj.options.all()])
+    display_options.short_description = 'Options'
 
 @admin.register(Evaluation, site=custom_admin_site)
 class EvaluationAdmin(admin.ModelAdmin):
     list_display = ['name', 'course', 'date', 'period', 'llm_model', 'time_limit']
     list_filter = ['llm_model', 'course', 'period', 'time_limit']
     actions = [generate_feedback]
+    form = EvaluationForm
 
 @admin.register(Answer, site=custom_admin_site)
 class AnswerAdmin(admin.ModelAdmin):
@@ -169,8 +187,43 @@ class AnswerAdmin(admin.ModelAdmin):
     list_filter = ['submission_date', 'evaluation__name', 'feedback_check', ScoreFilter]
     actions = [generate_feedback]
 
+from django.utils.html import format_html
+from .utils import generate_qr_code
+
 class UserAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('username', 'qr_code_image', 'grado')
+    list_filter = ('profile__grado',)
+    form = UserAdminForm
+
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'email')}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                       'groups', 'user_permissions')}),
+        ('Important dates', {'fields': ('last_login', 'date_joined')}),
+        ('Grado', {'fields': ('grado',)}),
+    )
+
+
+    def get_queryset(self, request):
+        # Almacena el objeto request en una variable de instancia
+        self.request = request
+        return super().get_queryset(request)
+
+    def grado(self, obj):
+        try:
+            return obj.profile.grado
+        except ObjectDoesNotExist:
+            return None
+    grado.short_description = 'Grado'
+
+    def qr_code_image(self, obj):
+        if obj.password:
+            qr_code_url = generate_qr_code(obj, self.request)
+            return format_html('<img src="{}" width="100" height="100" />', qr_code_url)
+        return "No password set"
+
+    qr_code_image.short_description = "QR Code"
 
 # Register the User and Group models with the custom admin site
 custom_admin_site.register(User, UserAdmin)
