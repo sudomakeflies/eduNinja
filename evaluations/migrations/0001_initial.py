@@ -41,6 +41,7 @@ class Migration(migrations.Migration):
                 ('question_text', models.TextField()),
                 ('image', models.ImageField(blank=True, null=True, upload_to='question_images/')),
                 ('latex_format', models.BooleanField(default=False)),
+                ('time_limit', models.DurationField(blank=True, default=datetime.timedelta(seconds=6120), help_text='Tiempo límite para la evaluación (HH:MM:SS)', null=True)),
                 ('correct_answer', models.CharField(max_length=200)),
                 ('options', models.ManyToManyField(to='evaluations.option')),
             ],
