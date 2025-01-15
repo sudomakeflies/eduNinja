@@ -35,6 +35,7 @@ services:
       - HOSTNAME=${HOSTNAME}
     volumes:
       - .:/app
+      - media_data:/app/media
     ports:
       - "8000:8000"
     depends_on:
@@ -48,8 +49,24 @@ services:
       timeout: 10s
       retries: 5
 
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    container_name: nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+    networks:
+      - app_network
+    restart: always
+    volumes:
+      - media_data:/app/media
+
 volumes:
   db_data:
+  media_data:
 
 networks:
   app_network:

@@ -41,10 +41,6 @@ fi
 echo "Applying migrations..."
 python manage.py migrate
 
-# Crear superusuario (si no existe)
-echo "Creating superuser..."
-python manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'admin') if not User.objects.filter(username='admin').exists() else None"
-
 # Recopilar archivos estáticos (si es necesario)
 echo "Collecting static files..."
 python manage.py collectstatic --noinput

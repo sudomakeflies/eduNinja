@@ -26,7 +26,9 @@ DEBUG = env('DEBUG')
 # Configura la URL para acceder a los archivos media
 MEDIA_URL = '/media/'
 # Configura el directorio donde se almacenarán los archivos media
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+#MEDIA_ROOT = os.path.join(BASE_DIR.parent, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
+
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # Esta es la ruta donde se recopilan todos los archivos estáticos
 STATICFILES_DIRS = [
@@ -124,13 +126,18 @@ DATABASES = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Configure Whitenoise to serve media files
+WHITENOISE_MEDIA_PREFIX = '/media/'
 
 # Agregar middlewares adicionales si estamos en modo DEBUG
 #if DEBUG:

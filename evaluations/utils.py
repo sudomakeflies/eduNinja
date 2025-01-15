@@ -4,7 +4,6 @@ from django.core.files import File
 from .models import Question, Option
 from django.db.models import Q
 
-
 # Verificamos si la pregunta existe para no duplicarla
 def question_exists(question_text, subject):
     return Question.objects.filter(
@@ -191,33 +190,18 @@ def number_to_letter(number):
     """
     return chr(number + 96)  # Sumamos 96 para obtener el valor ASCII correspondiente a 'a'
 
-# import requests
-# from requests.exceptions import ConnectionError
-
-# class FeedbackService:
-#     @staticmethod
-#     def send_feedback(data):
-#         try:
-#             response = requests.post("http://localhost:8000/ws/feedback/", json=data, headers={'Content-Type': 'application/json'})
-#             response.raise_for_status()
-#             return response.json()  # Return the JSON response if needed
-#         except ConnectionError:
-#             # Handle the connection error
-#             raise FeedbackServiceError("Error connecting to the feedback service.")
-
+from django.core.files.storage import default_storage
 import qrcode
 from io import BytesIO
-from django.core.files.base import ContentFile
 from django.conf import settings
 from django.core.signing import TimestampSigner
 from urllib.parse import quote
-
 
 def generate_qr_code(user, request):
     base_url = settings.HOSTNAME
     signer = TimestampSigner()
     token = signer.sign(str(user.id))  # Firma el user_id
-    login_url = f"{base_url}/api/qr_login/?token={quote(token)}"
+    login_url = f"{base_url}:8000/api/qr_login/?token={quote(token)}"
     
     qr = qrcode.QRCode(
         version=1,
@@ -234,12 +218,9 @@ def generate_qr_code(user, request):
     img.save(buffer, format="PNG")
     
     file_name = f"qr_code_{user.username}.png"
-    file_path = os.path.join("static", "Content", "QRs", file_name)
+    file_path = os.path.join("media","QRs", file_name)
     
     with open(file_path, "wb") as f:
         f.write(buffer.getvalue())
-    
-    return f"/static/Content/QRs/{file_name}"
-    
-# class FeedbackServiceError(Exception):
-#     print("FeedbackServiceError....", Exception)
+
+    return f"{base_url}/media/QRs/{file_name}"

@@ -17,11 +17,11 @@ whitenoise
 #langchain
 #Werkzeug
 #aiohttp
-#gunicorn
+gunicorn
 #gevent
 #asgiref
 django-redis
-daphne
+#daphne
 django-cors-headers
 djangorestframework
 anthropic

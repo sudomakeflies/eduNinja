@@ -60,12 +60,13 @@ EOF
 # Función principal
 main() {
     wait_for_db
-    apply_migrations
+    #apply_migrations
     #create_initial_data
     import_qti
     create_superuser
-    echo "Iniciando servidor Django..."
-    python manage.py runserver 0.0.0.0:8000
+    echo "Iniciando servidor Gunicorn-Django..."
+    #python manage.py runserver 0.0.0.0:8000
+    ./start_gunicorn.sh
 }
 
 # Ejecutar la función principal

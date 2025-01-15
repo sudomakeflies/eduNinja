@@ -220,7 +220,7 @@ class UserAdmin(admin.ModelAdmin):
     def qr_code_image(self, obj):
         if obj.password:
             qr_code_url = generate_qr_code(obj, self.request)
-            return format_html('<img src="{}" width="100" height="100" />', qr_code_url)
+            return format_html('<img src="{}" width="400" height="400" />', qr_code_url)
         return "No password set"
 
     qr_code_image.short_description = "QR Code"
