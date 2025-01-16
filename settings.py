@@ -52,6 +52,9 @@ CORS_ALLOW_ALL_ORIGINS = True
 #Hostname
 HOSTNAME  = env('HOSTNAME')
 
+#Host ip
+HOST_IP  = env('HOST_IP')
+
 #GEMINI KEY
 GEMINI_API_KEY = env('GEMINI_API_KEY')
 

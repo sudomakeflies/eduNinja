@@ -11,6 +11,7 @@ from django.http import HttpResponseRedirect
 from django.urls import path
 import csv
 from .forms import EvaluationForm, UserAdminForm, QuestionAdminForm
+from django.conf import settings
 
 # Configuración básica del logging
 logging.basicConfig(
@@ -68,6 +69,11 @@ class CustomAdminSite(AdminSite):
     site_header = 'eduNinja Admin'
     site_title = 'eduNinja Admin'
     index_title = 'Welcome to eduNinja Admin'
+
+    def each_context(self, request):
+        context = super().each_context(request)
+        context['host_ip'] = settings.HOST_IP  # Agrega la IP al contexto
+        return context
 
     def get_urls(self):
         urls = super().get_urls()

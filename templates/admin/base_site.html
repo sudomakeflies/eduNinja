@@ -4,6 +4,12 @@
 
 {% block branding %}
     <h1 id="site-name"><a href="{% url 'admin:index' %}">EduNinja Admin</a></h1>
+    <div style="margin: 10px 0; font-size: 14px; color: #fff;">
+        <strong>IP del servidor:</strong> 
+        <span style="border: 2px solid #ffcc00; padding: 3px 6px; border-radius: 4px; font-weight: bold;">
+            {{ host_ip }}
+        </span>
+    </div>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}

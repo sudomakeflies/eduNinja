@@ -33,6 +33,7 @@ services:
       - DJANGO_SUPERUSER_EMAIL=admin@eduninja.co
       - DJANGO_SUPERUSER_PASSWORD=admin
       - HOSTNAME=${HOSTNAME}
+      - HOST_IP=${HOST_IP}
     volumes:
       - .:/app
       - media_data:/app/media
