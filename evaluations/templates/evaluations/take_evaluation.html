@@ -255,7 +255,6 @@ document.addEventListener('DOMContentLoaded', function() {
         startTimer();
     }
 
-
     window.onbeforeunload = function() {
         saveAnswers();
         saveTimeRemaining();
@@ -281,6 +280,53 @@ document.addEventListener('DOMContentLoaded', function() {
 
     loadAnswers();
     updateQuestionCounter();
+
+    function sendEventLog(event_type) {
+        var csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+        fetch('/api/log_evaluation_event/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify({ event_type: event_type, evaluation_id: '{{ evaluation.id }}' })
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Event logged successfully');
+            } else {
+                console.error('Error logging event:', response.statusText);
+            }
+        })
+        .catch(error => {
+            console.error('Error logging event:', error);
+        });
+    }
+
+    function logEvent(event_type) {
+        console.log('Logging event:', event_type);
+        sendEventLog(event_type);
+    }
+
+    function handleEvent(event) {
+        if (event.type === 'blur') {
+            logEvent('blur');
+        } else if (event.type === 'focus') {
+            logEvent('focus');
+        } else if (event.type === 'visibilitychange') {
+           logEvent(document.hidden ? 'hidden' : 'visible');
+        }
+    }
+
+    window.addEventListener('blur', handleEvent);
+    window.addEventListener('focus', handleEvent);
+    document.addEventListener('visibilitychange', handleEvent);
 });
+</script>
+<script>
+    document.addEventListener('copy', function(e) {
+        e.preventDefault();
+        alert('Copiar está deshabilitado en esta página.');
+    });
 </script>
 {% endblock %}

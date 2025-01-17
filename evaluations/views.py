@@ -15,6 +15,7 @@ from django.urls import reverse
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from datetime import datetime
 
 @method_decorator(cache_page(60), name='dispatch')
 class HomeView(ListView):
@@ -57,9 +58,11 @@ def take_evaluation(request, pk):
     #evaluation = get_object_or_404(Evaluation, pk=pk)
     evaluation = get_object_or_404(Evaluation.objects.select_related('course').prefetch_related('questions'), pk=pk)
     student = request.user
+    request.session['evaluation_start_time'] = str(datetime.now())
+    request.session['user_agent'] = request.META.get('HTTP_USER_AGENT', '')
     context = {
         'evaluation': evaluation,
-        'number_to_letter': number_to_letter,  # Agrega la función al contexto
+        'number_to_letter': number_to_letter,
     }
 
     # Verificar si ya existe un registro de Answer para esta evaluación y este estudiante
@@ -162,6 +165,42 @@ def view_answers(request):
 
 def error_view(request):
     return render(request, 'evaluations/error_template.html')
+
+@csrf_exempt
+def log_evaluation_event(request):
+    from .models import EvaluationLog
+    import json
+    if request.method == 'POST':
+        try:
+            # Parse JSON data from the request body
+            data = json.loads(request.body)
+            evaluation_id = data.get('evaluation_id')
+            event_type = data.get('event_type')
+             # Validate required fields
+            if not evaluation_id or not event_type:
+                return JsonResponse({'status': 'error', 'message': 'Missing required fields'}, status=400)
+
+            evaluation = get_object_or_404(Evaluation, pk=evaluation_id)
+            student = request.user
+            start_time = request.session.get('evaluation_start_time')
+            user_agent = request.session.get('user_agent')
+            end_time = datetime.now()
+            start_time_dt = datetime.fromisoformat(start_time) if start_time else None
+            duration = end_time - start_time_dt if start_time_dt else None
+
+            EvaluationLog.objects.create(
+                evaluation=evaluation,
+                student=student,
+                start_time=start_time_dt,
+                end_time=end_time,
+                duration=duration,
+                user_agent=user_agent,
+                event_type=event_type
+            )
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
 
 
 @csrf_exempt

@@ -31,4 +31,5 @@ urlpatterns = [
     #API
     path('restful/', include(router.urls)),
     path('qr_login/', views.qr_login, name='qr_login'),
+    path('log_evaluation_event/', views.log_evaluation_event, name='log_evaluation_event'),
 ]

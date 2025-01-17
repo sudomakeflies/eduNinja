@@ -234,3 +234,9 @@ class UserAdmin(admin.ModelAdmin):
 # Register the User and Group models with the custom admin site
 custom_admin_site.register(User, UserAdmin)
 custom_admin_site.register(Group, admin.ModelAdmin)
+
+from .models import EvaluationLog
+@admin.register(EvaluationLog, site=custom_admin_site)
+class EvaluationLogAdmin(admin.ModelAdmin):
+    list_display = ['evaluation', 'student', 'timestamp', 'event_type']
+    list_filter = ['evaluation', 'student', 'event_type']

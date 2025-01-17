@@ -165,3 +165,16 @@ class Answer(models.Model):
 
     class Meta:
         unique_together = ('evaluation', 'student')
+
+class EvaluationLog(models.Model):
+    evaluation = models.ForeignKey('Evaluation', on_delete=models.CASCADE, related_name='logs', db_index=True)
+    student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_index=True)
+    start_time = models.DateTimeField(null=True, blank=True)
+    end_time = models.DateTimeField(null=True, blank=True)
+    duration = models.DurationField(null=True, blank=True)
+    user_agent = models.TextField(blank=True, null=True)
+    event_type = models.CharField(max_length=100, blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    def __str__(self):
+        return f'{self.student.username} - {self.evaluation.name} - {self.timestamp}'
