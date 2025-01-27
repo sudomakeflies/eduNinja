@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q5" title="Cine y Boletas" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En la imagen, observa el valor de las entradas para adultos y niños en diferentes salas de cine.</p>
+        <p><img src="images/EA_MAT_8_2023_1_p5.png" /></p>
+        <p>Si se pagó $10.000 en total por una boleta de niño y una de adulto, ¿en cuál cine se compraron las boletas?</p>
+        <choiceInteraction responseIdentifier="RESPONSE5" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Cine 1</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Cine 2</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Cine 3</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Cine 4</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE5" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

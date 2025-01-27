@@ -1,0 +1,110 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q19" title="Bebederos para Aves" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Julián practica el avistamiento de aves en un parque cercano a su casa, y esta semana ha registrado en su bitácora las aves que ha observado y el día en el que fue observada.</p>
+        <table border="1">
+            <thead>
+                <tr>
+                <th>Ave</th>
+                <th>Día</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td>Golondrina</td>
+                <td>Lunes</td>
+                </tr>
+                <tr>
+                <td>Tingua</td>
+                <td>Lunes</td>
+                </tr>
+                <tr>
+                <td>Lechuza</td>
+                <td>Lunes</td>
+                </tr>
+                <tr>
+                <td>Tingua</td>
+                <td>Martes</td>
+                </tr>
+                <tr>
+                <td>Copetón</td>
+                <td>Martes</td>
+                </tr>
+                <tr>
+                <td>Copetón</td>
+                <td>Martes</td>
+                </tr>
+                <tr>
+                <td>Tingua</td>
+                <td>Miércoles</td>
+                </tr>
+                <tr>
+                <td>Colibrí</td>
+                <td>Miércoles</td>
+                </tr>
+                <tr>
+                <td>Copetón</td>
+                <td>Miércoles</td>
+                </tr>
+                <tr>
+                <td>Copetón</td>
+                <td>Jueves</td>
+                </tr>
+                <tr>
+                <td>Copetón</td>
+                <td>Jueves</td>
+                </tr>
+                <tr>
+                <td>Tingua</td>
+                <td>Jueves</td>
+                </tr>
+                <tr>
+                <td>Colibrí</td>
+                <td>Viernes</td>
+                </tr>
+                <tr>
+                <td>Tingua</td>
+                <td>Viernes</td>
+                </tr>
+                <tr>
+                <td>Copetón</td>
+                <td>Sábado</td>
+                </tr>
+                <tr>
+                <td>Tingua</td>
+                <td>Sábado</td>
+                </tr>
+                <tr>
+                <td>Golondrina</td>
+                <td>Sábado</td>
+                </tr>
+                <tr>
+                <td>Copetón</td>
+                <td>Domingo</td>
+                </tr>
+                <tr>
+                <td>Copetón</td>
+                <td>Domingo</td>
+                </tr>
+                <tr>
+                <td>Tingua</td>
+                <td>Domingo</td>
+                </tr>
+            </tbody>
+            </table>
+
+        <p>Se planea instalar unos bebederos para las aves que visitan con mayor frecuencia el parque. De acuerdo con la bitácora de Julián, ¿para cuál ave se instalarán los bebederos?</p>
+        <choiceInteraction responseIdentifier="RESPONSE19" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Golondrina.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Copetón.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Lechuza.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Tingua.</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE19" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

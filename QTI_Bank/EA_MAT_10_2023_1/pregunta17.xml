@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q17" title="Proyección de Usuarios de Juego" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Una empresa desarrolla un juego para computador. La gráfica muestra la proyección que hizo la empresa acerca de la cantidad de usuarios que tendrá el juego luego de su lanzamiento.</p>
+        <p><img src="images/EA_MAT_10_2023_1__page_9_Figure_14.jpeg" /></p>
+        <p>¿Qué ecuación corresponde con la gráfica que relaciona el tiempo (x) desde el lanzamiento del juego con la cantidad (y) de usuarios que tiene?</p>
+        <choiceInteraction responseIdentifier="RESPONSE17" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="True" identifier="ChoiceA">$y = x^2 + 3x - 9$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceB">$y = -x^2 + 9x$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceC">$y = x^2 + 2x - 6$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceD">$y = -x^2 + 6x$</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE17" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceD</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

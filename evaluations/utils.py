@@ -162,7 +162,9 @@ def parse_qti_file(file_path):
 def get_subject_from_path(file_path):
     parts = file_path.split(os.sep)
     for part in parts:
-        if part.startswith('Math_') or part.startswith('Physics_'):
+        if part in ['QTI_Bank']:
+            continue
+        if part and part != '':
             return part
     return 'General'
 

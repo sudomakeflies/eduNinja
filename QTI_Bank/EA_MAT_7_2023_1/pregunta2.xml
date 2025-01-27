@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q2" title="Promedio de Carlos" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Observa las notas obtenidas por Carlos en sus evaluaciones.</p>
+        <p><img src="images/EA_MAT_7_2023_1_p2.jpeg" /></p>
+        <p>Carlos necesita que el promedio (media) en sus evaluaciones sea mínimo 3,5. ¿Cuál es la mínima calificación que debe obtener en la nota 4?</p>
+        <choiceInteraction responseIdentifier="RESPONSE2" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">4,3</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">4,1</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">3,7</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">3,4</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE2" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

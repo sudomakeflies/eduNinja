@@ -1,0 +1,18 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q16" title="Aumento de Altura de Lucía" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Lucia registró el aumento de su altura durante 5 años consecutivos y determinó que la moda es 6,5 cm. Teniendo en cuenta la anterior información, ¿cuál gráfica podría corresponder a la cantidad de centímetros que aumentó cada año la altura de Lucia durante los últimos 5 años?</p>
+        <choiceInteraction responseIdentifier="RESPONSE16" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA" image="EA_MAT_8_2023_1_p16a.jpeg"></simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB" image="EA_MAT_8_2023_1_p16b.jpeg"></simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC" image="EA_MAT_8_2023_1_p16c.jpeg"></simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD" image="EA_MAT_8_2023_1_p16d.jpeg"></simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE16" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

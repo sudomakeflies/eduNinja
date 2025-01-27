@@ -1,0 +1,19 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q17" title="Ventas mensuales de dos productos" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Un agente de negocios analiza la cantidad de ventas mensuales de dos productos durante seis meses (ver gráfica).</p>
+        <p><img src="images/EA_MAT_11_2023_1__page_8_Figure_2.jpeg" /></p>
+        <p>De acuerdo con la información anterior, ¿cuál de las siguientes afirmaciones es verdadera?</p>
+        <choiceInteraction responseIdentifier="RESPONSE17" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Las ventas del producto 1 son directamente proporcionales al número del mes.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Las ventas del producto 1 son inversamente proporcionales al número del mes.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Las ventas del producto 2 son directamente proporcionales al número del mes.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Las ventas del producto 2 son inversamente proporcionales al número del mes.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE17" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

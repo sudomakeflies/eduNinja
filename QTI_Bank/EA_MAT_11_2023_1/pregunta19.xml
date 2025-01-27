@@ -1,0 +1,19 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q19" title="Lados Y y W paralelos" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>La figura muestra una construcción geométrica, con sus lados etiquetados.</p>
+        <p><img src="images/EA_MAT_11_2023_1__page_9_Figure_2.jpeg" /></p>
+        <p>¿Por qué los lados Y y W son paralelos?</p>
+        <choiceInteraction responseIdentifier="RESPONSE19" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Porque el lado W mide lo mismo que el lado X.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Porque el lado Y es perpendicular a X y el lado W es perpendicular a X.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Porque un cuadrilátero siempre tiene dos lados que son paralelos.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Porque un cuadrilátero con un ángulo recto siempre tiene lados paralelos.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE19" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

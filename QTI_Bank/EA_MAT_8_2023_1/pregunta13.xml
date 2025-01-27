@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q13" title="Posición en el Concurso" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>El profesor de Educación Física hizo un concurso con 4 estudiantes, los puso a trotar durante media hora, y midió la distancia recorrida por cada uno. Observa las distancias recorridas.</p>
+        <p><img src="images/EA_MAT_8_2023_1_p13.png" /></p>
+        <p>En el concurso, los puestos se ocuparon según la distancia recorrida, de mayor a menor. ¿Cuál de las siguientes tablas representa correctamente la posición que ocupó cada estudiante en el concurso?</p>
+        <choiceInteraction responseIdentifier="RESPONSE13" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Primero: Javier, Segundo: Viviana, Tercero: Leticia, Cuarto: Eduardo</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Primero: Viviana, Segundo: Javier, Tercero: Leticia, Cuarto: Eduardo</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Primero: Leticia, Segundo: Viviana, Tercero: Eduardo, Cuarto: Javier</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Primero: Eduardo, Segundo: Leticia, Tercero: Viviana, Cuarto: Javier</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE13" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

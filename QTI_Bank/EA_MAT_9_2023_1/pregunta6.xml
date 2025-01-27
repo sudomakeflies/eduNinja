@@ -1,0 +1,94 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q6" title="Tallas de Zapatos" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En una oficina la moda de las tallas de zapatos es 36. ¿Cuál de las siguientes tablas puede representar correctamente las tallas de zapatos de esa oficina?</p>
+        <choiceInteraction responseIdentifier="RESPONSE6" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">
+                <table border="1">
+                <tr>
+                    <th>Talla</th>
+                    <th>Cantidad de Personas</th>
+                </tr>
+                <tr>
+                    <td>36</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>38</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>42</td>
+                    <td>3</td>
+                </tr>
+                </table>
+            </simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">
+                <table border="1">
+                <tr>
+                    <th>Talla</th>
+                    <th>Cantidad de Personas</th>
+                </tr>
+                <tr>
+                    <td>36</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>38</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>42</td>
+                    <td>3</td>
+                </tr>
+                </table>
+            </simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">
+                <table border="1">
+                <tr>
+                    <th>Talla</th>
+                    <th>Cantidad de Personas</th>
+                </tr>
+                <tr>
+                    <td>36</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>38</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>42</td>
+                    <td>4</td>
+                </tr>
+                </table>
+            </simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">
+                <table border="1">
+                <tr>
+                    <th>Talla</th>
+                    <th>Cantidad de Personas</th>
+                </tr>
+                <tr>
+                    <td>36</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>38</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>42</td>
+                    <td>1</td>
+                </tr>
+                </table>
+            </simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE6" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

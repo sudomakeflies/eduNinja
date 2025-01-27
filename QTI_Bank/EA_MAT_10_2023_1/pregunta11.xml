@@ -1,0 +1,23 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q11" title="Conjuntos de Verduras" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En una casa viven dos personas y cada una realizó una compra de frutas y verduras.</p>
+        <p>La persona 1 compró lo presentado en el conjunto P1: P1= {Banano, Manzana, Cebolla, Zanahoria, Pepino}.</p>
+        <p>La persona 2 compró lo presentado en el conjunto P2: P2= {Mango, Piña, Banano, Cebolla, Espinaca}.</p>
+        <p>Alguien afirma que el conjunto de todas las verduras que compraron las dos personas se puede obtener mediante la siguiente operación entre conjuntos:</p>
+        <p>(P1 ∪ P2) ∩ V, donde el conjunto V es el conjunto de todas las verduras existentes.</p>
+        <p>¿Es verdadera la afirmación propuesta para determinar el total de verduras entre las dos personas?</p>
+        <choiceInteraction responseIdentifier="RESPONSE11" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">No, porque la operación realizada es equivalente a (P1 ∪ V) ∩ (P2 ∪ V) que corresponde a la unión de las verduras y la intersección (P1 ∩ P2), lo cual corresponde V ∪ {Banano}.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Sí, porque la operación (P1 ∪ P2) corresponde a los elementos comunes de ambos conjuntos y la intersección con V deja como resultado las verduras comunes en ambos conjuntos.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">No, porque la operación dentro del paréntesis debería ser (P1 ∩ P2) para escoger los elementos comunes de ambos conjuntos que corresponden a {Banano, Cebolla}.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Sí, porque la operación realizada es equivalente a (P1 ∩ V) ∪ (P2 ∩ V) que corresponde a la unión de las verduras de ambas personas.</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE11" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceD</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q12" title="Segmentos Paralelos del Octágono" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En clase de Geometría el profesor está mencionando algunas características geométricas de las señales de tránsito. Él afirmó que la señal de "PARE" está construida en un polígono regular llamado octágono y que varios de los segmentos de este polígono son paralelos.</p>
+        <p><img src="images/EA_MAT_8_2023_1_p12.jpeg" /></p>
+        <p>¿Cuáles son los segmentos paralelos del octágono?</p>
+        <choiceInteraction responseIdentifier="RESPONSE12" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">p y q; r y s; t y u; v y w</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">q y u; r y v; s y w; t y p</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">q y u; w y s; p y r; v y t</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">p, q y r; t, u y v</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE12" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

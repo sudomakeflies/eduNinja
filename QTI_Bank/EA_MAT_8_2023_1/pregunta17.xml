@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q17" title="Probabilidad de Esferas" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Para un juego se pone en una bolsa varias esferas de igual tamaño, unas son de caucho, otras de plástico y cada una está rellena de pintura. La tabla muestra la cantidad de esferas de cada tipo que hay en la bolsa y el color de pintura con la que están rellenas.</p>
+        <p><img src="images/EA_MAT_8_2023_1_p17.png" /></p>
+        <p>Si se elige al azar una esfera de la bolsa, ¿cuál es el color y material que tiene menor probabilidad de ser elegido?</p>
+        <choiceInteraction responseIdentifier="RESPONSE17" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Esferas verdes de caucho</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Esferas amarillas de plástico</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Esferas rojas de caucho</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Esferas azules de plástico</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE17" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

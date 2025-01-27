@@ -1,0 +1,61 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q11" title="Promedio de Pasajeros" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Una empresa de transporte ofrece 3 rutas para ir de una ciudad a otra. La tabla muestra la cantidad de pasajeros que transportó cada ruta en los cuatro primeros días de una semana.</p>
+        <table border="1">
+            <thead>
+                <tr>
+                <th>Día</th>
+                <th>Pasajeros Ruta #1</th>
+                <th>Pasajeros Ruta #2</th>
+                <th>Pasajeros Ruta #3</th>
+                <th>Promedio diario de pasajeros</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td>Lunes</td>
+                <td>10</td>
+                <td>12</td>
+                <td>11</td>
+                <td>11</td>
+                </tr>
+                <tr>
+                <td>Martes</td>
+                <td>12</td>
+                <td>13</td>
+                <td>11</td>
+                <td>12</td>
+                </tr>
+                <tr>
+                <td>Miércoles</td>
+                <td>10</td>
+                <td>10</td>
+                <td>10</td>
+                <td>10</td>
+                </tr>
+                <tr>
+                <td>Jueves</td>
+                <td>7</td>
+                <td>11</td>
+                <td>9</td>
+                <td>9</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>El jefe de transporte debe poner un bus adicional el día en el que se tenga el mayor promedio de pasajeros. ¿En qué día de la semana se debe poner el bus adicional?</p>
+        <choiceInteraction responseIdentifier="RESPONSE11" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Lunes</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Martes</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Miércoles</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Jueves</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE11" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

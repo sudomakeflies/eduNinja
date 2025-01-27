@@ -1,0 +1,13 @@
+{% extends "evaluations/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">Evaluación No Disponible</h4>
+        <p>Lo sentimos, la evaluación "{{ evaluation.name }}" no está disponible en este momento.</p>
+        <hr>
+        <p class="mb-0">Por favor, contacta con tu profesor para más información.</p>
+    </div>
+    <a href="{% url 'home' %}" class="btn btn-primary">Volver al Inicio</a>
+</div>
+{% endblock %}

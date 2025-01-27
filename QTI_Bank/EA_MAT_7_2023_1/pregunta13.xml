@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q13" title="Área del Salón" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Un salón con el piso cubierto de baldosas cuadradas, de área 4 dm2 , tiene la forma de la figura.</p>
+        <p><img src="images/EA_MAT_7_2023_1_p13.jpeg" /></p>
+        <p>¿Cuál es el área total del piso del salón?</p>
+        <choiceInteraction responseIdentifier="RESPONSE13" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="True" identifier="ChoiceA">$36 \times 2 \, dm^{2}$.</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceB">$24 \times 4 \, dm^{2}$.</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceC">$12 \times 2 \, dm^{2}$.</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceD">$6 \times 4 \, dm^{2}$.</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">True</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE13" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

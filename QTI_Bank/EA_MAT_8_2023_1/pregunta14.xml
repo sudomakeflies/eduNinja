@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q14" title="Cantidad de Agua en la Casa de Rosa" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>La imagen muestra los litros de agua que se utilizan diariamente para algunas actividades en la casa de Rosa.</p>
+        <p><img src="images/EA_MAT_8_2023_1_p14.jpeg" /></p>
+        <p>¿Cuál de las siguientes tablas corresponde a la cantidad de agua que se utiliza diariamente en la casa de Rosa?</p>
+        <choiceInteraction responseIdentifier="RESPONSE14" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Ducharse: 90 L, Cocinar: 20 L, Inodoro: 70 L, Lavar ropa: 110 L</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Ducharse: 9,0 L, Cocinar: 2,0 L, Inodoro: 7,0 L, Lavar ropa: 11,0 L</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Ducharse: 95 L, Cocinar: 20 L, Inodoro: 75 L, Lavar ropa: 110 L</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Ducharse: 9,5 L, Cocinar: 2,0 L, Inodoro: 7,5 L, Lavar ropa: 11,0 L</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE14" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

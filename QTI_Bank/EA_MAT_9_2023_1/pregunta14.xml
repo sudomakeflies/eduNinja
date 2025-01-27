@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q14" title="Dulces por Problemas Resueltos" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>La profesora de Matemáticas entregó a sus estudiantes una misma cantidad de dulces por cada problema resuelto correctamente en clase. Observa.</p>
+        <p><img src="images/EA_MAT_9_2023_1_p14.jpeg" /></p>
+        <p>Teniendo en cuenta la anterior información, ¿cuántos dulces recibe un estudiante si resuelve 5 problemas correctamente?</p>
+        <choiceInteraction responseIdentifier="RESPONSE14" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">15</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">10</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">6</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">2</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE14" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

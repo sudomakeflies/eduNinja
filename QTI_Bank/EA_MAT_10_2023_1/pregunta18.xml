@@ -1,0 +1,51 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q18" title="Dinero de las Amigas" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Cuatro amigas comparan el dinero que tuvieron durante el martes y miércoles:</p>
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+            </tr>
+            <tr>
+                <td>Paola</td>
+                <td>$8.000</td>
+                <td>$7.000</td>
+            </tr>
+            <tr>
+                <td>Erika</td>
+                <td>$7.000</td>
+                <td>$4.000</td>
+            </tr>
+            <tr>
+                <td>Tatiana</td>
+                <td>$5.000</td>
+                <td>$4.000</td>
+            </tr>
+            <tr>
+                <td>Laura</td>
+                <td>$6.000</td>
+                <td>$6.000</td>
+            </tr>
+            <tr>
+                <td>Promedio del día</td>
+                <td>$6.500</td>
+                <td>$5.250</td>
+            </tr>
+        </table>
+        <p>¿Cuánto dinero deberían haber reunido de más, en total, las cuatro amigas el miércoles para igualar el promedio de dinero del martes?</p>
+        <choiceInteraction responseIdentifier="RESPONSE18" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">$1.250</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">$4.000</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">$5.000</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">$6.500</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE18" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

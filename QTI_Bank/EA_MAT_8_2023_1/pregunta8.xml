@@ -1,0 +1,39 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q8" title="Crecimiento de Población de Mamíferos" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Un investigador quiere saber cómo aumenta la población de un tipo de mamífero. Para ello, ingresa una pareja de estos en un ecosistema limitado. El crecimiento de la población se registró en la tabla.</p>
+        <table border="1">
+            <thead>
+                <tr>
+                <th>Año</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td>Población</td>
+                <td>8</td>
+                <td>32</td>
+                <td>128</td>
+                <td>512</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Con los datos de la tabla, si se mantiene la relación entre el año y la cantidad, es correcto afirmar que la población de mamíferos</p>
+        <choiceInteraction responseIdentifier="RESPONSE8" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">aumentó 4 veces la cantidad del año anterior.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">aumentó 8 veces la cantidad del año anterior.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">aumentó 16 veces la cantidad del año anterior.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">aumentó 24 veces la cantidad del año anterior.</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE8" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

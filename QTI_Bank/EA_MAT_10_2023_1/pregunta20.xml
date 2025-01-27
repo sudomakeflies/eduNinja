@@ -1,0 +1,18 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q20" title="Crecimiento de Bacterias" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Un cultivo de bacterias empieza con una población de $2^{3}$ bacterias. Si la población se duplica cada hora, ¿cuántas bacterias tendrá el cultivo al cabo de 4 horas?</p>
+        <choiceInteraction responseIdentifier="RESPONSE20" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="True" identifier="ChoiceA">$2^{7}$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceB">$2^{5}$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceC">$2^{12}$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceD">$2^{64}$</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">True</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE20" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q5" title="Diseños de Zapatos" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Juan cuenta con 4 distintos tipos de tela y con suelas de 3 calibres (delgada, mediana y gruesa), para fabricar zapatos. Los diseños obtenidos se muestran en la figura.</p>
+        <p><img src="images/EA_MAT_9_2023_1_p5.jpeg" /></p>
+        <p>Si se escoge al azar uno de los diseños de zapato que Juan elabora, ¿cuál de los siguientes eventos tiene probabilidad de ocurrir?</p>
+        <choiceInteraction responseIdentifier="RESPONSE5" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA" image="EA_MAT_9_2023_1_p5a.png"></simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB" image="EA_MAT_9_2023_1_p5b.png"></simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC" image="EA_MAT_9_2023_1_p5c.png"></simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD" image="EA_MAT_9_2023_1_p5d.png"></simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE5" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

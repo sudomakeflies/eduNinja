@@ -1,0 +1,53 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q12" title="Fracción de Compañeros que Juegan Fútbol" adaptive="false" timeDependent="false">
+    <itemBody>
+        Un estudiante desea calcular la fracción de sus compañeros de salón a los que les gusta jugar fútbol. Para ello, dispone de la siguiente información:
+
+        - En su salón hay 18 niños y 24 niñas.
+        - A $\frac{2}{3}$ de los niños de su salón les gusta jugar fútbol.
+        - A $\frac{3}{4}$ de las niñas de su salón les gusta jugar fútbol.
+
+        Luego, el estudiante realiza el siguiente procedimiento:
+
+        1. Halla la cantidad de compañeros de salón, sumando la cantidad de niños y niñas:
+        $
+        18 + 24 = 42
+        $
+
+        2. Halla la cantidad de niños a los que les gusta jugar fútbol:
+        $
+        18 \times \frac{2}{3} = 12
+        $
+
+        3. Halla la cantidad de niñas a las que les gusta jugar fútbol:
+        $
+        24 \times \frac{3}{4} = 18
+        $
+
+        4. Suma la cantidad de niños y niñas a los que les gusta jugar fútbol:
+        $
+        12 + 18 = 30
+        $
+
+        5. Divide el resultado del paso anterior entre la cantidad total de estudiantes:
+        $
+        \frac{30}{42}
+        $
+
+        Al finalizar el procedimiento, el estudiante afirma que la razón de compañeros de salón a los que les gusta jugar fútbol es $\frac{30}{42}$. Sin embargo, su maestra le dice que cometió un error en el procedimiento.
+
+        ¿En qué paso cometió el error el estudiante?
+        <choiceInteraction responseIdentifier="RESPONSE12" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">En el paso 4, ya que es incorrecto sumar la cantidad de niños y niñas a los que les gusta jugar fútbol.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">En el paso 2, ya que le corresponde a la cantidad de niñas a las que les gusta jugar fútbol.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">En el paso 4, ya que la cantidad de niños y niñas a los que les gusta jugar fútbol es 30.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">En el paso 2, ya que la cantidad de niños a los que les gusta jugar fútbol es 12.</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">True</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE12" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceD</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q7" title="Cantidad de Agua en el Tanque" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En una finca se utilizó una manguera para llenar un tanque con agua. La gráfica muestra la cantidad de agua que había en el tanque en algunas horas del día.</p>
+        <p><img src="images/EA_MAT_9_2023_1_p7.jpeg" /></p>
+        <p>Teniendo en cuenta la tendencia de la gráfica, ¿cuál de los siguientes valores es una mejor aproximación de la cantidad de agua que había en el tanque a las 4 p. m.?</p>
+        <choiceInteraction responseIdentifier="RESPONSE7" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">70 litros</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">55 litros</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">45 litros</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">20 litros</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE7" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

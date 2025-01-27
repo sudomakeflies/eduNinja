@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q3" title="Relaciones Comerciales" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>La tabla muestra las relaciones de comercio, venta y compra de productos entre varios países.</p>
+        <p><img src="images/EA_MAT_11_2023_1_p3.png" /></p>
+        <p>De acuerdo con la información presentada, ¿cuál es la tabla que muestra las relaciones comerciales del país *W*?</p>
+        <choiceInteraction responseIdentifier="RESPONSE3" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA" image="EA_MAT_11_2023_1_p3a.png"></simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB" image="EA_MAT_11_2023_1_p3b.png"></simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC" image="EA_MAT_11_2023_1_p3c.png"></simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD" image="EA_MAT_11_2023_1_p3d.png"></simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE3" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

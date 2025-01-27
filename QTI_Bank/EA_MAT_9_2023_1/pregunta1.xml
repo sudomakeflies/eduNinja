@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q1" title="Rapidez del Helicóptero" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>La gráfica muestra la rapidez de un helicóptero durante los primeros 120 segundos de un recorrido.</p>
+        <p><img src="images/EA_MAT_9_2023_1_p1.jpeg" /></p>
+        <p>¿Cuál fue la máxima rapidez del helicóptero durante los primeros 120 segundos del recorrido?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">300 km/h</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">250 km/h</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">200 km/h</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">150 km/h</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

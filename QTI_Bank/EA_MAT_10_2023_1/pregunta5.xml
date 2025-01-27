@@ -1,0 +1,66 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q5" title="Ingresos del Colegio" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Un colegio registra la siguiente cantidad de inscritos por cada curso extraescolar que ofrece, dependiendo del número de sesiones semanales a las que asisten. Cada sesión dura una hora.</p>
+        <table border="1">
+            <thead>
+                <tr>
+                <th rowspan="2">Curso extracurricular</th>
+                <th colspan="3">Inscritos por número de sesiones semanales</th>
+                <th rowspan="2">Precio por sesión (pesos)</th>
+                </tr>
+                <tr>
+                <th>Una</th>
+                <th>Dos</th>
+                <th>Tres</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td>Deportes</td>
+                <td>60</td>
+                <td>40</td>
+                <td>20</td>
+                <td>30.000</td>
+                </tr>
+                <tr>
+                <td>Teatro</td>
+                <td>30</td>
+                <td>30</td>
+                <td>60</td>
+                <td>40.000</td>
+                </tr>
+                <tr>
+                <td>Música</td>
+                <td>50</td>
+                <td>20</td>
+                <td>20</td>
+                <td>50.000</td>
+                </tr>
+                <tr>
+                <td>Danza</td>
+                <td>50</td>
+                <td>20</td>
+                <td>40</td>
+                <td>50.000</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Para mostrar los ingresos que recibe semanalmente el colegio por estos cursos se propone la siguiente gráfica.</p>
+        <p><img src="images/EA_MAT_10_2023_1__page_3_Figure_5.jpeg" /></p>
+        <p>La gráfica presenta una inconsistencia porque los ingresos recibidos de los asistentes a</p>
+        <choiceInteraction responseIdentifier="RESPONSE5" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">una sesión de deportes deben ser mayores que los de las otras actividades.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">2 o 3 sesiones deben ser mayores en todas las actividades.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">danza y música deben ser los mismos sin importar las sesiones.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">3 sesiones de deportes o música deben tener barras iguales.</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE5" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

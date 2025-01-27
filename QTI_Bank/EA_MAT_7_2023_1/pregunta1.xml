@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q1" title="Juegos de Martín" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Martín es un jugador de voleibol que ganó el 50 % de los juegos en los que participó.</p>
+        <p><img src="images/EA_MAT_7_2023_1_p1.jpeg" /></p>
+        <p>Si en esta temporada Martín ganó 20 juegos, ¿en cuántos juegos participó él?</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">10 juegos.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">25 juegos.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">30 juegos.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">40 juegos.</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceD</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

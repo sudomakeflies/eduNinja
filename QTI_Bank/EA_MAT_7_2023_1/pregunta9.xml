@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q9" title="Probabilidad de Ganar" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En un concurso se da un premio a quien, sin ver, saque de un solo intento una bola negra de una bolsa. El participante tiene las siguientes opciones:</p>
+        <p><img src="images/EA_MAT_7_2023_1_p9.jpeg" /></p>
+        <p>¿Con cuál de las cuatro bolsas es más probable que gane el participante?</p>
+        <choiceInteraction responseIdentifier="RESPONSE9" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Con la 1.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Con la 2.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Con la 3.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Con la 4.</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE9" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

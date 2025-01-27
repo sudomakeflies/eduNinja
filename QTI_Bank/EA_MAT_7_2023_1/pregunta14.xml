@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q14" title="Probabilidad de Lluvia" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Entre los años 2010 y 2014, se observó si llovía o no en tres regiones distintas. Los resultados se muestran en las tablas 1, 2 y 3.</p>
+        <p><img src="images/EA_MAT_7_2023_1_p14.png" /></p>
+        <p>Utilizando únicamente la información de las tablas, se quiere estimar la probabilidad de que llueva durante el año 2015 en cada región. ¿A qué región o regiones le corresponde una probabilidad de lluvia mayor al 50 % para el año 2015?</p>
+        <choiceInteraction responseIdentifier="RESPONSE14" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Solamente a la región 1.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Región 1 y región 2.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Región 2 y región 3.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Solamente a la región 3.</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE14" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

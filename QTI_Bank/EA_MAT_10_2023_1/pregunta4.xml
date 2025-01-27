@@ -1,0 +1,66 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q4" title="Juegos Panamericanos" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Los Juegos Panamericanos se realizan cada cuatro años y en estos participan países de América, en diferentes disciplinas deportivas. La tabla muestra algunos datos de ocho versiones de los juegos.</p>
+        <table>
+            <tr>
+                <th>Año</th>
+                <th>1983</th>
+                <th>1987</th>
+                <th>1991</th>
+                <th>1995</th>
+                <th>1999</th>
+                <th>2003</th>
+                <th>2007</th>
+                <th>2011</th>
+            </tr>
+            <tr>
+                <td>Países</td>
+                <td>36</td>
+                <td>38</td>
+                <td>39</td>
+                <td>42</td>
+                <td>42</td>
+                <td>42</td>
+                <td>42</td>
+                <td>42</td>
+            </tr>
+            <tr>
+                <td>Deportes</td>
+                <td>22</td>
+                <td>27</td>
+                <td>34</td>
+                <td>33</td>
+                <td>34</td>
+                <td>35</td>
+                <td>39</td>
+                <td>49</td>
+            </tr>
+            <tr>
+                <td>Atletas</td>
+                <td>3.426</td>
+                <td>4.453</td>
+                <td>4.519</td>
+                <td>5.144</td>
+                <td>5.275</td>
+                <td>5.500</td>
+                <td>5.662</td>
+                <td>6.000</td>
+            </tr>
+        </table>
+        <p>Del total de atletas participantes en 2011, el 7 % compite en natación. Para determinar el número de atletas que compiten en natación ese año, se sugiere multiplicar 0,07 por el número de atletas que participaron en 2011.</p>
+        <p>¿Es correcto el procedimiento sugerido?</p>
+        <choiceInteraction responseIdentifier="RESPONSE4" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">No, pues se debe multiplicar 0,7 por el número de atletas.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Sí, solamente si el resultado obtenido es un número impar de nadadores.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">No, porque falta multiplicar el resultado por el número de países participantes.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Sí, porque multiplicar por 7 y dividir entre 100 es equivalente a multiplicar por 0,07.</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE4" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceD</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

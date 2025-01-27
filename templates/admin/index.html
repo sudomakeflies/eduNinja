@@ -1,28 +1,188 @@
 {% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+.dashboard {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    margin: 20px 0;
+}
+
+.module {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+}
+
+.module h2 {
+    border-radius: 8px 8px 0 0;
+    font-size: 16px;
+}
+
+.module table {
+    width: 100%;
+}
+
+.module tbody th, 
+.module tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.import-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background: linear-gradient(45deg, var(--secondary), #45a049);
+    color: white !important;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.import-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.recent-actions {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid #e0e0e0;
+}
+
+.recent-actions h2 {
+    border-radius: 8px 8px 0 0;
+    margin: 0;
+    padding: 12px;
+    font-size: 16px;
+    background: var(--primary);
+    color: white;
+}
+
+.recent-actions h3 {
+    font-size: 14px;
+    padding: 8px 12px;
+    margin: 0;
+    border-bottom: 1px solid #f0f0f0;
+    background: #f8f9fa;
+}
+
+.recent-actions ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.recent-actions li {
+    padding: 8px 12px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.recent-actions li:last-child {
+    border-bottom: none;
+}
+
+.app-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.app-item {
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s;
+}
+
+.app-item:hover {
+    background-color: #f8f9fa;
+}
+
+.app-item h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    color: var(--primary);
+}
+
+.model-list {
+    margin: 0;
+    padding-left: 20px;
+}
+</style>
+{% endblock %}
+
 {% block content %}
-    {{ block.super }}
-    <style>
-        .import-button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white !important;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-    </style>
-    
-    <div id="content-header">
-        {{ block.super }}
-        <div class="import-button-container">
-            <a href="{% url 'customadmin:import_users_csv' %}" class="import-button">Import Users from CSV</a>
+<div class="import-button-container" style="margin: 20px 0;">
+    <a href="{% url 'customadmin:import_users_csv' %}" class="import-button">
+        <i class="fas fa-file-import"></i> Import Users from CSV
+    </a>
+</div>
+
+<div class="dashboard">
+    <div class="main-content">
+        <div class="module">
+            <h2>{% trans 'Applications' %}</h2>
+            <ul class="app-list">
+            {% for app in app_list %}
+                <li class="app-item">
+                    <h3>{{ app.name }}</h3>
+                    <ul class="model-list">
+                    {% for model in app.models %}
+                        <li>
+                            {% if model.admin_url %}
+                                <a href="{{ model.admin_url }}">{{ model.name }}</a>
+                            {% else %}
+                                {{ model.name }}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+            </ul>
         </div>
     </div>
-    <style>
-        .import-button-container {
-            display: inline-block;
-            margin-left: 20px;
-        }
-    </style>
+    
+    <div class="sidebar">
+        {% if user.is_active and user.is_staff %}
+        <div class="recent-actions module">
+            <h2>{% trans 'Recent Actions' %}</h2>
+            {% load log %}
+            {% get_admin_log 10 as admin_log for_user user %}
+            {% if not admin_log %}
+                <p>{% trans 'None available' %}</p>
+            {% else %}
+                <ul class="actionlist">
+                {% for entry in admin_log %}
+                    <li>
+                        {% if entry.is_change %}
+                            <i class="fas fa-edit" style="color: #FFA000;"></i>
+                        {% elif entry.is_deletion %}
+                            <i class="fas fa-trash" style="color: #D32F2F;"></i>
+                        {% elif entry.is_addition %}
+                            <i class="fas fa-plus" style="color: #388E3C;"></i>
+                        {% endif %}
+                        
+                        {% if entry.is_deletion or not entry.get_admin_url %}
+                            {{ entry.object_repr }}
+                        {% else %}
+                            <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

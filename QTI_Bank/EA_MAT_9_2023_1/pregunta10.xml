@@ -1,0 +1,18 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q10" title="Probabilidad de Lorena" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>María, Pedro, Lorena y Rodrigo se postulan para protagonizar una obra de teatro. Como los 4 son muy buenos actores, el profesor decide elegir quién protagonizará la obra escribiendo sus nombres en un papel y seleccionando 1 de los 4 al azar. ¿Cuál es la probabilidad de que Lorena sea elegida?</p>
+        <choiceInteraction responseIdentifier="RESPONSE10" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="True" identifier="ChoiceA">$\frac{1}{2}$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceB">$\frac{1}{3}$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceC">$\frac{1}{4}$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceD">$\frac{1}{5}$</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">True</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE10" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

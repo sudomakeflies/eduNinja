@@ -1,14 +1,72 @@
 {% extends "admin/base.html" %}
 
+{% block extrastyle %}
+<style>
+:root {
+    --primary: #1e88e5;
+    --secondary: #4CAF50;
+    --accent: #ffcc00;
+    --primary-fg: #fff;
+}
+
+#header {
+    background: var(--primary);
+    color: var(--primary-fg);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#site-name a {
+    font-weight: 600;
+    font-size: 24px;
+    color: var(--primary-fg);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.server-info {
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 8px 15px;
+    margin: 10px 0;
+    display: inline-block;
+}
+
+.server-info span {
+    border: 2px solid var(--accent);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    background: rgba(255,255,255,0.1);
+}
+
+#user-tools {
+    font-size: 14px;
+    padding: 15px 0;
+}
+
+.module h2, .module caption {
+    background: var(--primary);
+    color: var(--primary-fg);
+    padding: 12px;
+}
+
+.submit-row input {
+    background: var(--secondary);
+}
+
+div.breadcrumbs {
+    background: #2196f3;
+    padding: 15px 20px;
+}
+</style>
+{% endblock %}
+
 {% block bodyclass %}{{ block.super }} app-{{ request.resolver_match.app_name }} model-{{ request.resolver_match.model_name }}{% endblock %}
 
 {% block branding %}
     <h1 id="site-name"><a href="{% url 'admin:index' %}">EduNinja Admin</a></h1>
-    <div style="margin: 10px 0; font-size: 14px; color: #fff;">
+    <div class="server-info">
         <strong>IP del servidor:</strong> 
-        <span style="border: 2px solid #ffcc00; padding: 3px 6px; border-radius: 4px; font-weight: bold;">
-            {{ host_ip }}
-        </span>
+        <span>{{ host_ip }}</span>
     </div>
 {% endblock %}
 

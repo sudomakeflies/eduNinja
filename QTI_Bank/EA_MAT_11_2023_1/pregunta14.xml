@@ -1,0 +1,82 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q14" title="Temperatura del motor en función del tiempo" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>La temperatura T, en grados centígrados, del motor de un camión durante los primeros 3 minutos se comporta según la siguiente expresión:
+        $T = 3^{(x+1)} + 10$
+        Donde x es el tiempo en minutos que el motor está en funcionamiento desde que se enciende. ¿Cuál de las siguientes tablas muestra correctamente algunos valores del tiempo en funcionamiento y la temperatura del motor?</p>
+        <choiceInteraction responseIdentifier="RESPONSE14" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">        
+            <table>
+                <tr>
+                    <th>x (minutos)</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                </tr>
+                <tr>
+                    <td>T (grados centígrados)</td>
+                    <td>13</td>
+                    <td>16</td>
+                    <td>19</td>
+                </tr>
+            </table>
+        </simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">
+                <table>
+                    <tr>
+                        <th>x (minutos)</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                    </tr>
+                    <tr>
+                        <td>T (grados centígrados)</td>
+                        <td>9</td>
+                        <td>27</td>
+                        <td>81</td>
+                    </tr>
+                </table>
+            </simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">
+                <table>
+                    <tr>
+                        <th>x (minutos)</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                    </tr>
+                    <tr>
+                        <td>T (grados centígrados)</td>
+                        <td>16</td>
+                        <td>19</td>
+                        <td>22</td>
+                    </tr>
+                </table>
+            </simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">
+                <table>
+                    <tr>
+                        <th>D.</th>
+                        <th>x (minutos)</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>T (grados centígrados)</td>
+                        <td>19</td>
+                        <td>37</td>
+                        <td>91</td>
+                    </tr>
+                </table>
+            </simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">True</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE14" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceD</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

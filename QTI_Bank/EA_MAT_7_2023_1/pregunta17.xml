@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q17" title="Factura de Jorge" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Jorge compró algunos implementos de aseo, observa la factura:</p>
+        <p><img src="images/EA_MAT_7_2023_1_p17.png" /></p>
+        <p>¿Cuál de las siguientes operaciones es equivalente al valor total de la factura de Jorge?</p>
+        <choiceInteraction responseIdentifier="RESPONSE17" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="True" identifier="ChoiceA">$3 \times (\$38.000) + 5 \times (\$25.000)$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceB">$(3 + 5) \times (\$38.000 + \$25.000)$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceC">$((3 \times 2) + (5 \times 2)) \times (\$25.000 + \$38.000)$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceD">$3 \times (\$25.000) + 5 \times (\$38.000)$</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">True</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE17" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q10" title="Costo de Envío" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Un servicio de mensajería tiene un costo básico de $5.000 para los envíos que tengan un peso menor a 5 kg. Si el peso del paquete es mayor que 5 kg, el costo del envío aumenta, de la forma en que se muestra en la gráfica:</p>
+        <p><img src="images/EA_MAT_8_2023_1_p10.jpeg" /></p>
+        <p>De acuerdo con la gráfica, ¿cuál es el tipo de relación que hay entre el peso del paquete y el costo del envío cuando el paquete pesa entre 5 kg y 10 kg?</p>
+        <choiceInteraction responseIdentifier="RESPONSE10" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Hay una relación cuadrática entre el peso del paquete y el costo del envío.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Hay una relación lineal creciente entre el peso del paquete y el costo del envío.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Hay una relación lineal decreciente entre el peso del paquete y el costo del envío.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Hay una relación constante entre el peso del paquete y el costo del envío.</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE10" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

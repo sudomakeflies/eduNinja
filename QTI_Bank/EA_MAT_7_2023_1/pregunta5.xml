@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q5" title="Juego de Tablero" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En un juego de tablero, las fichas se ubican como se muestra en la figura.</p>
+        <p><img src="images/EA_MAT_7_2023_1_p5.jpeg" /></p>
+        <p>Un jugador mueve la ficha que se encuentra en la posición (K, 1) tres unidades hacia la izquierda y dos unidades hacia arriba. La posición final de la ficha es:</p>
+        <choiceInteraction responseIdentifier="RESPONSE5" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">(K, 2)</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">(I, 4)</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">(H, 3)</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">(J, 1)</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE5" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

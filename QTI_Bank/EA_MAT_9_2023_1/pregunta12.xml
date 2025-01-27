@@ -1,0 +1,19 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q12" title="Vueltas de la Llanta" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>La cantidad de vueltas que da una llanta para recorrer un metro es igual a 100 dividido entre el perímetro de la llanta, donde el perímetro de la llanta se expresa en centímetros.</p>
+        <p>¿Cuál de las siguientes expresiones permite determinar la cantidad de vueltas que debe dar una llanta de perímetro *p* (en cm), para recorrer 150 metros?</p>
+        <choiceInteraction responseIdentifier="RESPONSE12" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="True" identifier="ChoiceA">$\frac{100}{150}$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceB">$150 \times \frac{P}{100}$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceC">$\frac{100}{P} \times 150$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceD">$\frac{100}{P}$</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">True</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE12" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

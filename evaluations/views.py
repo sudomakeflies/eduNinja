@@ -57,6 +57,11 @@ class EvaluationListView(ListView):
 def take_evaluation(request, pk):
     #evaluation = get_object_or_404(Evaluation, pk=pk)
     evaluation = get_object_or_404(Evaluation.objects.select_related('course').prefetch_related('questions'), pk=pk)
+    
+    # Check if evaluation is active
+    if not evaluation.is_active:
+        return render(request, 'evaluations/evaluation_inactive.html', {'evaluation': evaluation})
+        
     student = request.user
     request.session['evaluation_start_time'] = str(datetime.now())
     request.session['user_agent'] = request.META.get('HTTP_USER_AGENT', '')
@@ -181,22 +186,25 @@ def log_evaluation_event(request):
                 return JsonResponse({'status': 'error', 'message': 'Missing required fields'}, status=400)
 
             evaluation = get_object_or_404(Evaluation, pk=evaluation_id)
-            student = request.user
-            start_time = request.session.get('evaluation_start_time')
-            user_agent = request.session.get('user_agent')
-            end_time = datetime.now()
-            start_time_dt = datetime.fromisoformat(start_time) if start_time else None
-            duration = end_time - start_time_dt if start_time_dt else None
+            
+            # Only log if logging is enabled for this evaluation
+            if evaluation.enable_logs:
+                student = request.user
+                start_time = request.session.get('evaluation_start_time')
+                user_agent = request.session.get('user_agent')
+                end_time = datetime.now()
+                start_time_dt = datetime.fromisoformat(start_time) if start_time else None
+                duration = end_time - start_time_dt if start_time_dt else None
 
-            EvaluationLog.objects.create(
-                evaluation=evaluation,
-                student=student,
-                start_time=start_time_dt,
-                end_time=end_time,
-                duration=duration,
-                user_agent=user_agent,
-                event_type=event_type
-            )
+                EvaluationLog.objects.create(
+                    evaluation=evaluation,
+                    student=student,
+                    start_time=start_time_dt,
+                    end_time=end_time,
+                    duration=duration,
+                    user_agent=user_agent,
+                    event_type=event_type
+                )
             return JsonResponse({'status': 'success'})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)

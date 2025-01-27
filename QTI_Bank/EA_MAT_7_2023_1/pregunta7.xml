@@ -1,0 +1,22 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q7" title="Distribución de Dinero" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Carlos distribuyó entre sus tres hijos una cantidad de dinero, así:</p>
+        <p>- José recibió el 35 % del dinero.</p>
+        <p>- María recibió el 40 % del dinero.</p>
+        <p>- Luis recibió el 25 % del dinero.</p>
+        <p>¿Cuál de las siguientes afirmaciones es correcta respecto a la cantidad de dinero recibida?</p>
+        <choiceInteraction responseIdentifier="RESPONSE7" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">María fue quien recibió más dinero y José quien menos recibió.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">José fue quien recibió más dinero y Luis quien menos recibió.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">María fue quien recibió más dinero y Luis quien menos recibió.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">José fue quien recibió más dinero y María quien menos recibió.</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE7" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

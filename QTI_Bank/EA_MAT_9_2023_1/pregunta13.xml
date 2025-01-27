@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q13" title="Número de Boletas" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Camilo, Juan, Santiago y Mateo compraron boletas para subir a una atracción de un parque de diversiones, de modo que el número de la boleta aumenta siempre en 50 con respecto a la anterior. En la imagen se muestra el orden en que compraron las boletas y el número que le correspondió a Camilo.</p>
+        <p><img src="images/EA_MAT_9_2023_1_p13.jpeg" /></p>
+        <p>Si el último en comprar la boleta fue Mateo, ¿qué número de boleta le corresponde?</p>
+        <choiceInteraction responseIdentifier="RESPONSE13" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">1.750</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">1.600</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">1.550</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">1.500</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE13" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

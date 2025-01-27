@@ -21,7 +21,7 @@ urlpatterns = [
     path('accounts/profile/', profile, name='profile'),  # Perfil de usuario
     path('profile/edit/', edit_profile, name='edit_profile'),
     path('accounts/register/', register, name='register'),  # Registro de usuario
-    path('', RedirectView.as_view(url='/api/evaluations/', permanent=True)),  # Redirige la raíz a `/api/evaluations/`
+    path('', RedirectView.as_view(url='/api/', permanent=True)),  # Redirige la raíz a `/api/evaluations/`
     #path('__debug__/', include('debug_toolbar.urls')),
 ] + staticfiles_urlpatterns()
 

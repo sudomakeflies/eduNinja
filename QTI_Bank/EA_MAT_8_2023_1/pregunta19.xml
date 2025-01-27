@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q19" title="Área del Círculo" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Un estudiante dibujó un círculo como se muestra a continuación.</p>
+        <p><img src="images/EA_MAT_8_2023_1_p19.jpeg" /></p>
+        <p>Como el área de un círculo de radio r es $πr^2$, ¿cuál es el área del círculo que dibujó el estudiante?</p>
+        <choiceInteraction responseIdentifier="RESPONSE19" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="True" identifier="ChoiceA">$16π$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceB">$4π$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceC">$64π$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceD">$8π$</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">True</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE19" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

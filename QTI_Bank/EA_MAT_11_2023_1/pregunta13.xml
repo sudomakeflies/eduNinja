@@ -1,0 +1,19 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q13" title="Área total de la figura compuesta" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>La siguiente figura está compuesta por los cuadrados P y R y el triángulo rectángulo S.</p>
+        <p><img src="images/EA_MAT_11_2023_1__page_6_Figure_12.jpeg" /></p>
+        <p>Si el área del cuadrado R es 36 m² y el área del cuadrado P es 64 m², ¿cuál es el área total de la figura?</p>
+        <choiceInteraction responseIdentifier="RESPONSE13" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">48 m²</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">100 m²</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">124 m²</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">148 m²</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE13" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

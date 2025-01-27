@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q4" title="Costo de Transporte" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>El cobro de un servicio de transporte privado se hace teniendo en cuenta una "unidad". El valor de la unidad varía según la hora del día, como se muestra en la gráfica.</p>
+        <p><img src="images/EA_MAT_8_2023_1_p4.jpeg" /></p>
+        <p>¿Cuál es la hora del día en la que se paga el valor máximo por unidad?</p>
+        <choiceInteraction responseIdentifier="RESPONSE4" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">3 p. m.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">5 p. m.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">6 p. m.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">9 p. m.</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE4" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

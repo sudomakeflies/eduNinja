@@ -18,7 +18,6 @@ class UserProfile(models.Model):
         return f'{self.user.username} - {self.grado}'
 
 
-
 class Course(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -34,35 +33,13 @@ class Option(models.Model):
     def __str__(self):
         return str(self.pk)
 
-class Question(models.Model):
-    SUBJECT_CHOICES = (
-    ('Math_Algebra', 'Matemáticas - Álgebra'),
-    ('Math_Statistics', 'Matemáticas - Estadística'),
-    ('Math_Geometry', 'Matemáticas - Geometría'),
-    ('Math_Calculus', 'Matemáticas - Cálculo'),
-    ('Math_Trigonometry', 'Matemáticas - Trigonometría'),
-    ('Math_Probability', 'Matemáticas - Probabilidad'),
-    ('Math_Number Theory', 'Matemáticas - Teoría de Números'),
-    ('Math_Logic', 'Matemáticas - Lógica'),
-    ('Math_Graphics', 'Matemáticas - Gráficos'),
-    ('Math_Tables', 'Matemáticas - Tablas'),
-    ('Physics_Kinematics', 'Física - Cinemática'),
-    ('Physics_Waves', 'Física - Ondas'),
-    ('Physics_Thermodynamics', 'Física - Termodinámica'),
-    ('Physics_Electromagnetism', 'Física - Electromagnetismo'),
-    ('Physics_Optics', 'Física - Óptica'),
-    ('Physics_Mechanics', 'Física - Mecánica'),
-    ('Physics_Acoustics', 'Física - Acústica'),
-    ('Physics_Astronomy', 'Física - Astronomía'),
-    ('Physics_Nuclear Physics', 'Física - Física Nuclear'),
-    ('Physics_Relativity', 'Física - Relatividad'),
-    ('Physics_Particle Physics', 'Física - Física de Partículas'),
-    ('Physics_Dynamics', 'Física - Dinámica'),
-    ('Physics_Energy', 'Física - Energía'),
-    # Puedes agregar más subcategorías según sea necesario
-    ('Technology', 'Tecnología y sociedad'),
-)
+# Dynamically generate SUBJECT_CHOICES from QTI_Bank subdirectories
+import os
+QTI_BANK_PATH = 'QTI_Bank'
+subdirectories = [d for d in os.listdir(QTI_BANK_PATH) if os.path.isdir(os.path.join(QTI_BANK_PATH, d))]
+SUBJECT_CHOICES = tuple((subdir, subdir.replace('_', ' ').title()) for subdir in subdirectories)
 
+class Question(models.Model):
     
     DIFFICULTY_CHOICES = (
         ('Easy', 'Fácil'),
@@ -102,6 +79,8 @@ class Evaluation(models.Model):
         default=timedelta(hours=1.7), 
         help_text="Tiempo límite para la evaluación (HH:MM:SS)"
     )
+    is_active = models.BooleanField(default=True, help_text="If enabled, students can take this evaluation")
+    enable_logs = models.BooleanField(default=True, help_text="If enabled, student activity will be logged")
     
     def __str__(self):
         return f'{self.name} - {self.date} - ´{self.period}'

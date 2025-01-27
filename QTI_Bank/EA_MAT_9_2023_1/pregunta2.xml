@@ -1,0 +1,18 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q2" title="Dinero de Felipe" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Felipe tiene $750.000 para viajar y sabe que cada día gastará $50.000. Si <b>y</b> representa la cantidad de dinero que le queda cada día del viaje, y <b>x</b> la cantidad de días que transcurren del viaje, ¿cuál de las siguientes ecuaciones le permitirá saber a Felipe qué día se quedará sin dinero?</p>
+        <choiceInteraction responseIdentifier="RESPONSE2" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="True" identifier="ChoiceA">$y = 700.000x$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceB">$y = 750.000x - 50.000$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceC">$y = 750.000 - 50.000x$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceD">$y = 50.000x + 750.000$</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE2" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

@@ -1,0 +1,69 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q3" title="Medallas Olímpicas" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>La tabla relaciona la cantidad de medallas obtenidas por algunos países en los Juegos Olímpicos del 2012.</p>
+        <table border="1">
+            <caption>Tomado y adaptado de: www.juegosenlondres2012.com</caption>
+            <thead>
+                <tr>
+                <th>País</th>
+                <th>Medallas de oro</th>
+                <th>Medallas de plata</th>
+                <th>Medallas de bronce</th>
+                <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td>Australia</td>
+                <td>7</td>
+                <td>16</td>
+                <td>12</td>
+                <td>35</td>
+                </tr>
+                <tr>
+                <td>Brasil</td>
+                <td>3</td>
+                <td>5</td>
+                <td>9</td>
+                <td>17</td>
+                </tr>
+                <tr>
+                <td>Canadá</td>
+                <td>1</td>
+                <td>5</td>
+                <td>12</td>
+                <td>18</td>
+                </tr>
+                <tr>
+                <td>Jamaica</td>
+                <td>4</td>
+                <td>4</td>
+                <td>4</td>
+                <td>12</td>
+                </tr>
+                <tr>
+                <td>Japón</td>
+                <td>7</td>
+                <td>14</td>
+                <td>17</td>
+                <td>38</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>¿Cuál de los siguientes diagramas representa la cantidad de medallas de oro y bronce conseguidas por Australia, Brasil y Jamaica?</p>
+        <choiceInteraction responseIdentifier="RESPONSE3" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA" image="EA_MAT_7_2023_1_p3a.png"></simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB" image="EA_MAT_7_2023_1_p3b.png"></simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC" image="EA_MAT_7_2023_1_p3c.png"></simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD" image="EA_MAT_7_2023_1_p3d.png"></simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE3" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceD</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

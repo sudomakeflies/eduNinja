@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q6" title="Promedio de Vida de Animales" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>La gráfica muestra el promedio de vida, en años, de algunos animales salvajes en una región de un país.</p>
+        <p><img src="images/EA_MAT_8_2023_1_p6.jpeg" /></p>
+        <p>¿Cuántas veces el promedio de vida de los guepardos es igual al promedio de vida de los elefantes?</p>
+        <choiceInteraction responseIdentifier="RESPONSE6" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">8</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">7</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">6</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">3</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE6" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q9" title="Congruencia de Fichas" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En la figura, las fichas 1 y 2 son cuadradas.</p>
+        <p><img src="images/EA_MAT_8_2023_1_p9.jpeg" /></p>
+        <p>¿Qué se le debe hacer a la ficha 1 para que sea congruente con la ficha 2?</p>
+        <choiceInteraction responseIdentifier="RESPONSE9" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Disminuir 4 cm a cada uno de sus lados.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Aumentar 2 cm a cada uno de sus lados.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Disminuir 2 cm solamente a dos de sus lados.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Aumentar 4 cm solamente a dos de sus lados.</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE9" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

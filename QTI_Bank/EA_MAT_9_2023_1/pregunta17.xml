@@ -1,0 +1,62 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q17" title="Probabilidad de Fichas" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Eduardo puso en una bolsa las fichas de un antiguo juego chino, en el que se usan fichas blancas y fichas negras de igual tamaño. Cada ficha tiene dibujada una figura geométrica y está clasificada en una categoría, par o impar. En la tabla se indica la cantidad de fichas de cada tipo que puso en la bolsa.</p>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th rowspan="2">Color</th>
+                    <th rowspan="2">Categoría</th>
+                    <th colspan="2">Figura geométrica</th>
+                    <th rowspan="2"></th>
+                </tr>
+                <tr>
+                    <th>Círculo</th>
+                    <th>Cuadrado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="2">Blanca</td>
+                    <td>Par</td>
+                    <td>12</td>
+                    <td>11</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Impar</td>
+                    <td>8</td>
+                    <td>15</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">Negra</td>
+                    <td>Par</td>
+                    <td>16</td>
+                    <td>20</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Impar</td>
+                    <td>10</td>
+                    <td>8</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Si se eligen al azar dos fichas de la bolsa, ¿cuáles de las siguientes fichas tienen la misma probabilidad de ser elegidas?</p>
+        <choiceInteraction responseIdentifier="RESPONSE17" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Una ficha blanca con un círculo y una ficha negra con un cuadrado.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Una ficha blanca con un cuadrado y una ficha negra con un círculo.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Una ficha blanca de categoría par con un cuadrado y una ficha negra de categoría impar con un círculo.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Una ficha blanca de categoría impar con un círculo y una ficha negra de categoría par con un cuadrado.</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE17" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

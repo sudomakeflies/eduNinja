@@ -3,7 +3,20 @@
 {% block title %}Inicio{% endblock %}
 
 {% block content %}
-<h1>Cursos Disponibles</h1>
+<div class="jumbotron">
+    <h1 class="display-4">¡Bienvenido a eduNinja!</h1>
+    <p class="lead">Tu plataforma de evaluaciones offline para matemáticas y física.</p>
+    <hr class="my-4">
+    <p>eduNinja es una herramienta diseñada para facilitar la evaluación del aprendizaje en matemáticas y física. Nuestras principales características incluyen:</p>
+    <ul>
+        <li>Evaluaciones que funcionan sin conexión a internet</li>
+        <li>Colección extensa de problemas de matemáticas y física</li>
+        <li>Retroalimentación inmediata sobre tu desempeño</li>
+        <li>Interfaz intuitiva y fácil de usar</li>
+    </ul>
+</div>
+
+<h2>Cursos Disponibles</h2>
 <ul class="list-group">
     {% for course in courses %}
         <li class="list-group-item">

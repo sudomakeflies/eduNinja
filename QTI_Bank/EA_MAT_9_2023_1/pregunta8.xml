@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q8" title="Libros en la Biblioteca" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Observa en la tabla la información correspondiente a la cantidad de libros que hay en la biblioteca de un colegio.</p>
+        <p><img src="images/EA_MAT_9_2023_1_p8.png" /></p>
+        <p>Si se elige un libro al azar de la biblioteca, ¿de qué materia es más probable que sea?</p>
+        <choiceInteraction responseIdentifier="RESPONSE8" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Matemáticas</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Sociales</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Dibujo</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Ciencias</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE8" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

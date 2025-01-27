@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q7" title="Baldosas en Piscinas" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>El dueño de un parque recreativo planea construir tres piscinas y decorar sus bordes con baldosas blancas y azules, tal como se muestra en las figuras 1, 2 y 3.</p>
+        <p><img src="images/EA_MAT_11_2023_1__page_3_Figure_14.jpeg" /></p>
+        <p>Según la observación de las figuras 1, 2 y 3, puede afirmarse correctamente que el número de baldosas</p>
+        <choiceInteraction responseIdentifier="RESPONSE7" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">azules se incrementa en seis de una piscina a la del siguiente tamaño.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">blancas aumenta en ocho a medida que crece el tamaño de las piscinas.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">azules es el doble de la cantidad de baldosas blancas en cada piscina.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">blancas es la tercera parte de la cantidad de las baldosas azules.</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE7" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

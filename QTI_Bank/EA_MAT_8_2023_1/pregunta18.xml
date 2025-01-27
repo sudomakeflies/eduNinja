@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q18" title="Transformación de la Estrella" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Liz ubicó una linterna detrás de una estrella de cartón para proyectar su sombra en la pared.</p>
+        <p><img src="images/EA_MAT_8_2023_1_p18.jpeg" /></p>
+        <p>¿Qué tipo de transformación relaciona la estrella de cartón con su sombra en la pared?</p>
+        <choiceInteraction responseIdentifier="RESPONSE18" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Traslación</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Reflexión</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Homotecia</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Reducción</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE18" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

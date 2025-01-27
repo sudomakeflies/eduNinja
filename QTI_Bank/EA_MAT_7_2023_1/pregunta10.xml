@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q10" title="Ventas de Libros" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>La gráfica muestra información sobre las ventas de dos libros durante los tres primeros meses del año.</p>
+        <p><img src="images/EA_MAT_7_2023_1_p10.jpeg" /></p>
+        <p>En febrero, ¿cuál fue la cantidad de ejemplares vendidos del libro 1?</p>
+        <choiceInteraction responseIdentifier="RESPONSE10" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">1.000</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">5.000</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">6.000</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">7.000</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE10" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

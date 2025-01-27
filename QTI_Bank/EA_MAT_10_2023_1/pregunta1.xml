@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q1" title="Sistemas de Iluminación" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>La tabla presenta información sobre características de tres sistemas de iluminación que proporcionan la misma intensidad de luz.</p>
+        <p><img src="images/EA_MAT_10_2023_1_p1.png" alt="Sistemas de Iluminación" /></p>
+        <p>Una compañía promociona el uso de bombillos LED, comparando en su publicidad, mediante una gráfica, la vida útil de estos con la de las lámparas LFC. La ilustración que aparece en la publicidad debería ser</p>
+        <choiceInteraction responseIdentifier="RESPONSE1" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA" image="EA_MAT_10_2023_1_p1a.png"></simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB" image="EA_MAT_10_2023_1_p1b.png"></simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC" image="EA_MAT_10_2023_1_p1c.png"></simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD" image="EA_MAT_10_2023_1_p1d.png"></simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE1" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

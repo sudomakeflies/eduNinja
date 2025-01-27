@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q7" title="Lanzamiento de Moneda" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Se tiene una moneda corriente, es decir, con la misma probabilidad de obtener cara o sello. El diagrama muestra los posibles resultados de lanzar la moneda tres veces al aire.</p>
+        <p><img src="images/EA_MAT_8_2023_1_p7.jpeg" /></p>
+        <p>Según el diagrama, ¿cuál de las siguientes afirmaciones es <strong>falsa</strong>?</p>
+        <choiceInteraction responseIdentifier="RESPONSE7" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Es posible hallar la cantidad de casos en los que se obtienen dos sellos consecutivos.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Es posible determinar la cantidad de casos en los que se obtiene únicamente caras.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Es posible determinar previamente si sale sello en el siguiente lanzamiento.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Es posible hallar la probabilidad de obtener una cara en los lanzamientos.</simpleChoice>
+        </choiceInteraction>
+        <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">False</qti:formatLatex>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE7" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

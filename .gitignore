@@ -35,3 +35,6 @@ local_settings.py
 .project
 .DS_Store
 Thumbs.db
+
+# students
+students.csv

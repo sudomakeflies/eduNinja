@@ -1,0 +1,18 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q12" title="Afirmación de Pilar sobre la velocidad del auto" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>La velocidad máxima de un auto es 100 km/h. Pilar afirma que, a su velocidad máxima, en 100 horas el auto avanzará 1 km.</p>
+        <p>¿Es verdadera la afirmación de Pilar?</p>
+        <choiceInteraction responseIdentifier="RESPONSE12" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">No, porque a la velocidad máxima en una hora recorrerá 100 km.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Sí, porque al dividir la velocidad máxima entre 100 horas se obtiene 1 km.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">No, porque en 100 horas el auto recorrerá 100 km.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Sí, porque al dividir 100 entre 1, se obtiene el valor 100.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE12" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceA</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>
