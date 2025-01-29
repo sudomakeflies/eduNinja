@@ -1,31 +1,159 @@
-<!-- personalized_learning/templates/personalized_learning/dashboard.html -->
-{% extends "personalized_learning/base.html" %}
+{% extends 'personalized_learning/base_learning.html' %}
+
+{% block title %}Learning Dashboard{% endblock %}
 
 {% block content %}
-    <h2>Dashboard</h2>
-    <ul>
-        {% for path in learning_paths %}
-            <li>
-                <a href="{% url 'learning_path' path.id %}">{{ path.course.title }}</a>
-                - Progress: {{ path.progress }}%
-            </li>
-        {% endfor %}
-    </ul>
+<div class="row">
+    <!-- Learning Paths Overview -->
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-route me-2"></i>Your Learning Paths
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if learning_paths %}
+                    {% for path in learning_paths %}
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="mb-0">{{ path.competency.name }}</h6>
+                            <span class="badge bg-primary">{{ path.get_progress|floatformat:0 }}%</span>
+                        </div>
+                        <div class="progress progress-indicator mb-2">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: {{ path.get_progress|floatformat:0 }}%" 
+                                 aria-valuenow="{{ path.get_progress|floatformat:0 }}" 
+                                 aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <small class="text-muted">Current Level: {{ path.current_level }}</small>
+                            <small class="text-muted">Target: {{ path.target_level }}</small>
+                        </div>
+                        <div class="mt-2">
+                            <a href="{% url 'personalized_learning:learning_path_detail' path.id %}" 
+                               class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-chevron-right me-1"></i>Continue Learning
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-book-reader fa-3x text-muted mb-3"></i>
+                        <p>No active learning paths yet.</p>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus me-1"></i>Start New Path
+                        </button>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
 
-    <h3>Adaptive Recommendations</h3>
-    <p>{{ adaptive_recommendations }}</p>
+        <!-- Recent Activities -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-history me-2"></i>Recent Activities
+                </h5>
+            </div>
+            <div class="list-group list-group-flush">
+                {% for activity in recent_activities %}
+                <div class="list-group-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">{{ activity.resource.title }}</h6>
+                        <small class="text-muted">
+                            {{ activity.started_at|timesince }} ago
+                        </small>
+                    </div>
+                    <p class="mb-1 text-muted">{{ activity.resource.description|truncatewords:20 }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small>
+                            <i class="fas fa-graduation-cap me-1"></i>
+                            {{ activity.learning_path.competency.name }}
+                        </small>
+                        {% if activity.completed_at %}
+                            <span class="badge bg-success">Completed</span>
+                        {% else %}
+                            <span class="badge bg-warning">In Progress</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                <div class="list-group-item text-center py-4">
+                    <p class="text-muted mb-0">No recent activities</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 
-    <h3>Ask for Tutoring Help</h3>
-    <form method="post" action="{% url 'get_tutoring_response' %}">
-        {% csrf_token %}
-        <label for="query">Your Question:</label>
-        <input type="text" id="query" name="query" required>
-        <label for="course_title">Course Title:</label>
-        <input type="text" id="course_title" name="course_title" required>
-        <button type="submit">Get Help</button>
-    </form>
-    {% if feedback %}
-    <h3>Tutoring Feedback</h3>
-    <p>{{ feedback }}</p>
-    {% endif %}
+    <!-- Recommendations Sidebar -->
+    <div class="col-md-4">
+        <!-- Learning Assistant -->
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                <i class="fas fa-robot fa-3x text-primary mb-3"></i>
+                <h5>Need Help?</h5>
+                <p class="text-muted">Chat with our AI Learning Assistant for guidance and support.</p>
+                <a href="{% url 'personalized_learning:chat_interface' %}" class="btn btn-primary">
+                    <i class="fas fa-comments me-1"></i>Start Chat
+                </a>
+            </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-lightbulb me-2"></i>Recommended Next Steps
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if recommendations.priority_competencies %}
+                    {% for priority in recommendations.priority_competencies %}
+                    <div class="mb-4">
+                        <h6 class="mb-3">{{ priority.competency }}</h6>
+                        {% for resource in priority.resources %}
+                        <div class="card resource-card mb-2">
+                            <div class="card-body">
+                                <h6 class="card-title">{{ resource.title }}</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="badge bg-info">
+                                        <i class="far fa-clock me-1"></i>
+                                        {{ resource.estimated_duration }} min
+                                    </span>
+                                    <a href="{% url 'personalized_learning:resource_detail' resource.id %}" 
+                                       class="btn btn-sm btn-outline-primary">
+                                        Start
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted text-center mb-0">
+                        <i class="fas fa-check-circle me-1"></i>
+                        You're all caught up!
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+});
+</script>
 {% endblock %}

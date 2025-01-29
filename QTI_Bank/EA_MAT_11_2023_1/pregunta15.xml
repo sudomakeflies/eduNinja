@@ -1,14 +1,14 @@
 <assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q15" title="Conjunto de valores de x para f(x)" adaptive="false" timeDependent="false">
     <itemBody>
-        <p>La cantidad de millones de bacterias vivas en un cultivo, después de aplicar un tratamiento, está dada por la expresión:</p>
-        <p>$f(x)=1+\sqrt{10-x}$</p>
-        <p>Donde <i>x</i> es el número de días que han pasado desde que se aplicó el tratamiento. ¿Cuál es el conjunto de todos los valores de <i>x</i> para el cual <i>f</i>(<i>x</i>) está definida?</p>
+        <p>La cantidad de millones de bacterias vivas en un cultivo, después de aplicar un tratamiento, está dada por la expresión:
+        $f(x)=1+\sqrt{10-x}$
+        Donde x es el número de días que han pasado desde que se aplicó el tratamiento. ¿Cuál es el conjunto de todos los valores de x para el cual f(x) está definida?</p>
         <choiceInteraction responseIdentifier="RESPONSE15" shuffle="true" maxChoices="1">
             <prompt>Selecciona una respuesta:</prompt>
             <simpleChoice is_latex="True" identifier="ChoiceA">$x \geq 10$</simpleChoice>
-            <simpleChoice is_latex="True" identifier="ChoiceB">$x > 10$</simpleChoice>
-            <simpleChoice is_latex="True" identifier="ChoiceC">$0 \geq x \leq 10$</simpleChoice>
-            <simpleChoice is_latex="True" identifier="ChoiceD">$0 < x < 10$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceB">$x &gt; 10$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceC">$0 \leq x \leq 10$</simpleChoice>
+            <simpleChoice is_latex="True" identifier="ChoiceD">$0 &lt; x &lt; 10$</simpleChoice>
         </choiceInteraction>
         <qti:formatLatex xmlns:qti="http://www.imsglobal.org/xsd/imsqti_v2p1">True</qti:formatLatex>
     </itemBody>

@@ -2,7 +2,7 @@
     <itemBody>
         <p>La tabla muestra las relaciones de comercio, venta y compra de productos entre varios países.</p>
         <p><img src="images/EA_MAT_11_2023_1_p3.png" /></p>
-        <p>De acuerdo con la información presentada, ¿cuál es la tabla que muestra las relaciones comerciales del país *W*?</p>
+        <p>De acuerdo con la información presentada, ¿cuál es la tabla que muestra las relaciones comerciales del país W?</p>
         <choiceInteraction responseIdentifier="RESPONSE3" shuffle="true" maxChoices="1">
             <prompt>Selecciona una respuesta:</prompt>
             <simpleChoice is_latex="False" identifier="ChoiceA" image="EA_MAT_11_2023_1_p3a.png"></simpleChoice>

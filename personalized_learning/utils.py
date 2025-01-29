@@ -1,90 +1,220 @@
-# utils.py
 import json
-#from .models import LearningPath
+from typing import Dict, List, Optional
+from django.contrib.auth.models import User
+from django.db.models import Avg, Q
+#import numpy as np
+import statistics
 
-def generate_adaptive_recommendations(student):
-    """
-    Generate adaptive recommendations for a student based on their learning paths and progress.
-    """
-    learning_paths = LearningPath.objects.filter(student=student)
-    recommendations = []
+def analyze_evaluation_results(student: User, evaluation_data: Dict) -> Dict:
+    """Analyze evaluation results to identify strengths and weaknesses"""
+    competency_scores = {}
+    for question in evaluation_data.get('questions', []):
+        competency = question.get('competency')
+        if competency:
+            if competency not in competency_scores:
+                competency_scores[competency] = []
+            competency_scores[competency].append(question.get('score', 0))
+    
+    analysis = {
+        'competency_averages': {},
+        'weak_areas': [],
+        'strong_areas': []
+    }
+    
+    for competency, scores in competency_scores.items():
+        avg = statistics.mean(scores)
+        analysis['competency_averages'][competency] = avg
+        if avg < 60:
+            analysis['weak_areas'].append(competency)
+        elif avg > 80:
+            analysis['strong_areas'].append(competency)
+    
+    return analysis
 
-    for path in learning_paths:
-        if path.progress < 50:
-            recommendations.append({
-                "course": path.course.title,
-                "recommendation": "Revisa los recursos recomendados y completa las tareas pendientes."
-            })
-        else:
-            recommendations.append({
-                "course": path.course.title,
-                "recommendation": "Continúa con las tareas y prepárate para la evaluación final."
-            })
-
-    if student.learning_style:
-        recommendations.append({
-            "learning_style": student.learning_style,
-            "recommendation": f"Para tu estilo de aprendizaje '{student.learning_style}', considera usar métodos de estudio específicos."
+def generate_adaptive_recommendations(student: User) -> Dict:
+    """Generate personalized learning recommendations based on student performance"""
+    from .models import CompetencyAssessment, StudentCompetency, LearningResource
+    
+    # Get student's recent assessments
+    recent_assessments = CompetencyAssessment.objects.filter(
+        student=student
+    ).order_by('-completed_at')[:5]
+    
+    # Get current competency levels
+    competency_levels = StudentCompetency.objects.filter(
+        student=student
+    ).select_related('competency')
+    
+    recommendations = {
+        'priority_competencies': [],
+        'suggested_resources': [],
+        'learning_path_adjustments': []
+    }
+    
+    # Identify areas needing improvement
+    weak_competencies = competency_levels.filter(level__lt=60)
+    for comp in weak_competencies:
+        # Find appropriate resources
+        resources = LearningResource.objects.filter(
+            competency=comp.competency,
+            difficulty_level__lte=3  # Start with easier resources
+        )[:3]
+        
+        recommendations['priority_competencies'].append({
+            'competency': comp.competency.name,
+            'current_level': comp.level,
+            'resources': list(resources.values('id', 'title', 'content_type', 'estimated_duration'))
         })
-
-    return json.dumps(recommendations)
-
-import requests
-import json
-
-def llm_feedback(context):
-    """
-    Integrate feedback from LLMs for a given assessment by making a real API call to Ollama server.
-    """
-    url = "http://localhost:11434/api/generate"
-
-    # Preparar el prompt con la información del contexto
-    prompt = f"""
-    Proporciona feedback detallado para el estudiante {context['student_name']} 
-    en el curso {context['course_name']} para la evaluación {context['evaluation_name']}.
     
-    Puntuación del estudiante: {context['score']} de {context['max_score']}
-    
-    Detalles de las preguntas y respuestas:
-    """
-    
-    for qa in context['questions_and_answers']:
-        prompt += f"""
-        Pregunta: {qa['question']}
-        Respuesta correcta: {qa['correct_answer']}
-        Respuesta del estudiante: {qa['student_answer']}
-        ¿Correcta?: {'Sí' if qa['is_correct'] else 'No'}
-        """
+    return recommendations
 
-    prompt += "\nPor favor, proporciona un feedback constructivo basado en este desempeño."
+def update_learning_path(student: User, competency_id: int) -> Dict:
+    """Update learning path based on student progress"""
+    from .models import LearningPath, LearningActivity, StudentCompetency
+    
+    try:
+        path = LearningPath.objects.get(
+            student=student,
+            competency_id=competency_id,
+            is_active=True
+        )
+        
+        # Calculate progress from activities
+        completed_activities = LearningActivity.objects.filter(
+            learning_path=path,
+            completed_at__isnull=False
+        ).count()
+        
+        total_activities = LearningActivity.objects.filter(
+            learning_path=path
+        ).count()
+        
+        if total_activities > 0:
+            progress = (completed_activities / total_activities) * 100
+            path.current_level = int(progress)
+            path.save()
+            
+        # Update student competency
+        student_comp, _ = StudentCompetency.objects.get_or_create(
+            student=student,
+            competency_id=competency_id
+        )
+        student_comp.level = path.current_level
+        student_comp.save()
+        
+        return {
+            'success': True,
+            'progress': path.current_level,
+            'completed_activities': completed_activities,
+            'total_activities': total_activities
+        }
+        
+    except LearningPath.DoesNotExist:
+        return {
+            'success': False,
+            'error': 'Learning path not found'
+        }
 
-    data = {
-        "model": "llama2",
-        "prompt": prompt,
-        "stream": False
+def process_markdown_content(content: str, metadata: Optional[Dict] = None) -> Dict:
+    """Process markdown content and extract metadata"""
+    from markdown import markdown
+    import re
+    
+    # Extract metadata if present
+    meta = metadata or {}
+    if content.startswith('---'):
+        meta_match = re.match(r'---\n(.*?)\n---\n(.*)', content, re.DOTALL)
+        if meta_match:
+            try:
+                meta.update(json.loads(meta_match.group(1)))
+                content = meta_match.group(2)
+            except json.JSONDecodeError:
+                pass
+    
+    # Convert markdown to HTML
+    html_content = markdown(content)
+    
+    # Extract images
+    image_pattern = r'!\[([^\]]*)\]\(([^)]+)\)'
+    images = re.findall(image_pattern, content)
+    
+    return {
+        'html': html_content,
+        'metadata': meta,
+        'images': images
     }
 
+def integrate_llm_feedback(assessment) -> str:
+    """Generate personalized feedback using LLM"""
     try:
-        response = requests.post(url, json=data, timeout=30)
-        response.raise_for_status()
+        from evaluations.llm_utils import get_llm_response
+        
+        # Prepare context for LLM
+        context = {
+            'competency': assessment.competency.name,
+            'score': assessment.score,
+            'student_level': assessment.student.competencies.get(
+                competency=assessment.competency
+            ).level
+        }
+        
+        # Generate feedback prompt
+        prompt = f"""
+        As an educational AI assistant, provide personalized feedback for a student's assessment:
+        
+        Competency: {context['competency']}
+        Score: {context['score']}
+        Current Level: {context['student_level']}
+        
+        Please provide:
+        1. A brief analysis of the performance
+        2. Specific areas for improvement
+        3. Actionable recommendations for learning
+        4. Encouragement and motivation
+        
+        Format the response in a clear, constructive manner.
+        """
+        
+        feedback = get_llm_response(prompt)
+        return feedback
+        
+    except Exception as e:
+        return f"Unable to generate feedback at this time. Error: {str(e)}"
 
-        llm_response = response.json()
-        feedback = llm_response.get('response', '').strip()
-
-        return json.dumps({
-            "student": context['student_name'],
-            "course": context['course_name'],
-            "evaluation": context['evaluation_name'],
-            "score": context['score'],
-            "feedback": feedback
-        })
-
-    except requests.RequestException as e:
-        print(f"Error making request to Ollama: {e}")
-        return json.dumps({
-            "student": context['student_name'],
-            "course": context['course_name'],
-            "evaluation": context['evaluation_name'],
-            "score": context['score'],
-            "feedback": "Error fetching feedback from LLM."
-        })
+def get_learning_recommendations(student: User, competency_id: int) -> List[Dict]:
+    """Get personalized learning resource recommendations"""
+    from .models import LearningResource, StudentCompetency
+    
+    try:
+        student_comp = StudentCompetency.objects.get(
+            student=student,
+            competency_id=competency_id
+        )
+        
+        # Adjust difficulty based on current level
+        if student_comp.level < 30:
+            max_difficulty = 2
+        elif student_comp.level < 60:
+            max_difficulty = 3
+        elif student_comp.level < 80:
+            max_difficulty = 4
+        else:
+            max_difficulty = 5
+            
+        # Get appropriate resources
+        resources = LearningResource.objects.filter(
+            competency_id=competency_id,
+            difficulty_level__lte=max_difficulty
+        ).order_by('difficulty_level')[:5]
+        
+        return [{
+            'id': r.id,
+            'title': r.title,
+            'type': r.get_content_type_display(),
+            'difficulty': r.difficulty_level,
+            'duration': r.estimated_duration,
+            'description': r.description
+        } for r in resources]
+        
+    except StudentCompetency.DoesNotExist:
+        return []

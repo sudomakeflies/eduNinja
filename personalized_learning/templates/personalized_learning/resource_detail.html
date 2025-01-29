@@ -1,0 +1,288 @@
+{% extends 'personalized_learning/base_learning.html' %}
+
+{% block title %}{{ resource.title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css">
+<style>
+.resource-content {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.resource-content img {
+    max-width: 100%;
+    height: auto;
+    margin: 1rem 0;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.resource-content pre {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+}
+
+.resource-content code {
+    background: #f8f9fa;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+}
+
+.resource-content blockquote {
+    border-left: 4px solid #007bff;
+    padding-left: 1rem;
+    margin: 1rem 0;
+    color: #6c757d;
+}
+
+.resource-content table {
+    width: 100%;
+    margin: 1rem 0;
+    border-collapse: collapse;
+}
+
+.resource-content th,
+.resource-content td {
+    padding: 0.75rem;
+    border: 1px solid #dee2e6;
+}
+
+.resource-content th {
+    background: #f8f9fa;
+}
+
+.feedback-container {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+}
+
+.resource-metadata {
+    font-size: 0.9rem;
+}
+
+.resource-metadata .badge {
+    font-size: 0.8rem;
+}
+
+.progress-tracker {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #e9ecef;
+    z-index: 1000;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #007bff;
+    width: 0;
+    transition: width 0.3s ease;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Reading Progress Tracker -->
+<div class="progress-tracker">
+    <div class="progress-bar" id="readingProgress"></div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <!-- Resource Header -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">{{ resource.title }}</h2>
+                <div class="resource-metadata d-flex flex-wrap gap-2 mb-3">
+                    <span class="badge bg-primary">
+                        <i class="fas fa-book me-1"></i>{{ resource.get_content_type_display }}
+                    </span>
+                    <span class="badge bg-info">
+                        <i class="far fa-clock me-1"></i>{{ resource.estimated_duration }} min
+                    </span>
+                    <span class="badge bg-secondary">
+                        <i class="fas fa-signal me-1"></i>Level {{ resource.difficulty_level }}
+                    </span>
+                    {% if activity.completed_at %}
+                    <span class="badge bg-success">
+                        <i class="fas fa-check me-1"></i>Completed
+                    </span>
+                    {% elif activity.progress > 0 %}
+                    <span class="badge bg-warning">
+                        <i class="fas fa-spinner me-1"></i>{{ activity.progress }}% Complete
+                    </span>
+                    {% endif %}
+                </div>
+                <p class="card-text">{{ resource.description }}</p>
+            </div>
+        </div>
+
+        <!-- Resource Content -->
+        <div class="card mb-4">
+            <div class="card-body resource-content">
+                {% if resource.content_type == 'MD' %}
+                    <div id="markdownContent">{{ content.html|safe }}</div>
+                {% else %}
+                    {{ content.html|default:resource.content|safe }}
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Completion Button -->
+        <div class="text-center mb-4">
+            {% if not activity.completed_at %}
+            <button id="completeButton" class="btn btn-primary btn-lg" data-activity-id="{{ activity.id }}">
+                <i class="fas fa-check me-2"></i>Mark as Complete
+            </button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Floating Feedback Button -->
+<div class="feedback-container">
+    <button class="btn btn-primary rounded-circle shadow" 
+            data-bs-toggle="modal" 
+            data-bs-target="#helpModal"
+            style="width: 60px; height: 60px;">
+        <i class="fas fa-robot fa-lg"></i>
+    </button>
+</div>
+
+<!-- Help Modal -->
+<div class="modal fade" id="helpModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Need Help Understanding?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Ask our AI Learning Assistant to help you understand this content better:</p>
+                <div class="mb-3">
+                    <textarea class="form-control" 
+                              id="questionInput" 
+                              rows="3"
+                              placeholder="Type your question here..."></textarea>
+                </div>
+                <div id="aiResponse" class="d-none alert alert-info">
+                    <!-- AI response will be inserted here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="askButton">
+                    <i class="fas fa-paper-plane me-1"></i>Ask
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize KaTeX rendering
+    renderMathInElement(document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "$", right: "$", display: false}
+        ]
+    });
+
+    // Initialize code syntax highlighting
+    Prism.highlightAll();
+
+    // Reading progress tracking
+    const progressBar = document.getElementById('readingProgress');
+    window.addEventListener('scroll', function() {
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight - windowHeight;
+        const scrolled = (window.scrollY / documentHeight) * 100;
+        progressBar.style.width = scrolled + '%';
+    });
+
+    // Handle resource completion
+    const completeButton = document.getElementById('completeButton');
+    if (completeButton) {
+        completeButton.addEventListener('click', function() {
+            const activityId = this.dataset.activityId;
+            
+            fetch(`/personalized-learning/activity/${activityId}/complete/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.reload();
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+
+    // Handle AI assistance
+    const askButton = document.getElementById('askButton');
+    const questionInput = document.getElementById('questionInput');
+    const aiResponse = document.getElementById('aiResponse');
+
+    askButton.addEventListener('click', function() {
+        const question = questionInput.value.trim();
+        if (!question) return;
+
+        askButton.disabled = true;
+        askButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Thinking...';
+        aiResponse.innerHTML = '';
+        aiResponse.classList.add('d-none');
+
+        fetch(`/personalized-learning/chat/resource-help/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            },
+            body: JSON.stringify({
+                resource_id: '{{ resource.id }}',
+                question: question
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            askButton.disabled = false;
+            askButton.innerHTML = '<i class="fas fa-paper-plane me-1"></i>Ask';
+            
+            if (data.success) {
+                aiResponse.innerHTML = data.response;
+                aiResponse.classList.remove('d-none');
+            } else {
+                aiResponse.innerHTML = 'Sorry, I encountered an error. Please try again.';
+                aiResponse.classList.remove('d-none');
+            }
+        })
+        .catch(error => {
+            askButton.disabled = false;
+            askButton.innerHTML = '<i class="fas fa-paper-plane me-1"></i>Ask';
+            aiResponse.innerHTML = 'Sorry, I encountered an error. Please try again.';
+            aiResponse.classList.remove('d-none');
+            console.error('Error:', error);
+        });
+    });
+});
+</script>
+{% endblock %}

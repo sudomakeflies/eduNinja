@@ -37,6 +37,7 @@ services:
     volumes:
       - .:/app
       - media_data:/app/media
+      - static_data:/app/staticfiles
     ports:
       - "8000:8000"
     depends_on:
@@ -64,10 +65,12 @@ services:
     restart: always
     volumes:
       - media_data:/app/media
+      - static_data:/app/static
 
 volumes:
   db_data:
   media_data:
+  static_data:
 
 networks:
   app_network:

@@ -1,0 +1,237 @@
+{% extends 'personalized_learning/base_learning.html' %}
+
+{% block title %}Learning Assistant Chat{% endblock %}
+
+{% block extra_css %}
+<style>
+.chat-bubble {
+    max-width: 80%;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.chat-bubble.student {
+    margin-left: auto;
+    background-color: #007bff;
+    color: white;
+    border-top-right-radius: 0;
+}
+
+.chat-bubble.ai {
+    margin-right: auto;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-top-left-radius: 0;
+}
+
+.chat-bubble .metadata {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+.typing-indicator {
+    display: none;
+    margin-bottom: 1rem;
+}
+
+.typing-indicator span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 3px;
+    background: #007bff;
+    border-radius: 50%;
+    animation: typing 1s infinite;
+}
+
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-robot me-2"></i>Learning Assistant
+                </h5>
+                {% if session.learning_path %}
+                <span class="badge bg-light text-primary">
+                    {{ session.learning_path.competency.name }}
+                </span>
+                {% endif %}
+            </div>
+            
+            <div class="chat-container">
+                <!-- Chat Messages -->
+                <div class="chat-messages" id="chatMessages">
+                    {% if not messages.object_list %}
+                        <!-- Welcome Message -->
+                        <div class="chat-bubble ai">
+                            <div class="content">
+                                <p>👋 Hello! I'm your AI Learning Assistant. I'm here to help you with your learning journey. You can ask me questions about:</p>
+                                <ul>
+                                    <li>Understanding difficult concepts</li>
+                                    <li>Getting learning recommendations</li>
+                                    <li>Study techniques and strategies</li>
+                                    <li>Progress tracking and next steps</li>
+                                </ul>
+                                <p>How can I help you today?</p>
+                            </div>
+                            <div class="metadata text-muted">
+                                <i class="fas fa-robot me-1"></i>LearnLM
+                            </div>
+                        </div>
+                    {% else %}
+                        {% for message in messages %}
+                            <div class="chat-bubble {% if message.is_student %}student{% else %}ai{% endif %}">
+                                <div class="content">
+                                    {% if message.is_student %}
+                                        {{ message.content }}
+                                    {% else %}
+                                        {{ message.content|safe|linebreaks }}
+                                    {% endif %}
+                                </div>
+                                <div class="metadata text-muted">
+                                    {% if message.is_student %}
+                                        <i class="fas fa-user me-1"></i>You
+                                    {% else %}
+                                        <i class="fas fa-robot me-1"></i>LearnLM
+                                    {% endif %}
+                                    <span class="ms-2">
+                                        {{ message.timestamp|timesince }} ago
+                                    </span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <!-- Typing Indicator -->
+                    <div class="typing-indicator chat-bubble ai" id="typingIndicator">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <!-- Chat Input -->
+                <div class="chat-input">
+                    <form id="chatForm" class="d-flex gap-2">
+                        {% csrf_token %}
+                        <input type="text" 
+                               class="form-control" 
+                               id="messageInput" 
+                               placeholder="Type your message here..."
+                               autocomplete="off"
+                               required>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatForm = document.getElementById('chatForm');
+    const messageInput = document.getElementById('messageInput');
+    const chatMessages = document.getElementById('chatMessages');
+    const typingIndicator = document.getElementById('typingIndicator');
+    
+    // Scroll to bottom of chat
+    function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    // Add a new message to the chat
+    function addMessage(content, isStudent = true) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `chat-bubble ${isStudent ? 'student' : 'ai'}`;
+        
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'content';
+        contentDiv.innerHTML = isStudent ? content : content.replace(/\n/g, '<br>');
+        
+        const metadataDiv = document.createElement('div');
+        metadataDiv.className = 'metadata text-muted';
+        metadataDiv.innerHTML = `
+            <i class="fas fa-${isStudent ? 'user' : 'robot'} me-1"></i>
+            ${isStudent ? 'You' : 'LearnLM'}
+            <span class="ms-2">just now</span>
+        `;
+        
+        messageDiv.appendChild(contentDiv);
+        messageDiv.appendChild(metadataDiv);
+        
+        chatMessages.insertBefore(messageDiv, typingIndicator);
+        scrollToBottom();
+    }
+    
+    // Show/hide typing indicator
+    function setTyping(isTyping) {
+        typingIndicator.style.display = isTyping ? 'block' : 'none';
+        scrollToBottom();
+    }
+    
+    // Handle form submission
+    chatForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const message = messageInput.value.trim();
+        if (!message) return;
+        
+        // Add user message
+        addMessage(message, true);
+        messageInput.value = '';
+        
+        // Show typing indicator
+        setTyping(true);
+        
+        // Send message to server
+        fetch(`/personalized-learning/chat/${sessionId}/message/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            },
+            body: JSON.stringify({
+                message: message
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            setTyping(false);
+            if (data.success) {
+                addMessage(data.response, false);
+            } else {
+                addMessage('Sorry, I encountered an error. Please try again.', false);
+            }
+        })
+        .catch(error => {
+            setTyping(false);
+            addMessage('Sorry, I encountered an error. Please try again.', false);
+            console.error('Error:', error);
+        });
+    });
+    
+    // Initial scroll to bottom
+    scrollToBottom();
+    
+    // Enable input after everything is loaded
+    messageInput.disabled = false;
+});
+</script>
+{% endblock %}

@@ -43,7 +43,6 @@
         </table>
         <p>Con respecto a la vertical, la torre se ha inclinado 4° como se muestra en la gráfica.</p>
         <p><img src="images/EA_MAT_11_2023_1__page_3_Picture_5.jpeg" /></p>
-        <p><img src="images/EA_MAT_11_2023_1__page_3_Picture_7.jpeg" /></p>
         <p>¿Cuánto mide el otro ángulo?</p>
         <choiceInteraction responseIdentifier="RESPONSE6" shuffle="true" maxChoices="1">
             <prompt>Selecciona una respuesta:</prompt>

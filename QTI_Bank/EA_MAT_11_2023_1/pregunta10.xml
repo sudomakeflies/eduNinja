@@ -1,6 +1,6 @@
 <assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q10" title="Selección de Canciones" adaptive="false" timeDependent="false">
     <itemBody>
-        <p>Para ambientar musicalmente una reunión, se cuenta con tres CD, cada uno de ellos tiene canciones de salsa (*S*) y merengue (*M*). ¿Cuál de los siguientes diagramas representa la situación de seleccionar al azar una canción del CD1, luego una del CD2 y finalmente una del CD3?</p>
+        <p>Para ambientar musicalmente una reunión, se cuenta con tres CD, cada uno de ellos tiene canciones de salsa (S) y merengue (M). ¿Cuál de los siguientes diagramas representa la situación de seleccionar al azar una canción del CD1, luego una del CD2 y finalmente una del CD3?</p>
         <choiceInteraction responseIdentifier="RESPONSE10" shuffle="true" maxChoices="1">
             <prompt>Selecciona una respuesta:</prompt>
             <simpleChoice is_latex="False" identifier="ChoiceA" image="EA_MAT_11_2023_1_p10a.png"></simpleChoice>

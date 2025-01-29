@@ -13,6 +13,7 @@ from evaluations.admin import custom_admin_site  # Import your custom admin site
 urlpatterns = [
     path('admin/', custom_admin_site.urls),
     path('api/', include('evaluations.urls')),  # Reemplaza 'evaluations' con el nombre de tu aplicación
+    path('pl/', include('personalized_learning.urls')),
     path('accounts/', include('django.contrib.auth.urls')),  # Incluye las URLs de autenticación de Django
     #path('silk/', include('silk.urls', namespace='silk')),
     #Auth views

@@ -203,7 +203,7 @@ def generate_qr_code(user, request):
     base_url = settings.HOSTNAME
     signer = TimestampSigner()
     token = signer.sign(str(user.id))  # Firma el user_id
-    login_url = f"{base_url}:8000/api/qr_login/?token={quote(token)}"
+    login_url = f"{base_url}/api/qr_login/?token={quote(token)}"
     
     qr = qrcode.QRCode(
         version=1,

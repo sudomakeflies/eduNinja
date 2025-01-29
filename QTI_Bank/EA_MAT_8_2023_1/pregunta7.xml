@@ -2,7 +2,7 @@
     <itemBody>
         <p>Se tiene una moneda corriente, es decir, con la misma probabilidad de obtener cara o sello. El diagrama muestra los posibles resultados de lanzar la moneda tres veces al aire.</p>
         <p><img src="images/EA_MAT_8_2023_1_p7.jpeg" /></p>
-        <p>Según el diagrama, ¿cuál de las siguientes afirmaciones es <strong>falsa</strong>?</p>
+        <p>Según el diagrama, ¿cuál de las siguientes afirmaciones es falsa?</p>
         <choiceInteraction responseIdentifier="RESPONSE7" shuffle="true" maxChoices="1">
             <prompt>Selecciona una respuesta:</prompt>
             <simpleChoice is_latex="False" identifier="ChoiceA">Es posible hallar la cantidad de casos en los que se obtienen dos sellos consecutivos.</simpleChoice>
