@@ -2,16 +2,12 @@
     <itemBody>
         <p>Los empaques de Tetra Pak MR son elaborados con cartón, polietileno y aluminio, distribuidos en 6 capas, lo cual evita el contacto del alimento con el medio externo. La gráfica muestra la distribución porcentual aproximada de los materiales de una lámina de Tetra Pak MR.</p>
         <p>Las 6 capas de la lámina se distribuyen así:</p>
-        <p>
-            <ul>
-                <li><strong>Primera capa.</strong> Polietileno: protege los alimentos de la humedad atmosférica externa.</li>
-                <li><strong>Segunda capa.</strong> Cartón: brinda resistencia, forma y estabilidad.</li>
-                <li><strong>Tercera capa.</strong> Polietileno: ofrece adherencia fijando las capas de papel y aluminio.</li>
-                <li><strong>Cuarta capa.</strong> Aluminio: evita la entrada de oxígeno y luz, y la pérdida de aromas.</li>
-                <li><strong>Quinta capa.</strong> Polietileno: evita que el alimento esté en contacto con el aluminio.</li>
-                <li><strong>Sexta capa.</strong> Polietileno: garantiza por completo la protección del alimento.</li>
-            </ul>
-        </p>
+        <p>Primera capa. Polietileno: protege los alimentos de la humedad atmosférica externa.</p>
+        <p>Segunda capa. Cartón: brinda resistencia, forma y estabilidad.</p>
+        <p>Tercera capa. Polietileno: ofrece adherencia fijando las capas de papel y aluminio.</p>
+        <p>Cuarta capa. Aluminio: evita la entrada de oxígeno y luz, y la pérdida de aromas.</p>
+        <p>Quinta capa. Polietileno: evita que el alimento esté en contacto con el aluminio.</p>
+        <p>Sexta capa. Polietileno: garantiza por completo la protección del alimento.</p>
         <p>De la información presentada se puede afirmar que en las láminas de Tetra Pak MR existe</p>
         <p><img src="images/EA_MAT_10_2023_1__page_5_Figure_3.jpeg" /></p>
         <choiceInteraction responseIdentifier="RESPONSE8" shuffle="true" maxChoices="1">

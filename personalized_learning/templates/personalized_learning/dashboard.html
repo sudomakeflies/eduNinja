@@ -43,9 +43,9 @@
                     <div class="text-center py-4">
                         <i class="fas fa-book-reader fa-3x text-muted mb-3"></i>
                         <p>No active learning paths yet.</p>
-                        <button class="btn btn-primary">
+                        <a href="{% url 'personalized_learning:new_learning_path' %}" class="btn btn-primary">
                             <i class="fas fa-plus me-1"></i>Start New Path
-                        </button>
+                        </a>
                     </div>
                 {% endif %}
             </div>

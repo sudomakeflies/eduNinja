@@ -1,30 +1,31 @@
 from django.contrib import admin
+from evaluations.admin import custom_admin_site
 from .models import (
     LearningStyle, Competency, StudentCompetency,
     LearningPath, LearningResource, LearningActivity,
     ChatSession, ChatMessage, CompetencyAssessment
 )
 
-@admin.register(LearningStyle)
+#@admin.register(LearningStyle)
 class LearningStyleAdmin(admin.ModelAdmin):
     list_display = ('student', 'get_dominant_style', 'last_updated')
     search_fields = ('student__username',)
     readonly_fields = ('last_updated',)
 
-@admin.register(Competency)
+#@admin.register(Competency)
 class CompetencyAdmin(admin.ModelAdmin):
     list_display = ('name', 'parent', 'description')
     search_fields = ('name', 'description')
     list_filter = ('parent',)
 
-@admin.register(StudentCompetency)
+#@admin.register(StudentCompetency)
 class StudentCompetencyAdmin(admin.ModelAdmin):
     list_display = ('student', 'competency', 'level', 'last_assessed')
     search_fields = ('student__username', 'competency__name')
     list_filter = ('level', 'last_assessed')
     readonly_fields = ('last_assessed',)
 
-@admin.register(LearningPath)
+#@admin.register(LearningPath)
 class LearningPathAdmin(admin.ModelAdmin):
     list_display = ('student', 'competency', 'current_level', 'target_level', 'is_active')
     search_fields = ('student__username', 'competency__name')
@@ -35,14 +36,14 @@ class LearningPathAdmin(admin.ModelAdmin):
         return f"{obj.get_progress():.1f}%"
     get_progress.short_description = 'Progress'
 
-@admin.register(LearningResource)
+#@admin.register(LearningResource)
 class LearningResourceAdmin(admin.ModelAdmin):
     list_display = ('title', 'content_type', 'competency', 'difficulty_level', 'estimated_duration')
     search_fields = ('title', 'description', 'competency__name')
     list_filter = ('content_type', 'difficulty_level', 'created_at')
     readonly_fields = ('created_at',)
 
-@admin.register(LearningActivity)
+#@admin.register(LearningActivity)
 class LearningActivityAdmin(admin.ModelAdmin):
     list_display = ('student', 'resource', 'progress', 'started_at', 'completed_at')
     search_fields = ('student__username', 'resource__title')
@@ -53,7 +54,7 @@ class LearningActivityAdmin(admin.ModelAdmin):
         return obj.resource.get_content_type_display()
     get_resource_type.short_description = 'Resource Type'
 
-@admin.register(ChatSession)
+#@admin.register(ChatSession)
 class ChatSessionAdmin(admin.ModelAdmin):
     list_display = ('student', 'created_at', 'last_interaction', 'get_message_count')
     search_fields = ('student__username',)
@@ -64,7 +65,7 @@ class ChatSessionAdmin(admin.ModelAdmin):
         return obj.messages.count()
     get_message_count.short_description = 'Messages'
 
-@admin.register(ChatMessage)
+#@admin.register(ChatMessage)
 class ChatMessageAdmin(admin.ModelAdmin):
     list_display = ('session', 'is_student', 'content_preview', 'timestamp')
     search_fields = ('content', 'session__student__username')
@@ -75,7 +76,7 @@ class ChatMessageAdmin(admin.ModelAdmin):
         return obj.content[:100] + '...' if len(obj.content) > 100 else obj.content
     content_preview.short_description = 'Content'
 
-@admin.register(CompetencyAssessment)
+#@admin.register(CompetencyAssessment)
 class CompetencyAssessmentAdmin(admin.ModelAdmin):
     list_display = ('student', 'competency', 'score', 'completed_at')
     search_fields = ('student__username', 'competency__name')
@@ -83,6 +84,16 @@ class CompetencyAssessmentAdmin(admin.ModelAdmin):
     readonly_fields = ('completed_at',)
 
 # Customize admin site header and title
-admin.site.site_header = 'Personalized Learning Administration'
-admin.site.site_title = 'Learning Management'
-admin.site.index_title = 'Administration Dashboard'
+# admin.site.site_header = 'Personalized Learning Administration'
+# admin.site.site_title = 'Learning Management'
+# admin.site.index_title = 'Administration Dashboard'
+
+custom_admin_site.register(Competency, CompetencyAdmin)
+custom_admin_site.register(LearningStyle, LearningStyleAdmin)
+custom_admin_site.register(StudentCompetency, StudentCompetencyAdmin)
+custom_admin_site.register(LearningPath, LearningPathAdmin)
+custom_admin_site.register(LearningResource, LearningResourceAdmin)
+custom_admin_site.register(LearningActivity, LearningActivityAdmin)
+custom_admin_site.register(ChatSession, ChatSessionAdmin)
+custom_admin_site.register(ChatMessage, ChatMessageAdmin)
+custom_admin_site.register(CompetencyAssessment, CompetencyAssessmentAdmin)

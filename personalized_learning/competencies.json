@@ -1,0 +1,162 @@
+{
+  "competencies": [
+    {
+      "name": "Matemáticas",
+      "description": "Competencias matemáticas fundamentales evaluadas en SABER 11, organizadas en niveles progresivos de dominio",
+      "sub_competencies": [
+        {
+          "name": "Pensamiento Numérico y Sistemas Numéricos",
+          "description": "Comprensión de números, operaciones y sus propiedades en diferentes contextos",
+          "sub_competencies": [
+            {
+              "name": "Interpretación y Representación Numérica",
+              "description": "Capacidad para comprender y manipular diferentes representaciones de números y cantidades"
+            },
+            {
+              "name": "Operaciones y Propiedades",
+              "description": "Dominio de operaciones básicas y avanzadas con números reales y sus propiedades"
+            },
+            {
+              "name": "Resolución de Problemas Numéricos",
+              "description": "Aplicación de conceptos numéricos en situaciones cotidianas y abstractas"
+            }
+          ]
+        },
+        {
+          "name": "Pensamiento Algebraico y Sistemas Algebraicos",
+          "description": "Comprensión y manipulación de relaciones y estructuras matemáticas abstractas",
+          "sub_competencies": [
+            {
+              "name": "Expresiones Algebraicas",
+              "description": "Manipulación y comprensión de expresiones algebraicas y sus transformaciones"
+            },
+            {
+              "name": "Funciones y Relaciones",
+              "description": "Análisis y representación de relaciones funcionales y sus propiedades"
+            },
+            {
+              "name": "Modelación Algebraica",
+              "description": "Traducción entre situaciones reales y modelos algebraicos"
+            }
+          ]
+        },
+        {
+          "name": "Pensamiento Geométrico y Sistemas Geométricos",
+          "description": "Comprensión y manipulación de formas, espacios y medidas",
+          "sub_competencies": [
+            {
+              "name": "Geometría Plana",
+              "description": "Análisis y aplicación de propiedades de figuras bidimensionales"
+            },
+            {
+              "name": "Geometría Espacial",
+              "description": "Comprensión y manipulación de objetos tridimensionales"
+            },
+            {
+              "name": "Transformaciones Geométricas",
+              "description": "Análisis de transformaciones y simetrías en el plano"
+            }
+          ]
+        },
+        {
+          "name": "Pensamiento Métrico y Sistemas de Medidas",
+          "description": "Comprensión y aplicación de conceptos de medición",
+          "sub_competencies": [
+            {
+              "name": "Sistemas de Medición",
+              "description": "Comprensión y uso de diferentes sistemas de medidas"
+            },
+            {
+              "name": "Estimación y Cálculo",
+              "description": "Desarrollo de estrategias de estimación y cálculo de medidas"
+            }
+          ]
+        },
+        {
+          "name": "Pensamiento Aleatorio y Sistemas de Datos",
+          "description": "Análisis de datos y probabilidad",
+          "sub_competencies": [
+            {
+              "name": "Análisis de Datos",
+              "description": "Interpretación y análisis de información estadística"
+            },
+            {
+              "name": "Probabilidad",
+              "description": "Comprensión y aplicación de conceptos probabilísticos"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Ciencias Naturales - Física",
+      "description": "Competencias en física evaluadas en SABER 11, organizadas por dominios conceptuales y habilidades científicas",
+      "sub_competencies": [
+        {
+          "name": "Mecánica Clásica",
+          "description": "Estudio del movimiento y las fuerzas",
+          "sub_competencies": [
+            {
+              "name": "Cinemática",
+              "description": "Análisis del movimiento en una y dos dimensiones"
+            },
+            {
+              "name": "Dinámica",
+              "description": "Estudio de las fuerzas y sus efectos en el movimiento"
+            },
+            {
+              "name": "Energía y Trabajo",
+              "description": "Comprensión y aplicación de conceptos de energía, trabajo y conservación"
+            }
+          ]
+        },
+        {
+          "name": "Fenómenos Ondulatorios",
+          "description": "Estudio de ondas y sus propiedades",
+          "sub_competencies": [
+            {
+              "name": "Ondas Mecánicas",
+              "description": "Análisis de ondas en medios materiales"
+            },
+            {
+              "name": "Acústica",
+              "description": "Estudio del sonido y sus propiedades"
+            }
+          ]
+        },
+        {
+          "name": "Termodinámica",
+          "description": "Estudio del calor y la energía térmica",
+          "sub_competencies": [
+            {
+              "name": "Temperatura y Calor",
+              "description": "Comprensión de conceptos básicos de temperatura y transferencia de calor"
+            },
+            {
+              "name": "Leyes de la Termodinámica",
+              "description": "Aplicación de las leyes fundamentales de la termodinámica"
+            }
+          ]
+        },
+        {
+          "name": "Competencias Científicas Transversales",
+          "description": "Habilidades científicas aplicables a todos los dominios de la física",
+          "sub_competencies": [
+            {
+              "name": "Pensamiento Científico",
+              "description": "Desarrollo de razonamiento y método científico"
+            },
+            {
+              "name": "Modelación Física",
+              "description": "Capacidad para crear y utilizar modelos físicos"
+            },
+            {
+              "name": "Experimentación",
+              "description": "Diseño y ejecución de experimentos físicos"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

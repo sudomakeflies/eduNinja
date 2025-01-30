@@ -3,12 +3,10 @@ from django.db import models
 from datetime import datetime
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
-#import requests
-#from django.http import JsonResponse
-#from .utils import FeedbackService, FeedbackServiceError
-
 from django.conf import settings
 from datetime import timedelta
+from django.db.models.signals import m2m_changed
+from django.dispatch import receiver
 
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
@@ -16,7 +14,6 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f'{self.user.username} - {self.grado}'
-
 
 class Course(models.Model):
     name = models.CharField(max_length=100)
@@ -53,11 +50,32 @@ class Question(models.Model):
     image = models.ImageField(upload_to='question_images/', null=True, blank=True)  # Opcional: imagen asociada a la pregunta
     latex_format = models.BooleanField(default=False)
     options = models.ManyToManyField('Option')    
-    #options = models.JSONField(default=list, blank=True, null=True, verbose_name='Opciones de respuesta')
     correct_answer = models.CharField(max_length=200)
     
     def __str__(self):
         return f'({self.pk}) {self.subject} - {self.question_text[:50]}'
+
+def create_question_order(sender, instance, action, pk_set, **kwargs):
+    """
+    Signal para manejar la creación automática de QuestionOrder cuando se agregan preguntas
+    a una evaluación a través de la relación many-to-many directamente.
+    """
+    if action == "post_add":
+        evaluation = instance
+        # Obtener el último orden o empezar desde 0
+        last_order = QuestionOrder.objects.filter(evaluation=evaluation).aggregate(
+            models.Max('order'))['order__max'] or -1
+        
+        # Para cada pregunta agregada
+        for question_id in pk_set:
+            # Si no existe un orden para esta pregunta, crear uno
+            if not QuestionOrder.objects.filter(evaluation=evaluation, question_id=question_id).exists():
+                last_order += 1
+                QuestionOrder.objects.create(
+                    evaluation=evaluation,
+                    question_id=question_id,
+                    order=last_order
+                )
 
 class Evaluation(models.Model):
     LLM_CHOICES = [
@@ -84,7 +102,14 @@ class Evaluation(models.Model):
     
     def __str__(self):
         return f'{self.name} - {self.date} - ´{self.period}'
-
+    
+    def add_question(self, question):
+        """
+        Agrega una pregunta a la evaluación manteniendo el orden.
+        """
+        if not self.questions.filter(id=question.id).exists():
+            self.questions.add(question)
+            # El orden se creará automáticamente a través del signal
 
 class Answer(models.Model):
     evaluation = models.ForeignKey('Evaluation', on_delete=models.CASCADE, related_name='answers', db_index=True)
@@ -94,56 +119,22 @@ class Answer(models.Model):
     feedback_check = models.BooleanField(default=False)
     submission_date = models.DateTimeField(auto_now_add=True, db_index=True)
     score = models.FloatField(null=True, blank=True)
-    attempts = models.PositiveSmallIntegerField(default=1)
-
-    # def save(self, *args, **kwargs):
-    #     if self.pk is None:  # Check if the instance is new
-    #         try:
-    #             super().save(*args, **kwargs)
-    #             #self.generate_feedback()  # Call the method for generating feedback
-    #         except IntegrityError as e:
-    #             if "CHECK constraint failed" in str(e):
-    #                 raise ValidationError("Integrity error models.py:106 asyncio feedback evaluations")
-    #     else:  # If the instance already exists, just call super without forcing insert
-    #         super().save(*args, **kwargs)
-
-    # def generate_feedback(self):
-    #     evaluation_data = {
-    #         "name": self.evaluation.name,
-    #         "course": str(self.evaluation.course),  # Convert course object to string
-    #         "max_score": float(self.evaluation.max_score),
-    #         "value_per_question": float(self.evaluation.value_per_question),
-    #         "questions": [question.id for question in self.evaluation.questions.all()],
-    #         "selected_options": self.selected_options,
-    #     }
-
-    #     data = {
-    #         "type": "generate.feedback",
-    #         "answer_id": self.id,
-    #         "response": evaluation_data,
-    #     }
-    #     #response = requests.post("http://localhost:8000/ws/feedback/", json=data, headers={'Content-Type': 'application/json'})
-    #     try:
-    #         # Assuming 'data' is your JSON data
-    #         feedback_response = FeedbackService.send_feedback(data)
-    #         # Process the response if needed
-    #     except FeedbackServiceError as e:
-    #         # Handle the custom feedback service error
-    #         error_message = str(e)
-    #         return JsonResponse({'error': error_message}, status=500)  # Return an appropriate HTTP response with a JSON error message
-        
-    #     if feedback_response.status_code != 200:
-    #         print("Error al enviar el mensaje WebSocket:", feedback_response.text)
-    #     else:
-    #         feedback_data = feedback_response.json()
-    #         # Aquí asumimos que el feedback recibido del servidor se encuentra en el campo "feedback" del JSON
-    #         feedback_text = feedback_data.get("feedback", "")
-    #         self.feedback = feedback_text
-    #         # Save the feedback without triggering generate_feedback again
-    #         super(Answer, self).save(update_fields=['feedback'])
+    attempts = models.PositiveSmallIntegerField(default=0)
 
     class Meta:
         unique_together = ('evaluation', 'student')
+
+class QuestionOrder(models.Model):
+    evaluation = models.ForeignKey('Evaluation', on_delete=models.CASCADE)
+    question = models.ForeignKey('Question', on_delete=models.CASCADE)
+    order = models.PositiveIntegerField()
+
+    class Meta:
+        unique_together = ('evaluation', 'question')
+        ordering = ['order']
+
+    def __str__(self):
+        return f'Evaluation {self.evaluation.id} - Question {self.question.id} - Order {self.order}'
 
 class EvaluationLog(models.Model):
     evaluation = models.ForeignKey('Evaluation', on_delete=models.CASCADE, related_name='logs', db_index=True)
@@ -157,3 +148,6 @@ class EvaluationLog(models.Model):
 
     def __str__(self):
         return f'{self.student.username} - {self.evaluation.name} - {self.timestamp}'
+
+# Conectar el signal con el modelo Evaluation
+m2m_changed.connect(create_question_order, sender=Evaluation.questions.through)

@@ -15,6 +15,9 @@ urlpatterns = [
     path('', views.dashboard, name='dashboard'),
     
     # Learning Paths
+    path('new-path/', 
+         views.new_learning_path, 
+         name='new_learning_path'),
     path('path/<int:path_id>/', 
          views.learning_path_detail, 
          name='learning_path_detail'),

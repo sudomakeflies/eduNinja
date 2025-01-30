@@ -3,7 +3,8 @@
         <p>En un museo se desea colocar un láser que formará parte del sistema de seguridad y que protege 5 obras de arte que se encuentran en un nicho. El haz de luz emitido por el láser recorre el nicho como se muestra en la figura.</p>
         <p><img src="images/EA_MAT_10_2023_1__page_6_Picture_9.jpeg" /></p>
         <p>Debido a que el nicho es rectangular, los muros superior e inferior forman dos rectas paralelas entre sí. Adicionalmente, se conoce el valor del ángulo γ, y se desea conocer el valor del ángulo β con el fin de verificar la correcta ubicación del láser. Para ello, el administrador del museo realiza el siguiente procedimiento:</p>
-        <p><strong>Paso 1.</strong> Resta a 180° el valor de γ. Este valor corresponde al valor del ángulo α. <strong>Paso 2.</strong> Iguala el valor del ángulo α obtenido en el paso 1 al valor del ángulo β.</p>
+        <p>Paso 1. Resta a 180° el valor de γ. Este valor corresponde al valor del ángulo α. <p>
+        <p>Paso 2. Iguala el valor del ángulo α obtenido en el paso 1 al valor del ángulo β.</p>
         <p>Una persona afirma que con este procedimiento NO es posible determinar el ángulo β. ¿Es verdadera la afirmación de la persona?</p>
         <choiceInteraction responseIdentifier="RESPONSE10" shuffle="true" maxChoices="1">
             <prompt>Selecciona una respuesta:</prompt>

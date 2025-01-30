@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import User, Group
-from .models import Course, Question, Evaluation, Answer, Option
+from .models import Course, Question, Evaluation, Answer, Option, QuestionOrder
 from .llm_utils import get_llm_feedback
 from django.contrib.admin import AdminSite
 from django.core.exceptions import ObjectDoesNotExist
@@ -12,6 +12,10 @@ from django.urls import path
 import csv
 from .forms import EvaluationForm, UserAdminForm, QuestionAdminForm
 from django.conf import settings
+from django.contrib.sessions.models import Session
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # Configuración básica del logging
 logging.basicConfig(
@@ -179,12 +183,37 @@ class QuestionAdmin(admin.ModelAdmin):
         return ", ".join([option.text for option in obj.options.all()])
     display_options.short_description = 'Options'
 
+class QuestionOrderInline(admin.TabularInline):
+    model = QuestionOrder
+    extra = 1
+    ordering = ['order']
+    raw_id_fields = ['question']
+
 @admin.register(Evaluation, site=custom_admin_site)
 class EvaluationAdmin(admin.ModelAdmin):
     list_display = ['name', 'course', 'date', 'period', 'llm_model', 'time_limit']
     list_filter = ['llm_model', 'course', 'period', 'time_limit']
     actions = [generate_feedback]
     form = EvaluationForm
+    inlines = [QuestionOrderInline]
+    
+    def save_related(self, request, form, formsets, change):
+        super().save_related(request, form, formsets, change)
+        # Si hay nuevas preguntas agregadas a través del admin, usar add_question
+        if 'questions' in form.cleaned_data:
+            current_questions = set(form.instance.questions.all())
+            new_questions = set(form.cleaned_data['questions'])
+            # Para cada pregunta nueva que no estaba antes
+            for question in new_questions - current_questions:
+                form.instance.add_question(question)
+
+@admin.register(QuestionOrder, site=custom_admin_site)
+class QuestionOrderAdmin(admin.ModelAdmin):
+    list_display = ['evaluation', 'question', 'order']
+    list_filter = ['evaluation']
+    ordering = ['evaluation', 'order']
+    search_fields = ['evaluation__name', 'question__question_text']
+    raw_id_fields = ['evaluation', 'question']
 
 @admin.register(Answer, site=custom_admin_site)
 class AnswerAdmin(admin.ModelAdmin):
@@ -231,9 +260,29 @@ class UserAdmin(admin.ModelAdmin):
 
     qr_code_image.short_description = "QR Code"
 
+
+class SessionAdmin(admin.ModelAdmin):
+    list_display = ('session_key', 'get_user_id', 'expire_date')
+    readonly_fields = ('session_data', 'expire_date')
+
+    def get_user_id(self, obj):
+        try:
+            session_data = obj.get_decoded()
+            user_id = session_data.get('_auth_user_id')
+            if user_id:
+                user = User.objects.get(pk=user_id)
+                return user.username # o user.id si prefieres el ID numérico
+            else:
+                return "Ningún usuario logueado"
+        except (KeyError, User.DoesNotExist):
+            return "Error al obtener el usuario"
+
+    get_user_id.short_description = 'Usuario'
+
 # Register the User and Group models with the custom admin site
 custom_admin_site.register(User, UserAdmin)
 custom_admin_site.register(Group, admin.ModelAdmin)
+custom_admin_site.register(Session, SessionAdmin)
 
 from .models import EvaluationLog
 @admin.register(EvaluationLog, site=custom_admin_site)

@@ -1,0 +1,50 @@
+{% extends 'personalized_learning/base_learning.html' %}
+
+{% block title %}Start New Learning Path{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-route me-2"></i>Start New Learning Path
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <label for="competency" class="form-label">Select Competency</label>
+                            <select class="form-select" id="competency" name="competency" required>
+                                <option value="">Choose a competency...</option>
+                                {% for competency in available_competencies %}
+                                <option value="{{ competency.id }}">{{ competency.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="form-text">Choose the subject or skill you want to learn</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="target_level" class="form-label">Target Level (1-100)</label>
+                            <input type="number" class="form-control" id="target_level" name="target_level"
+                                   min="1" max="100" value="100" required>
+                            <div class="form-text">Set your learning goal (higher levels require more dedication)</div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="{% url 'personalized_learning:dashboard' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-1"></i>Back
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-play me-1"></i>Start Learning Path
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

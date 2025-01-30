@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
@@ -15,12 +16,50 @@ from .models import (
     ChatSession, ChatMessage, Competency, StudentCompetency, 
     CompetencyAssessment
 )
+from django.db.models import Q
 from .utils import (
     analyze_evaluation_results, generate_adaptive_recommendations,
     update_learning_path, process_markdown_content,
     get_learning_recommendations
 )
 from evaluations.llm_utils import get_llm_feedback as get_llm_response
+
+@login_required
+def new_learning_path(request):
+    """Start a new learning path"""
+    # Get competencies that the user hasn't started or has inactive paths for
+    existing_active_paths = LearningPath.objects.filter(
+        student=request.user,
+        is_active=True
+    ).values_list('competency_id', flat=True)
+    
+    available_competencies = Competency.objects.exclude(
+        id__in=existing_active_paths
+    ).order_by('name')
+    
+    if request.method == 'POST':
+        competency_id = request.POST.get('competency')
+        target_level = int(request.POST.get('target_level', 100))
+        
+        if not competency_id:
+            messages.error(request, 'Please select a competency')
+            return redirect('personalized_learning:new_learning_path')
+            
+        # Create new learning path
+        learning_path = LearningPath.objects.create(
+            student=request.user,
+            competency_id=competency_id,
+            target_level=target_level,
+            current_level=0,
+            is_active=True
+        )
+        
+        messages.success(request, f'Started new learning path for {learning_path.competency.name}')
+        return redirect('personalized_learning:learning_path_detail', path_id=learning_path.id)
+    
+    return render(request, 'personalized_learning/new_learning_path.html', {
+        'available_competencies': available_competencies
+    })
 
 @login_required
 def dashboard(request):

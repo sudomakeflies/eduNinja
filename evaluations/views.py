@@ -65,13 +65,24 @@ def take_evaluation(request, pk):
     student = request.user
     request.session['evaluation_start_time'] = str(datetime.now())
     request.session['user_agent'] = request.META.get('HTTP_USER_AGENT', '')
+    # Obtener preguntas en orden, con fallback al ID si no existe orden específico
+    questions = evaluation.questions.all().order_by(
+        'questionorder__order',
+        'id'
+    )
+
     context = {
         'evaluation': evaluation,
+        'questions': questions,
         'number_to_letter': number_to_letter,
     }
 
-    # Verificar si ya existe un registro de Answer para esta evaluación y este estudiante
-    answer_exists = Answer.objects.filter(evaluation=evaluation, student=student).exists()
+    # Verificar si ya existe un registro de Answer y si ha excedido el límite de intentos
+    existing_answer = Answer.objects.filter(evaluation=evaluation, student=student).first()
+    if existing_answer and existing_answer.attempts >= 1:
+        return render(request, 'evaluations/evaluation_inactive.html', 
+                     {'evaluation': evaluation, 
+                      'message': 'Ya has alcanzado el límite de intentos para esta evaluación.'})
 
     if request.method == 'POST':
         try:
@@ -88,13 +99,18 @@ def take_evaluation(request, pk):
                 }
             )
 
-            if not created:
+            if not created and answer.attempts < 1:
                 print("Print actualizando answer evaluation model")
                 answer.selected_options = selected_options
                 answer.feedback = ''
                 answer.score = total_score
-                answer.attempts = F('attempts') - 1
+                answer.attempts = F('attempts') + 1
                 answer.save()
+            elif not created:
+                # Si ya alcanzó el límite de intentos, redirigir con mensaje
+                return render(request, 'evaluations/evaluation_inactive.html', 
+                            {'evaluation': evaluation, 
+                             'message': 'Ya has alcanzado el límite de intentos para esta evaluación.'})
             
 
         except ValidationError as e:
@@ -117,7 +133,8 @@ def process_student_answers(request, evaluation):
     value_per_question = evaluation.value_per_question
     selected_options = []
 
-    for question in evaluation.questions.all():
+    # Obtener preguntas en el mismo orden que en la vista
+    for question in evaluation.questions.all().order_by('questionorder__order', 'id'):
         selected_option = request.POST.get(f'question_{question.id}')
         
         if selected_option:
@@ -213,24 +230,65 @@ def log_evaluation_event(request):
 
 @csrf_exempt
 def qr_login(request):
-    from django.core.signing import TimestampSigner
+    from django.core.signing import TimestampSigner, SignatureExpired, BadSignature
+    from django.core.cache import cache
     from urllib.parse import unquote
     from django.contrib.auth import get_user_model
     User = get_user_model()
 
     if request.method == 'GET':
         token = request.GET.get('token')
+        if not token:
+            return JsonResponse({'status': 'error', 'message': 'Token no proporcionado'}, status=400)
+
         token_decodificado = unquote(token)
         signer = TimestampSigner()
+        
         try:
-            # Extrae el user_id del token
-            user_id = signer.unsign(token_decodificado, max_age=60)  # Valida el token (expira en 60 segundos)
+            # Extrae el user_id y session_id del token
+            token_data = signer.unsign(token_decodificado, max_age=300)  # 5 minutos de validez
+            user_id = token_data.split(':')[0] if ':' in token_data else token_data
+            
+            # Verifica si hay una sesión activa para este usuario
+            cache_key = f'qr_login_session_{user_id}'
+            stored_token = cache.get(cache_key)
+            
+            if stored_token and stored_token != token:
+                # Si hay un token diferente almacenado, significa que se generó un nuevo QR
+                return JsonResponse({
+                    'status': 'error', 
+                    'message': 'Se ha generado un nuevo código QR. Por favor, escanee el nuevo código.'
+                }, status=401)
             
             # Busca el usuario en la base de datos
             user = User.objects.get(id=user_id)
-            # Autentica al usuario sin contraseña (inicio de sesión directo)
-            user.backend = 'django.contrib.auth.backends.ModelBackend'  # Define el backend de autenticación
+            
+            # Almacena el token actual en la caché
+            cache.set(cache_key, token, timeout=300)  # 5 minutos de timeout
+            
+            # Autentica al usuario
+            user.backend = 'django.contrib.auth.backends.ModelBackend'
             login(request, user)
-            return redirect('/')  # Redirige a la página principal después del login
+            
+            return redirect('/')
+
+        except SignatureExpired:
+            return JsonResponse({
+                'status': 'error', 
+                'message': 'El código QR ha expirado. Por favor, solicite uno nuevo.'
+            }, status=401)
+        except BadSignature:
+            return JsonResponse({
+                'status': 'error', 
+                'message': 'Código QR inválido.'
+            }, status=401)
+        except User.DoesNotExist:
+            return JsonResponse({
+                'status': 'error', 
+                'message': 'Usuario no encontrado.'
+            }, status=404)
         except Exception as e:
-            return JsonResponse({'status': 'error', 'message': 'Invalid or expired token'}, status=401)
+            return JsonResponse({
+                'status': 'error', 
+                'message': 'Error durante el inicio de sesión. Por favor, intente nuevamente.'
+            }, status=500)
