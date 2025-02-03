@@ -52,6 +52,18 @@ class Command(BaseCommand):
                 Competency.objects.all().delete()
 
             try:
+                # Crear competencias comodín primero
+                self.stdout.write('Creando competencias comodín...')
+                Competency.objects.get_or_create(
+                    name="Otras Competencias Matemáticas",
+                    description="Competencias matemáticas no categorizadas específicamente"
+                )
+                Competency.objects.get_or_create(
+                    name="Otras Competencias en Física",
+                    description="Competencias en física no categorizadas específicamente"
+                )
+                
+                # Cargar el resto de las competencias
                 for competency_data in data['competencies']:
                     self.load_competencies(competency_data)
                 self.stdout.write(self.style.SUCCESS('Competencias cargadas exitosamente'))

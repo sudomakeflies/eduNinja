@@ -1,0 +1,38 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q18" title="Hipótesis o suposición sobre la velocidad del río" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En una revista, un joven leyó que en la orilla del río de su ciudad el agua es muy tranquila, y que, por el contrario, en la mitad del río se presentan torbellinos pequeños. El joven realiza un experimento en el cual mide la profundidad y la velocidad del río de la ciudad en la orilla y en el medio del río, y obtiene los resultados que se muestran en la tabla.</p>
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Profundidad (cm)</th>
+                    <th>Velocidad del río (m/s)</th>
+                    <th>Presencia de torbellinos</th>
+                </tr>
+                <tr>
+                    <td>En la orilla</td>
+                    <td>30</td>
+                    <td>1,3</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td>En el medio</td>
+                    <td>150</td>
+                    <td>5,4</td>
+                    <td>Sí</td>
+                </tr>
+            </table>
+        <p>Con base en lo anterior, el joven afirma: "El río presenta torbellinos pequeños en la mitad del río, porque a mayor profundidad mayor velocidad". ¿La anterior afirmación se puede considerar una hipótesis o una suposición no fundamentada?</p>
+        <choiceInteraction responseIdentifier="RESPONSE18" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Una suposición no fundamentada, porque debieron medirse las velocidades de otros ríos.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Una hipótesis, porque los torbellinos existen en muchos ríos del mundo.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Una hipótesis, porque se basa en los resultados obtenidos en el experimento.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Una suposición no fundamentada, porque la profundidad de un río debe ser igual en todos sus puntos.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE18" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

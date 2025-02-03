@@ -144,3 +144,22 @@ class CompetencyAssessment(models.Model):
 
     def __str__(self):
         return f"{self.student.username} - {self.competency.name} - Score: {self.score}"
+
+class CompetencyMismatchLog(models.Model):
+    original_name = models.CharField(max_length=200)
+    matched_competency = models.ForeignKey(Competency, on_delete=models.CASCADE)
+    match_type = models.CharField(max_length=10, choices=[
+        ('exact', 'Exact Match'),
+        ('fuzzy', 'Fuzzy Match'),
+        ('wildcard', 'Wildcard')
+    ])
+    similarity_score = models.FloatField(null=True, blank=True)
+    frequency = models.IntegerField(default=1)
+    first_seen = models.DateTimeField(auto_now_add=True)
+    last_seen = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ['original_name', 'matched_competency']
+
+    def __str__(self):
+        return f"{self.original_name} -> {self.matched_competency.name} ({self.match_type})"

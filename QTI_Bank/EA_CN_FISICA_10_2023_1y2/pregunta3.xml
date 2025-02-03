@@ -1,0 +1,19 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q19" title="Intervalo en que la ciclista se detuvo" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Una ciclista recorrió una etapa de 35 km. Durante el recorrido, un sensor registró la rapidez de la ciclista en función del tiempo, como se muestra en la gráfica.</p>
+        <p><img src="images/EA_CN_FISICA_10_2023_1y2__page_9_Figure_2.jpeg" /></p>
+        <p>Durante la etapa, una llanta de la bicicleta se pinchó y tuvo que parar a cambiarla. ¿En cuál intervalo la ciclista se detuvo a cambiar la llanta?</p>
+        <choiceInteraction responseIdentifier="RESPONSE19" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">En el intervalo 1.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">En el intervalo 2.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">En el intervalo 3.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">En el intervalo 4.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE19" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

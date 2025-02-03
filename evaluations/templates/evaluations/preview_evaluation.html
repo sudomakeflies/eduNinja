@@ -1,0 +1,70 @@
+{% extends 'evaluations/base.html' %}
+
+{% load static %}
+{% load katex_markdown %}
+
+{% block code_head %}
+<link rel="stylesheet" href="{% static 'katex/katex.min.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h2>{{ evaluation.name }}</h2>
+    <p>{{ evaluation.description }}</p>
+    
+    {% for question in questions %}
+        <div class="question">
+            <h3 class="{% if question.latex_format %}is_latex{% endif %}">{{ forloop.counter }}. 
+            {% if question.latex_format %}
+                {{ question.question_text|markdown_katex|safe }}
+            {% else %}
+                {{ question.question_text|safe }}
+            {% endif %}
+            </h3>
+            {% if question.image %}
+                <img src="{{ question.image.url }}" alt="Question Image" style="max-width: 300px;">
+            {% endif %}
+            
+            {% if question.options.all %}
+                <div class="options">
+                {% for option in question.options.all %}
+                    {% with forloop.counter|convert_number_to_letter as letter %}
+                    <div class="option">
+                        <label class="{% if option.is_latex %}is_latex{% endif %}">
+                            {{ letter }})
+                            {% if option.image %}
+                                <div>
+                                    <img src="{{ option.image.url }}" alt="Option Image" loading="lazy">
+                                </div>
+                            {% elif option.is_latex %}
+                                {{ option.text|markdown_katex|safe }}
+                            {% else %}
+                                {{ option.text|safe }}
+                            {% endif %}
+                        </label>
+                    </div>
+                    {% endwith %}
+                {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block code_bottom %}
+<script defer src="{% static 'katex/katex.min.js' %}"></script>
+<script defer src="{% static 'katex/auto-render.min.js' %}"></script>
+<script>
+    window.onload = function() {
+        var elements = document.querySelectorAll('.is_latex');
+        elements.forEach(function(element) {
+            renderMathInElement(element, {
+                delimiters: [
+                    {left: "$", right: "$", display: false},
+                    {left: "\\[", right: "\\]", display: true},
+                    {left: "\\(", right: "\\)", display: false}
+                ],
+            });
+        });
+    };
+</script>
+{% endblock %}

@@ -32,4 +32,6 @@ urlpatterns = [
     path('restful/', include(router.urls)),
     path('qr_login/', views.qr_login, name='qr_login'),
     path('log_evaluation_event/', views.log_evaluation_event, name='log_evaluation_event'),
+    path('preview_evaluation/<int:pk>/', views.preview_evaluation, name='preview_evaluation'),
+    path('question/<int:pk>/', views.view_question, name='view_question'),
 ]

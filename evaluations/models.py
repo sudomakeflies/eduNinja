@@ -78,6 +78,21 @@ def create_question_order(sender, instance, action, pk_set, **kwargs):
                 )
 
 class Evaluation(models.Model):
+    @staticmethod
+    def get_ordered_questions(evaluation):
+        """
+        Get questions ordered consistently by their specific order for an evaluation
+        """
+        return evaluation.questions.all().select_related().order_by(
+            models.Case(
+                models.When(
+                    questionorder__evaluation=evaluation,
+                    then='questionorder__order'
+                )
+            ),
+            'id'
+        )
+
     LLM_CHOICES = [
         ('ollama', 'Ollama'),
         ('anthropic', 'Anthropic Claude 3.5'),

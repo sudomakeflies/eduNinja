@@ -122,7 +122,7 @@
                         {% for value in question.options.all %}
                             {% with forloop.counter|convert_number_to_letter as letter %}
                                 <div class="option">
-                                    <input type="radio" id="question_{{ question.id }}_{{ forloop.counter }}" name="question_{{ question.id }}" value="{{ forloop.counter }}">
+                                    <input type="radio" id="question_{{ question.id }}_{{ forloop.counter }}" name="question_{{ question.id }}" value="{{ letter|upper }}">
                                     <label for="question_{{ question.id }}_{{ forloop.counter }}" class="{% if value.is_latex %}is_latex{% endif %}">
                                         {{ letter }}) 
                                         {% if value.image %}

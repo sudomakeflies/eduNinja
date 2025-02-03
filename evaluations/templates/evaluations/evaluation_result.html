@@ -34,22 +34,24 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for question, selected_option in answer.evaluation.questions.all|zip_lists:answer.selected_options %}
+                                    {% for question in ordered_questions %}
+                                        {% with response=answer.selected_options|get_item:question.id %}
                                         <tr>
                                             <td>{{ forloop.counter }}</td>
-                                            <td>{{ selected_option }}</td>
+                                            <td>{{ response.answer|default:"No respondida" }}</td>
                                             <td>
-                                                {% if question.correct_answer == selected_option %}
+                                                {% if response.is_correct %}
                                                     &#10004;
                                                 {% else %}
                                                     &#10060;
                                                 {% endif %}
                                             </td>
                                         </tr>
+                                        {% endwith %}
                                     {% endfor %}
                                 </tbody>
                             </table>
-                        <p class="mb-2"><strong>Puntaje:</strong> {{ answer.score }} | <strong>Intentos restantes:</strong> {{ answer.attempts }}</p>
+                        <p class="mb-2"><strong>Puntaje:</strong> {{ answer.score }} | <strong>Intentos:</strong> {{ answer.attempts }}</p>
                         <!-- Feedback Section -->
                     </div>
                     <div class="card-footer text-muted">

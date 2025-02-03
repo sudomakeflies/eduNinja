@@ -1,9 +1,188 @@
 import json
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 from django.contrib.auth.models import User
 from django.db.models import Avg, Q
-#import numpy as np
+from django.utils import timezone
+from thefuzz import fuzz
 import statistics
+import re
+
+def normalize_competency_name(name: str) -> str:
+    """Normaliza el nombre de una competencia para comparación"""
+    # Eliminar espacios extras y convertir a minúsculas
+    normalized = name.lower().strip()
+    # Remover palabras comunes que no afectan el significado
+    common_words = ['y', 'en', 'de', 'los', 'las', 'sistemas']
+    for word in common_words:
+        normalized = normalized.replace(f' {word} ', ' ')
+    # Normalizar caracteres especiales
+    normalized = re.sub(r'[áàäâ]', 'a', normalized)
+    normalized = re.sub(r'[éèëê]', 'e', normalized)
+    normalized = re.sub(r'[íìïî]', 'i', normalized)
+    normalized = re.sub(r'[óòöô]', 'o', normalized)
+    normalized = re.sub(r'[úùüû]', 'u', normalized)
+    normalized = re.sub(r'[ñ]', 'n', normalized)
+    # Eliminar caracteres especiales y múltiples espacios
+    normalized = re.sub(r'[^a-z0-9\s]', '', normalized)
+    normalized = ' '.join(normalized.split())
+    return normalized
+
+def find_matching_competency(competency_name: str) -> Tuple[Optional['Competency'], str, float]:
+    """
+    Encuentra la competencia más cercana usando matching exacto, fuzzy o comodín
+    Retorna: (competencia, tipo_de_match, score_de_similitud)
+    """
+    from .models import Competency, CompetencyMismatchLog
+    
+    normalized_name = normalize_competency_name(competency_name)
+    
+    # Nivel 1: Match exacto
+    try:
+        comp = Competency.objects.get(name__iexact=normalized_name)
+        return comp, 'exact', 100.0
+    except Competency.DoesNotExist:
+        pass
+    
+    # Nivel 2: Fuzzy matching
+    all_comps = Competency.objects.all()
+    matches = []
+    
+    for comp in all_comps:
+        # Ratio de similitud general
+        ratio = fuzz.ratio(normalized_name, normalize_competency_name(comp.name))
+        # Token sort ratio (ignora orden de palabras)
+        token_ratio = fuzz.token_sort_ratio(competency_name, comp.name)
+        # Partial ratio (para subcadenas)
+        partial_ratio = fuzz.partial_ratio(competency_name, comp.name)
+        
+        # Promedio ponderado de los ratios
+        avg_ratio = (ratio * 0.4 + token_ratio * 0.4 + partial_ratio * 0.2)
+        
+        if avg_ratio > 80:  # Umbral de similitud
+            matches.append((comp, avg_ratio))
+    
+    if matches:
+        # Retornar la competencia con mayor similitud
+        best_match = max(matches, key=lambda x: x[1])
+        return best_match[0], 'fuzzy', best_match[1]
+    
+    # Nivel 3: Comodín basado en términos clave
+    try:
+        if any(term in normalized_name for term in ['matematica', 'numero', 'algebra', 'geometria']):
+            comp = Competency.objects.get(name="Otras Competencias Matemáticas")
+            return comp, 'wildcard', 0.0
+        elif any(term in normalized_name for term in ['fisica', 'mecanica', 'energia']):
+            comp = Competency.objects.get(name="Otras Competencias en Física")
+            return comp, 'wildcard', 0.0
+    except Competency.DoesNotExist:
+        pass
+    
+    return None, 'none', 0.0
+
+def update_competency_match_log(original_name: str, matched_competency: 'Competency', 
+                              match_type: str, similarity_score: float):
+    """Actualiza el registro de coincidencias de competencias"""
+    from .models import CompetencyMismatchLog
+    
+    log, created = CompetencyMismatchLog.objects.get_or_create(
+        original_name=original_name,
+        matched_competency=matched_competency,
+        defaults={
+            'match_type': match_type,
+            'similarity_score': similarity_score,
+            'frequency': 1
+        }
+    )
+    
+    if not created:
+        log.frequency += 1
+        log.last_seen = timezone.now()
+        if match_type == 'fuzzy':
+            log.similarity_score = similarity_score
+        log.save()
+
+def analyze_feedback_for_competencies(feedback: str, student: User) -> Dict:
+    """Analiza el feedback estructurado del LLM para extraer análisis por competencia"""
+    try:        
+        feedback_data = json.loads(feedback)
+    except json.JSONDecodeError:
+        return {'success': False, 'error': 'El feedback no está en formato JSON válido'}
+
+    from .models import Competency, CompetencyAssessment, StudentCompetency
+
+    results = {
+        'success': True,
+        'competency_updates': [],
+        'error': None
+    }
+
+    for comp_analysis in feedback_data.get('competency_analysis', []):
+        competency_name = comp_analysis['competency_name']
+        
+        # Buscar competencia usando el sistema de matching
+        competency, match_type, similarity_score = find_matching_competency(competency_name)
+        
+        if competency:
+            try:
+                # Registrar el match en el log
+                update_competency_match_log(
+                    competency_name, competency, match_type, similarity_score
+                )
+                
+                # Crear o actualizar CompetencyAssessment
+                assessment = CompetencyAssessment.objects.create(
+                    student=student,
+                    competency=competency,
+                    score=comp_analysis['demonstrated_level'],
+                    llm_feedback=json.dumps(comp_analysis, ensure_ascii=False),
+                    recommendations={
+                        'strengths': comp_analysis['strengths'],
+                        'areas_for_improvement': comp_analysis['areas_for_improvement'],
+                        'recommendations': comp_analysis['recommendations'],
+                        'match_type': match_type,
+                        'similarity_score': similarity_score
+                    }
+                )
+
+                # Actualizar StudentCompetency
+                student_comp, _ = StudentCompetency.objects.get_or_create(
+                    student=student,
+                    competency=competency,
+                    defaults={'level': 0}
+                )
+                
+                # Actualizar nivel basado en el promedio histórico
+                avg_level = CompetencyAssessment.objects.filter(
+                    student=student,
+                    competency=competency
+                ).aggregate(Avg('score'))['score__avg']
+                
+                if avg_level:
+                    student_comp.level = int(avg_level)
+                    student_comp.last_assessed = timezone.now()
+                    student_comp.save()
+
+                results['competency_updates'].append({
+                    'competency': competency_name,
+                    'matched_to': competency.name,
+                    'match_type': match_type,
+                    'similarity': similarity_score,
+                    'level': student_comp.level,
+                    'assessment_id': assessment.id
+                })
+
+            except Exception as e:
+                results['error'] = f"Error procesando competencia {competency_name}: {str(e)}"
+                continue
+        else:
+            results['competency_updates'].append({
+                'competency': competency_name,
+                'matched_to': None,
+                'match_type': 'none',
+                'error': 'No se encontró competencia coincidente'
+            })
+
+    return results
 
 def analyze_evaluation_results(student: User, evaluation_data: Dict) -> Dict:
     """Analyze evaluation results to identify strengths and weaknesses"""

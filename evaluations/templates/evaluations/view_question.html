@@ -1,0 +1,98 @@
+{% extends 'evaluations/base.html' %}
+{% load static %}
+{% load katex_markdown %}
+
+{% block title %}Ver Pregunta{% endblock %}
+
+{% block code_head %}
+<style>
+    .question {
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid var(--info-border-color);
+        border-radius: 5px;
+        background-color: var(--info-bg-color);
+    }
+
+    .question-text {
+        margin-bottom: 20px;
+    }
+
+    .options {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .option {
+        margin-bottom: 10px;
+    }
+
+    .option label {
+        display: flex;
+        align-items: center;
+        font-size: 1.2em;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+<link rel="stylesheet" href="{% static 'katex/katex.min.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="question">
+    <div class="question-text {% if question.latex_format %}is_latex{% endif %}">
+        {% if question.latex_format %}
+            {{ question.question_text|markdown_katex|safe }}
+        {% else %}
+            {{ question.question_text|safe }}
+        {% endif %}
+    </div>
+    {% if question.image %}
+        <div>
+            <img src="{{ question.image.url }}" alt="Question Image" loading="lazy">
+        </div>
+    {% endif %}
+    <div class="options">
+        {% for option in question.options.all %}
+            {% with forloop.counter|convert_number_to_letter as letter %}
+                <div class="option">
+                    <label class="{% if option.is_latex %}is_latex{% endif %}">
+                        {{ letter }}) 
+                        {% if option.image %}
+                        <div>
+                            <img src="{{ option.image.url }}" alt="Option Image" loading="lazy">
+                        </div>
+                        {% elif option.is_latex %}
+                            {{ option.text|markdown_katex|safe }}
+                        {% else %}
+                            {{ option.text|safe }}
+                        {% endif %}
+                    </label>
+                </div>
+            {% endwith %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block code_bottom %}
+<script defer src="{% static 'katex/katex.min.js' %}"></script>
+<script defer src="{% static 'katex/auto-render.min.js' %}"></script>
+<script>
+    window.onload = function() {
+        var elements = document.querySelectorAll('.is_latex');
+        elements.forEach(function(element) {
+            renderMathInElement(element, {
+                delimiters: [
+                    {left: "$", right: "$", display: false},
+                    {left: "\\[", right: "\\]", display: true},
+                    {left: "\\(", right: "\\)", display: false}
+                ],
+            });
+        });
+    };
+</script>
+{% endblock %}

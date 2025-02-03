@@ -1,0 +1,45 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q15" title="Tiempo de caída en presencia y ausencia de aire" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Un grupo de investigadores estudia la caída de objetos en ausencia y presencia de aire. Realizan un experimento con objetos de diferentes formas y alturas, obteniendo los siguientes resultados:</p>
+            <table>
+                <tr>
+                    <th>Altura de liberación (m)</th>
+                    <th>Comparación de tiempos en presencia de aire</th>
+                    <th>Comparación de tiempos en ausencia de aire</th>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Diferentes</td>
+                    <td>Iguales</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>Diferentes</td>
+                    <td>Iguales</td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>Diferentes</td>
+                    <td>Iguales</td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>Diferentes</td>
+                    <td>Iguales</td>
+                </tr>
+            </table>
+        <p>Los investigadores concluyen que "el tiempo de caída de los objetos se ve afectado por la presencia de aire". ¿Existen evidencias suficientes para respaldar esta conclusión?</p>
+        <choiceInteraction responseIdentifier="RESPONSE15" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">No, ya que no existe información que dé cuenta del tiempo de caída de los dos objetos en presencia de aire.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">No, ya que no existe información que dé cuenta de las diferentes alturas utilizadas en la caída de los dos objetos.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Sí, ya que la investigación se enfoca en estudiar el peso de los objetos y cómo afecta el tiempo de caída.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Sí, ya que la investigación se enfoca en estudiar cómo la presencia y ausencia de aire afecta el tiempo de caída.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE15" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceD</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

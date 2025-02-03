@@ -1,0 +1,40 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q6" title="Tendencia de la fuerza eléctrica" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>A continuación se muestra una tabla donde se relaciona la fuerza eléctrica que existe entre dos cuerpos que están cargados con cargas eléctricas opuestas y la distancia de separación entre los dos cuerpos.</p>
+            <table>
+                <tr>
+                    <th>Distancia de separación (cm)</th>
+                    <th>Fuerza eléctrica (N)</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1.300</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>325</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>144</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>81</td>
+                </tr>
+            </table>
+        <p>De acuerdo con los datos que se observan en la tabla, ¿qué tipo de tendencia se puede identificar en la fuerza eléctrica a medida que incrementa la distancia de separación?</p>
+        <choiceInteraction responseIdentifier="RESPONSE6" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">Creciente.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">Decreciente.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Aleatoria.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Constante.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE6" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

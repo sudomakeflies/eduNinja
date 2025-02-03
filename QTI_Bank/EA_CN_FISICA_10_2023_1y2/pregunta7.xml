@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q9" title="Fuerza de fricción en una caja" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>El modelo de rozamiento entre superficies establece que la fuerza de rozamiento se opone al movimiento de un cuerpo que se desliza sobre un plano; la fuerza de rozamiento depende directamente de la fuerza normal y del coeficiente de fricción de la superficie sobre la que se encuentra el cuerpo.</p>
+        <p>Se muestran dos figuras donde aparece la misma caja con el mismo peso y es jalada por la misma fuerza (F), sin embargo en la Figura 2, la caja se encuentra volteada y su superficie de contacto con el suelo aumenta.</p>
+        <p><img src="images/EA_CN_FISICA_10_2023_1y2__page_5_Figure_2.jpeg" /></p>
+        <p>¿Qué ocurre con la fuerza de fricción 1 (Fr1) en comparación con la fuerza de fricción 2 (Fr2) cuando se voltea la caja y se jala con la misma fuerza (F) como lo muestra la Figura 2?</p>
+        <choiceInteraction responseIdentifier="RESPONSE9" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">La fuerza de fricción 1 es menor que la fuerza de fricción 2, porque el área de contacto en la Figura 2 es mayor.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">La fuerza de fricción 1 es mayor que la fuerza de fricción 2, porque el área de contacto en la Figura 1 es menor.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Las fuerzas de fricción 1 y 2 son iguales, ya que la fricción entre las superficies no depende directamente del área de contacto.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">Las fuerzas de fricción 1 y 2 son iguales, ya que la fricción entre las superficies depende directamente del área de contacto.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE9" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceC</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

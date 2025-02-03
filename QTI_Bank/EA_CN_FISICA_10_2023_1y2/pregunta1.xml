@@ -1,0 +1,19 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q13" title="Dirección de la fuerza neta sobre el perro" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Una niña corre junto a su perro, como se muestra en la situación 1. Unos segundos después, la niña hala al perro hasta que este se detiene, como lo muestra la situación 2.</p>
+        <p><img src="images/EA_CN_FISICA_10_2023_1y2__page_6_Figure_17.jpeg" /></p>
+        <p>La dirección de la fuerza neta que actuó sobre el perro, para detenerlo, fue hacia:</p>
+        <choiceInteraction responseIdentifier="RESPONSE13" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">la derecha, porque debe ir en la misma dirección del movimiento del perro.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">la izquierda, porque debe ir en la dirección contraria del movimiento del perro.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">la izquierda, porque el peso de la niña es mayor que el peso del perro.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">la derecha, porque la rapidez inicial del perro es mayor que su rapidez final.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE13" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

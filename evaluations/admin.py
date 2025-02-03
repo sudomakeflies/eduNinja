@@ -122,21 +122,24 @@ def generate_feedback(modeladmin, request, queryset):
             user = answer.student
             
             questions_and_answers = []
-            selected_options = answer.selected_options if answer.selected_options else []
+            selected_options = answer.selected_options if answer.selected_options else {}
 
-            # Vamos a recorrer las preguntas y obtener la opción seleccionada para cada una
-            for i, question in enumerate(evaluation.questions.all()):
-                logging.debug(f"Procesando pregunta: {question.question_text}")
-                student_answer = "No contestada"
-                if i < len(selected_options):
-                    student_answer = selected_options[i]
+            # Get questions using consistent ordering method
+            for question in Evaluation.get_ordered_questions(evaluation):
+                question_id = str(question.id)
+                logging.debug(f"Procesando pregunta {question_id}: {question.question_text}")
+                
+                student_response = selected_options.get(question_id, {})
+                student_answer = student_response.get('answer', 'No contestada')
 
                 # Añadir los detalles de la pregunta y la respuesta al contexto
                 questions_and_answers.append({
+                    "question_id": question_id,
                     "question": question.question_text,
                     "correct_answer": question.correct_answer,
-                    "student_answer": student_answer.text if hasattr(student_answer, 'text') else student_answer,
-                    "is_correct": student_answer.text == question.correct_answer if hasattr(student_answer, 'text') else student_answer == question.correct_answer
+                    "student_answer": student_answer,
+                    "is_correct": student_response.get('is_correct', False),
+                    "score": student_response.get('score', 0)
                 })
 
             # Crear el contexto para la generación de feedback
@@ -158,9 +161,20 @@ def generate_feedback(modeladmin, request, queryset):
             answer.save()
             logging.info(f"Feedback generado para el estudiante {user.username}")
 
+            # Analizar el feedback para actualizar las competencias
+            from personalized_learning.utils import analyze_feedback_for_competencies
+            try:
+                competency_results = analyze_feedback_for_competencies(feedback, user)
+                if not competency_results['success']:
+                    logging.error(f"Error al analizar competencias: {competency_results['error']}")
+                else:
+                    logging.info(f"Competencias actualizadas: {competency_results['competency_updates']}")
+            except Exception as e:
+                logging.error(f"Error al procesar competencias: {str(e)}")
+
     # Notificar al usuario que la generación de feedback ha terminado
-    modeladmin.message_user(request, "Feedback generation completed for selected objects")
-    logging.info("Generación de feedback completada para los objetos seleccionados")
+    modeladmin.message_user(request, "Feedback generation and competency analysis completed")
+    logging.info("Generación de feedback y análisis de competencias completados")
 
 generate_feedback.short_description = "Generate feedback for selected evaluations"
 

@@ -1,5 +1,4 @@
-#import asyncio
-#from openai import OpenAI
+import logging
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
@@ -15,6 +14,7 @@ from django.urls import reverse
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from django.db import models
 from datetime import datetime
 
 @method_decorator(cache_page(60), name='dispatch')
@@ -65,11 +65,9 @@ def take_evaluation(request, pk):
     student = request.user
     request.session['evaluation_start_time'] = str(datetime.now())
     request.session['user_agent'] = request.META.get('HTTP_USER_AGENT', '')
-    # Obtener preguntas en orden, con fallback al ID si no existe orden específico
-    questions = evaluation.questions.all().order_by(
-        'questionorder__order',
-        'id'
-    )
+    
+    # Get questions in consistent order
+    questions = Evaluation.get_ordered_questions(evaluation)
 
     context = {
         'evaluation': evaluation,
@@ -87,6 +85,10 @@ def take_evaluation(request, pk):
     if request.method == 'POST':
         try:
             total_score, selected_options = process_student_answers(request, evaluation)
+            
+            # Crear un registro de logging para depuración
+            logging.debug(f"Evaluation {evaluation.id} - Student {student.id} - Score: {total_score}")
+            logging.debug(f"Selected options: {selected_options}")
 
             answer, created = Answer.objects.get_or_create(
                 evaluation=evaluation,
@@ -94,16 +96,16 @@ def take_evaluation(request, pk):
                 defaults={
                     'selected_options': selected_options,
                     'feedback': '',
-                    'score': total_score,
+                    'score': float(total_score),
                     'attempts': 1
                 }
             )
 
             if not created and answer.attempts < 1:
-                print("Print actualizando answer evaluation model")
+                logging.info(f"Actualizando respuesta existente para evaluación {evaluation.id} - estudiante {student.id}")
                 answer.selected_options = selected_options
                 answer.feedback = ''
-                answer.score = total_score
+                answer.score = float(total_score)
                 answer.attempts = F('attempts') + 1
                 answer.save()
             elif not created:
@@ -120,39 +122,69 @@ def take_evaluation(request, pk):
         # Obtener todas las respuestas para la evaluación y el estudiante
         answers = Answer.objects.filter(evaluation=evaluation, student=student)
 
-        # Redirigir a la página de resultados con el puntaje total
-        #return redirect('evaluation_result', {'total_score': total_score, 'pk':evaluation.pk})
-        return render(request, 'evaluations/evaluation_result.html', {'evaluation': evaluation, 'answers':answers })
+        # Get questions in correct order and render evaluation results
+        ordered_questions = Evaluation.get_ordered_questions(evaluation)
+        return render(request, 'evaluations/evaluation_result.html', {
+            'evaluation': evaluation, 
+            'answers': answers,
+            'ordered_questions': ordered_questions
+        })
         #result_text = f"\nTotal score: {total_score}\n"
         #return HttpResponse(result_text, content_type='text/plain')
 
     return render(request, 'evaluations/take_evaluation.html', context)
 
 def process_student_answers(request, evaluation):
+    if evaluation.value_per_question * evaluation.questions.count() > evaluation.max_score:
+        logging.warning(f"Evaluation {evaluation.id}: value_per_question * number of questions exceeds max_score")
+    
     total_score = 0
     value_per_question = evaluation.value_per_question
-    selected_options = []
+    selected_options = {}
+    questions_order = {}
 
-    # Obtener preguntas en el mismo orden que en la vista
-    for question in evaluation.questions.all().order_by('questionorder__order', 'id'):
+    # Get questions in consistent order and create order mapping
+    ordered_questions = Evaluation.get_ordered_questions(evaluation)
+    for order, question in enumerate(ordered_questions):
+        questions_order[question.id] = order
+
+    # Process each response using the same ordering
+    for question in ordered_questions:
         selected_option = request.POST.get(f'question_{question.id}')
         
         if selected_option:
+            # Normalizar el formato de la respuesta a ChoiceX
+            if selected_option:
+                # La respuesta viene como una letra (A, B, C, D)
+                # Simplemente agregarle el prefijo 'Choice'
+                selected_option = f'Choice{selected_option}'
+                logging.debug(f"Respuesta normalizada: -> {selected_option}")
+                
+            # También normalizar la respuesta correcta
             correct_answer = question.correct_answer
-            num_to_letter = lambda selected_option: 'Choice' + chr(64 + int(selected_option)) if selected_option.isdigit() and 1 <= int(selected_option) <= 10 else selected_option
-            selected_option = num_to_letter(selected_option)
-            is_correct = selected_option == correct_answer
+            if correct_answer and not correct_answer.startswith('Choice'):
+                if len(correct_answer) == 1 and correct_answer.isalpha():
+                    correct_answer = f'Choice{correct_answer.upper()}'
+                    # Actualizar la respuesta correcta en la base de datos
+                    question.correct_answer = correct_answer
+                    question.save()
+            
+            # Comparar con la respuesta correcta
+            is_correct = selected_option == question.correct_answer
+            logging.debug(f"Question {question.id}: selected={selected_option}, correct={question.correct_answer}, is_correct={is_correct}")
             score = value_per_question if is_correct else 0
             total_score += score
-        else:
-            selected_option = None
-            score = 0
 
-        selected_options.append(selected_option)
+            # Guardar la respuesta con metadata (convirtiendo Decimal a float)
+            selected_options[str(question.id)] = {
+                'answer': selected_option,
+                'is_correct': is_correct,
+                'score': float(score),
+                'order': questions_order[question.id]
+            }
 
-    # Si todas las respuestas son None, devolvemos una lista vacía
-    if all(option is None for option in selected_options):
-        selected_options = {}
+    # Asegurar que el puntaje total no exceda el máximo
+    total_score = min(total_score, evaluation.max_score)
 
     return total_score, selected_options
 
@@ -170,23 +202,68 @@ def register(request):
 @login_required
 @cache_page(60)
 def evaluation_result(request, pk):
-    #evaluation = get_object_or_404(Evaluation, pk=pk)
-    #answers = Answer.objects.filter(evaluation=evaluation, student=request.user).exclude(score=None)
-    #total_score = sum(answer.score for answer in answers if answer.score is not None)
     evaluation = get_object_or_404(Evaluation.objects.select_related('course'), pk=pk)
     answers = Answer.objects.filter(evaluation=evaluation, student=request.user).exclude(score=None).select_related('evaluation')
-    return render(request, 'evaluations/evaluation_result.html', {'evaluation': evaluation, 'answers': answers})
+    
+    # Get questions in correct order
+    ordered_questions = Evaluation.get_ordered_questions(evaluation)
+    
+    return render(request, 'evaluations/evaluation_result.html', {
+        'evaluation': evaluation, 
+        'answers': answers,
+        'ordered_questions': ordered_questions
+    })
 
 @login_required
 @cache_page(60)
 def view_answers(request):
-    # Obtener las respuestas del usuario autenticado
-    #user_answers = Answer.objects.filter(student=request.user)
+    # Get user's answers
     user_answers = Answer.objects.filter(student=request.user).select_related('evaluation', 'evaluation__course')
-    return render(request, 'evaluations/view_answers.html', {'user_answers': user_answers, 'student': request.user})
+    
+    # For each answer, get the ordered questions for its evaluation
+    answer_data = []
+    for answer in user_answers:
+        ordered_questions = Evaluation.get_ordered_questions(answer.evaluation)
+        answer_data.append({
+            'answer': answer,
+            'ordered_questions': ordered_questions
+        })
+    
+    return render(request, 'evaluations/view_answers.html', {
+        'answer_data': answer_data,
+        'student': request.user
+    })
 
 def error_view(request):
     return render(request, 'evaluations/error_template.html')
+
+@login_required
+@cache_page(60)
+def view_question(request, pk):
+    question = get_object_or_404(Question.objects.prefetch_related('options'), pk=pk)
+    return render(request, 'evaluations/view_question.html', {
+        'question': question
+    })
+
+@login_required
+@cache_page(60)
+def preview_evaluation(request, pk):
+    evaluation = get_object_or_404(Evaluation.objects.select_related('course').prefetch_related('questions'), pk=pk)
+    
+    # Check if evaluation is active
+    if not evaluation.is_active:
+        return render(request, 'evaluations/evaluation_inactive.html', {'evaluation': evaluation})
+        
+    # Get questions in consistent order
+    questions = Evaluation.get_ordered_questions(evaluation)
+
+    context = {
+        'evaluation': evaluation,
+        'questions': questions,
+        'number_to_letter': number_to_letter,
+    }
+
+    return render(request, 'evaluations/preview_evaluation.html', context)
 
 @csrf_exempt
 def log_evaluation_event(request):

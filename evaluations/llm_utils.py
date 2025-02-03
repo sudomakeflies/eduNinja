@@ -4,6 +4,7 @@ from anthropic import Anthropic
 import traceback
 import logging
 from google import genai
+import json
 
 anthropic = Anthropic(api_key=settings.ANTHROPIC_API_KEY)
 
@@ -22,23 +23,72 @@ logging.basicConfig(
 def get_llm_feedback(context, llm_model):
     logging.debug("Generando prompt para el feedback")
     prompt = f"""
-    Proporciona feedback detallado para el estudiante {context['student_name']} 
+    Como un experto en educación, proporciona un análisis detallado del desempeño del estudiante {context['student_name']} 
     en el curso {context['course_name']} para la evaluación {context['evaluation_name']}.
     
-    Puntuación del estudiante: {context['score']} de {context['max_score']}
+    Puntuación general: {context['score']} de {context['max_score']}
     
-    Detalles de las preguntas y respuestas:
+    Para cada pregunta, analiza:
+    1. La competencia específica evaluada
+    2. El nivel de dominio demostrado (0-100)
+    3. Fortalezas y áreas de mejora
+    4. Recomendaciones específicas para mejorar
+    
+    Análisis por pregunta:
     """
     
+    # Las preguntas ya vienen ordenadas desde el admin.py
     for qa in context['questions_and_answers']:
+        question_id = str(qa['question_id'])
         prompt += f"""
+        Pregunta ID: {question_id}
         Pregunta: {qa['question']}
         Respuesta correcta: {qa['correct_answer']}
         Respuesta del estudiante: {qa['student_answer']}
-        ¿Correcta?: {'Sí' if qa['is_correct'] else 'No'}
+        Estado: {'Correcta' if qa['is_correct'] else 'Incorrecta'}
+        Puntaje obtenido: {qa['score']} de {context['max_score']/len(context['questions_and_answers'])}
+        
+        Por favor analiza:
+        - Competencia(s) evaluada(s)
+        - Nivel de dominio demostrado
+        - Análisis específico
+        - Recomendaciones de mejora
+        
+        ---
         """
 
-    prompt += "\nPor favor, proporciona un feedback constructivo basado en este desempeño."
+    prompt += """
+    Proporciona tu análisis en el siguiente formato JSON:
+    {
+        "overall_analysis": {
+            "summary": "Resumen general del desempeño",
+            "score": "Puntuación numérica",
+            "primary_strengths": ["fortaleza1", "fortaleza2"],
+            "primary_areas_for_improvement": ["área1", "área2"]
+        },
+        "competency_analysis": [
+            {
+                "competency_name": "nombre de la competencia",
+                "demonstrated_level": "nivel numérico (0-100)",
+                "strengths": ["fortaleza1", "fortaleza2"],
+                "areas_for_improvement": ["área1", "área2"],
+                "recommendations": ["recomendación1", "recomendación2"],
+                "related_questions": [1, 2, 3]
+            }
+        ],
+        "question_analysis": [
+            {
+                "question_number": 1,
+                "competencies": ["competencia1", "competencia2"],
+                "demonstrated_level": "nivel numérico (0-100)",
+                "analysis": "análisis detallado",
+                "recommendations": ["recomendación1", "recomendación2"]
+            }
+        ]
+    }
+    
+    Asegúrate de que el feedback sea constructivo, específico y orientado a la mejora del aprendizaje.
+    """
 
     
      # Logging del prompt para depuración
@@ -62,10 +112,42 @@ def get_gemini_feedback(prompt):
     try:
         client = genai.Client(api_key=settings.GEMINI_API_KEY)
         response = client.models.generate_content(model='gemini-2.0-flash-exp', contents=prompt)
-        return response.text
+        
+        # Get the raw text
+        text = response.text
+        
+        # Remove any potential markdown code block formatting
+        text = text.replace('```json\n', '').replace('\n```', '').strip()
+        
+        # Validate it's proper JSON
+        try:
+            json.loads(text)  # Test if it's valid JSON
+            return text
+        except json.JSONDecodeError:
+            print(f"Invalid JSON from Gemini: {text}")
+            return json.dumps({
+                "overall_analysis": {
+                    "summary": "Error: El feedback no se pudo generar correctamente.",
+                    "score": "N/A",
+                    "primary_strengths": [],
+                    "primary_areas_for_improvement": []
+                },
+                "competency_analysis": [],
+                "question_analysis": []
+            })
+            
     except Exception as e:
         print(f"Error making request to Gemini API: {e}")
-        return "Error fetching feedback from Gemini."
+        return json.dumps({
+            "overall_analysis": {
+                "summary": f"Error al conectar con el servicio de feedback: {str(e)}",
+                "score": "N/A",
+                "primary_strengths": [],
+                "primary_areas_for_improvement": []
+            },
+            "competency_analysis": [],
+            "question_analysis": []
+        })
 
 
 def get_ollama_feedback(prompt):
@@ -80,32 +162,96 @@ def get_ollama_feedback(prompt):
         response = requests.post(url, json=data, timeout=300)
         response.raise_for_status()
         llm_response = response.json()
-        return llm_response.get('response', '').strip()
+        
+        # Get the raw text
+        text = llm_response.get('response', '').strip()
+        
+        # Remove any potential markdown code block formatting
+        text = text.replace('```json\n', '').replace('\n```', '').strip()
+        
+        # Validate it's proper JSON
+        try:
+            json.loads(text)  # Test if it's valid JSON
+            return text
+        except json.JSONDecodeError:
+            print(f"Invalid JSON from Ollama: {text}")
+            return json.dumps({
+                "overall_analysis": {
+                    "summary": "Error: El feedback no se pudo generar correctamente.",
+                    "score": "N/A",
+                    "primary_strengths": [],
+                    "primary_areas_for_improvement": []
+                },
+                "competency_analysis": [],
+                "question_analysis": []
+            })
+            
     except requests.RequestException as e:
         print(f"Error making request to Ollama: {e}")
         print(f"Exception details: {traceback.format_exc()}")
-        return f"Exception details: {traceback.format_exc()}"
+        return json.dumps({
+            "overall_analysis": {
+                "summary": f"Error al conectar con el servicio de feedback: {str(e)}",
+                "score": "N/A",
+                "primary_strengths": [],
+                "primary_areas_for_improvement": []
+            },
+            "competency_analysis": [],
+            "question_analysis": []
+        })
 
 def get_anthropic_feedback(prompt):
     try:
         response = anthropic.messages.create(
             model="claude-3-5-sonnet-20240620",
             max_tokens=1000,
-	    temperature=0,
-	    system="You are a Ph.D. in mathematics and science education with extensive experience in providing constructive feedback to K-12 students. Your goal is to offer responses that are both encouraging and informative, helping students to develop a deep understanding of mathematical and scientific concepts. When responding, consider the student’s current level of knowledge, their potential misconceptions, and offer guidance that promotes critical thinking and problem-solving skills. Use language that is accessible to the student’s grade level while ensuring that the feedback is rigorous and thought-provoking.",
-	    messages=[
-	        {
-	            "role": "user",
-	            "content": [
-	                {
-	                    "type": "text",
-	                    "text": prompt
-	                }
-	            ]
-	        }
-	    ]
+            temperature=0,
+            system="You are a Ph.D. in mathematics and science education with extensive experience in providing constructive feedback to K-12 students. Your goal is to offer responses that are both encouraging and informative, helping students to develop a deep understanding of mathematical and scientific concepts. When responding, consider the student's current level of knowledge, their potential misconceptions, and offer guidance that promotes critical thinking and problem-solving skills. Use language that is accessible to the student's grade level while ensuring that the feedback is rigorous and thought-provoking.",
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": prompt
+                        }
+                    ]
+                }
+            ]
         )
-        return response.content
+        
+        # Get the raw text
+        text = response.content
+        
+        # Remove any potential markdown code block formatting
+        text = text.replace('```json\n', '').replace('\n```', '').strip()
+        
+        # Validate it's proper JSON
+        try:
+            json.loads(text)  # Test if it's valid JSON
+            return text
+        except json.JSONDecodeError:
+            print(f"Invalid JSON from Anthropic: {text}")
+            return json.dumps({
+                "overall_analysis": {
+                    "summary": "Error: El feedback no se pudo generar correctamente.",
+                    "score": "N/A",
+                    "primary_strengths": [],
+                    "primary_areas_for_improvement": []
+                },
+                "competency_analysis": [],
+                "question_analysis": []
+            })
+            
     except Exception as e:
         print(f"Error making request to Anthropic API: {e}")
-        return "Error fetching feedback from Anthropic."
+        return json.dumps({
+            "overall_analysis": {
+                "summary": f"Error al conectar con el servicio de feedback: {str(e)}",
+                "score": "N/A",
+                "primary_strengths": [],
+                "primary_areas_for_improvement": []
+            },
+            "competency_analysis": [],
+            "question_analysis": []
+        })

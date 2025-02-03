@@ -7,7 +7,8 @@
 <div class="container mt-4">
     <h1 class="mb-4">Tus Respuestas, {{ student }}</h1>
     <div class="row">
-        {% for answer in user_answers %}
+        {% for data in answer_data %}
+        {% with answer=data.answer ordered_questions=data.ordered_questions %}
             <div class="col-md-6 mb-4">
                 <div class="card">
                     <div class="card-header">
@@ -24,38 +25,168 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for question, selected_option in answer.evaluation.questions.all|zip_lists:answer.selected_options %}
+                                    {% for question in ordered_questions %}
+                                        {% with response=answer.selected_options|get_item:question.id %}
                                         <tr>
                                             <td>{{ forloop.counter }}</td>
-                                            <td>{{ selected_option }}</td>
+                                            <td>{{ response.answer|default:"No respondida" }}</td>
                                             <td>
-                                                {% if question.correct_answer == selected_option %}
+                                                {% if response.is_correct %}
                                                     &#10004;
                                                 {% else %}
                                                     &#10060;
                                                 {% endif %}
                                             </td>
                                         </tr>
+                                        {% endwith %}
                                     {% endfor %}
                                 </tbody>
                             </table>
-                        <p class="mb-2"><strong>Puntaje:</strong> {{ answer.score }} | <strong>Intentos restantes:</strong> {{ answer.attempts }}</p>
-                        <!-- Feedback Section -->
-			            <div class="feedback">
-			            {% if answer.feedback %}
-            			<div class="alert alert-info" role="alert">
-                		    <strong>Retroalimentación:</strong>
-                    		    {{ answer.feedback|feedback_markdown }}
-            			</div>
-        		{% endif %}
-			</div>
+                        <p class="mb-2"><strong>Puntaje:</strong> {{ answer.score }} | <strong>Intentos:</strong> {{ answer.attempts }}</p>
+            <!-- Feedback Section -->
+            {% if answer.feedback %}
+                {% with feedback_data=answer.feedback|parse_feedback_json %}
+                    {% if feedback_data %}
+                        <!-- Successfully parsed feedback -->
+                    <div class="feedback mt-4">
+                        <h4 class="mb-3">Análisis General</h4>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="mb-0">Resumen del Desempeño</h5>
+                                    <span class="badge bg-primary">{{ feedback_data.overall_analysis.score }}</span>
+                                </div>
+                                <p>{{ feedback_data.overall_analysis.summary }}</p>
+                                
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <h6 class="text-success">Fortalezas Principales:</h6>
+                                        <ul class="list-group list-group-flush">
+                                            {% for strength in feedback_data.overall_analysis.primary_strengths %}
+                                                <li class="list-group-item">{{ strength }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class="text-warning">Áreas de Mejora:</h6>
+                                        <ul class="list-group list-group-flush">
+                                            {% for area in feedback_data.overall_analysis.primary_areas_for_improvement %}
+                                                <li class="list-group-item">{{ area }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 class="mb-3">Análisis por Competencias</h4>
+                        <div class="accordion mb-3" id="competenciesAccordion-{{ answer.id }}">
+                            {% for competency in feedback_data.competency_analysis %}
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#competency-{{ answer.id }}-{{ forloop.counter }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+                                            {{ competency.competency_name }}
+                                            <span class="badge bg-info ms-2">{{ competency.demonstrated_level }}%</span>
+                                        </button>
+                                    </h2>
+                                    <div id="competency-{{ answer.id }}-{{ forloop.counter }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}">
+                                        <div class="accordion-body">
+                                            <div class="progress mb-3" style="height: 20px;">
+                                                <div class="progress-bar" role="progressbar" style="width: {{ competency.demonstrated_level }}%;" aria-valuenow="{{ competency.demonstrated_level }}" aria-valuemin="0" aria-valuemax="100">{{ competency.demonstrated_level }}%</div>
+                                            </div>
+                                            
+                                            {% if competency.strengths %}
+                                                <h6 class="text-success">Fortalezas:</h6>
+                                                <ul class="list-group list-group-flush mb-3">
+                                                    {% for strength in competency.strengths %}
+                                                        <li class="list-group-item">{{ strength }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+
+                                            {% if competency.areas_for_improvement %}
+                                                <h6 class="text-warning">Áreas de Mejora:</h6>
+                                                <ul class="list-group list-group-flush mb-3">
+                                                    {% for area in competency.areas_for_improvement %}
+                                                        <li class="list-group-item">{{ area }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+
+                                            {% if competency.recommendations %}
+                                                <h6 class="text-info">Recomendaciones:</h6>
+                                                <ul class="list-group list-group-flush">
+                                                    {% for recommendation in competency.recommendations %}
+                                                        <li class="list-group-item">{{ recommendation }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <h4 class="mb-3">Análisis por Pregunta</h4>
+                        <div class="accordion mb-3" id="questionsAccordion-{{ answer.id }}">
+                            {% for question in feedback_data.question_analysis %}
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#question-{{ answer.id }}-{{ question.question_number }}" aria-expanded="false">
+                                            <a href="/api/question/{{ question.question_number }}">Pregunta {{ question.question_number }}</a>
+                                            <span class="badge {% if question.demonstrated_level == '100' %}bg-success{% elif question.demonstrated_level == '0' %}bg-danger{% else %}bg-warning{% endif %} ms-2">{{ question.demonstrated_level }}%</span>
+                                        </button>
+                                    </h2>
+                                    <div id="question-{{ answer.id }}-{{ question.question_number }}" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <p><strong>Competencias evaluadas:</strong> {{ question.competencies|join:", " }}</p>
+                                            <p>{{ question.analysis }}</p>
+                                            {% if question.recommendations %}
+                                                <div class="alert alert-info mt-2">
+                                                    <strong>Recomendaciones:</strong>
+                                                    <ul class="mb-0">
+                                                        {% for recommendation in question.recommendations %}
+                                                            <li>{{ recommendation }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                        <!-- JSON parsing failed -->
+                        <div class="alert alert-danger mt-3">
+                            <h5 class="alert-heading d-flex justify-content-between align-items-center">
+                                Error de Formato
+                                <span class="badge bg-danger">Error JSON</span>
+                            </h5>
+                            <hr>
+                            <p class="mb-0">El feedback no está en el formato JSON esperado. Contenido raw:</p>
+                            <pre class="mt-2 bg-light p-2 rounded"><code>{{ answer.feedback }}</code></pre>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            {% else %}
+                <div class="alert alert-warning mt-3">
+                    <h5 class="alert-heading d-flex justify-content-between align-items-center">
+                        Sin Feedback
+                        <span class="badge bg-warning text-dark">Vacío</span>
+                    </h5>
+                    <p class="mb-0">No hay retroalimentación disponible para esta evaluación.</p>
+                </div>
+            {% endif %}
                     </div>
                     <div class="card-footer text-muted">
                         <strong>Fecha:</strong> {{ answer.submission_date }}
                     </div>
                 </div>
             </div>
-        {% endfor %}
+        {% endwith %}
+    {% endfor %}
     </div>
 </div>
 {% endblock %}

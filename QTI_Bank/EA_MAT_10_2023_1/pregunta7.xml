@@ -1,12 +1,8 @@
 <assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q7" title="Divisibilidad por 4" adaptive="false" timeDependent="false">
     <itemBody>
         <p>Un número es divisible por 4 cuando cumple alguna de las siguientes condiciones:</p>
-        <p>
-            <ul>
-                <li>Sus dos últimas cifras son múltiplo de 4 (por ejemplo, 2.536 es divisible entre 4 porque 36 es múltiplo de 4).</li>
-                <li>Termina en doble 0 (por ejemplo, 45.300 es divisible entre 4 porque termina en doble 0).</li>
-            </ul>
-        </p>
+        <p>Sus dos últimas cifras son múltiplo de 4 (por ejemplo, 2.536 es divisible entre 4 porque 36 es múltiplo de 4).</p>
+        <p>Termina en doble 0 (por ejemplo, 45.300 es divisible entre 4 porque termina en doble 0).</p>
         <p>¿Cuál de los siguientes números NO es múltiplo de 4?</p>
         <choiceInteraction responseIdentifier="RESPONSE7" shuffle="true" maxChoices="1">
             <prompt>Selecciona una respuesta:</prompt>

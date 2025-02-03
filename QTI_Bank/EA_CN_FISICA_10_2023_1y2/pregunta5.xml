@@ -1,0 +1,20 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q5" title="Variación de energía en un paracaidista" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>En clase de Física están estudiando algunos tipos de energía, y el profesor describe los siguientes:</p>
+        <p>Energía potencial: hace referencia a la energía que poseen los cuerpos en virtud de su posición (proporcional a la altura).</p>
+        <p>Energía cinética: hace referencia a la energía que presentan los cuerpos en virtud de su movimiento (proporcional al cuadrado de la velocidad).</p>
+        <p>Para ejemplificarlas, el profesor sugiere a los estudiantes pensar en un paracaidista en el momento que se lanza de un avión que se encuentra a 2.800 metros de altura y les pregunta, ¿cómo varían la energía potencial y la cinética mientras el paracaidista está cayendo y aún no ha abierto su paracaídas?</p>
+        <choiceInteraction responseIdentifier="RESPONSE5" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice is_latex="False" identifier="ChoiceA">La energía potencial aumenta y la cinética disminuye.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceB">La energía potencial disminuye y la cinética aumenta.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceC">Tanto la energía potencial como la cinética aumentan.</simpleChoice>
+            <simpleChoice is_latex="False" identifier="ChoiceD">La energía potencial y la cinética se mantienen constantes.</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE5" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>
