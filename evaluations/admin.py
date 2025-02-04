@@ -118,6 +118,11 @@ def generate_feedback(modeladmin, request, queryset):
             continue
         
         for answer in answers:
+            # Skip if feedback already exists
+            if answer.feedback_check:
+                logging.info(f"Feedback ya existe para el estudiante {answer.student.username}. Saltando generación.")
+                continue
+
             logging.debug(f"Procesando respuesta del estudiante: {answer.student.username}")
             user = answer.student
             

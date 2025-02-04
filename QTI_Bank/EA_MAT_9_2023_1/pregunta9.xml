@@ -1,6 +1,6 @@
 <assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q9" title="Ganancias de la Inversión" adaptive="false" timeDependent="false">
     <itemBody>
-        <p>La ganancia obtenida después de \textbf{t} años de haber realizado una inversión inicial de \$1.000.000 está dada por la expresión:
+        <p>La ganancia obtenida después de \textbf{t} años de haber realizado una inversión inicial de $\$1.000.000$ está dada por la expresión:
         
         $1.000.000 \times 2^{t}$
         

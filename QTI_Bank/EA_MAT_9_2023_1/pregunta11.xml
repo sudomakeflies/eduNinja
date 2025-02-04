@@ -3,7 +3,6 @@
         <p>En una jardinería venden huertos con las medidas que se muestran en la Figura 1.</p>
         <p>Para venderlos le colocan una etiqueta con algunas características, pero se le borraron algunos datos (ver Figura 2).</p>
         <p><img src="images/EA_MAT_9_2023_1_p11_1.jpeg" /></p>
-        <p><img src="images/EA_MAT_9_2023_1_p11_2.jpeg" /></p>
         <p>¿Cuál de las opciones muestra correctamente la información completa de la etiqueta?</p>
         <choiceInteraction responseIdentifier="RESPONSE11" shuffle="true" maxChoices="1">
             <prompt>Selecciona una respuesta:</prompt>

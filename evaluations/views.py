@@ -200,7 +200,7 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 @login_required
-@cache_page(60)
+#@cache_page(60)
 def evaluation_result(request, pk):
     evaluation = get_object_or_404(Evaluation.objects.select_related('course'), pk=pk)
     answers = Answer.objects.filter(evaluation=evaluation, student=request.user).exclude(score=None).select_related('evaluation')
@@ -215,7 +215,7 @@ def evaluation_result(request, pk):
     })
 
 @login_required
-@cache_page(60)
+#@cache_page(60)
 def view_answers(request):
     # Get user's answers
     user_answers = Answer.objects.filter(student=request.user).select_related('evaluation', 'evaluation__course')
@@ -245,7 +245,7 @@ def view_question(request, pk):
         'question': question
     })
 
-@login_required
+#@login_required
 @cache_page(60)
 def preview_evaluation(request, pk):
     evaluation = get_object_or_404(Evaluation.objects.select_related('course').prefetch_related('questions'), pk=pk)

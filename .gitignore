@@ -38,3 +38,8 @@ Thumbs.db
 
 # students
 students.csv
+students_.csv
+
+#submisions json
+submission_json/
+_submission_json/
