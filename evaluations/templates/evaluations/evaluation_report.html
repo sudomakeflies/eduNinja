@@ -1,0 +1,210 @@
+{% extends "evaluations/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container my-4">
+    <!-- Encabezado -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2>Informe Técnico-Pedagógico</h2>
+            <h4>{{ evaluation.name }} - {{ evaluation.course.name }}</h4>
+            {% if created_at %}
+            <p class="text-muted">Generado el: {{ created_at|date:"j \d\e F \d\e Y - H:i" }}</p>
+            {% endif %}
+        </div>
+        <div class="col-md-4 text-right d-flex align-items-center justify-content-end">
+            <form method="post" action="{% url 'customadmin:evaluations_evaluation_changelist' %}">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="generate_technical_report">
+                <input type="hidden" name="force_new" value="true">
+                <input type="hidden" name="_selected_action" value="{{ evaluation.id }}">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sync-alt"></i> Generar Nuevo Informe
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Estadísticas Generales -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">Análisis General del Grupo</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Total de estudiantes:</strong> {{ context.student_results|length }}</p>
+                    <p><strong>Promedio general:</strong> {{ context.average_score }} / {{ evaluation.max_score }}</p>
+                    <p><strong>Rango de calificaciones:</strong> {{ context.score_range }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h6>Hallazgos Clave:</h6>
+                    <ul>
+                        {% for finding in report.group_analysis.key_findings %}
+                            <li>{{ finding }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Análisis de Competencias -->
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h5 class="card-title mb-0">Análisis de Competencias (MEN)</h5>
+        </div>
+        <div class="card-body">
+            {% for competency in report.competency_analysis %}
+            <div class="competency-section mb-4">
+                <h5>{{ competency.competency_name }}</h5>
+                <p>{{ competency.competency_description }}</p>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="progress mb-2">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: {{ competency.achievement_level }}%"
+                                 aria-valuenow="{{ competency.achievement_level }}" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="100">
+                                {{ competency.achievement_level }}%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Fortalezas:</h6>
+                        <ul>
+                            {% for strength in competency.group_strengths %}
+                                <li>{{ strength }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Desafíos:</h6>
+                        <ul>
+                            {% for challenge in competency.group_challenges %}
+                                <li>{{ challenge }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <h6>Estrategias de Mejora:</h6>
+                <ul>
+                    {% for strategy in competency.improvement_strategies %}
+                        <li>{{ strategy }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <hr>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Análisis por Pregunta -->
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h5 class="card-title mb-0">Análisis por Pregunta</h5>
+        </div>
+        <div class="card-body">
+            {% for question in report.question_analysis %}
+            <div class="question-analysis mb-4">
+                <h5>Pregunta {{ question.question_number }}</h5>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Tasa de éxito:</strong> {{ question.success_rate }}</p>
+                        <p><strong>Competencias evaluadas:</strong></p>
+                        <ul>
+                            {% for competency in question.men_competencies %}
+                                <li>{{ competency }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Patrones de Error:</h6>
+                        <ul>
+                            {% for pattern in question.misconception_patterns %}
+                                <li>{{ pattern }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <h6>Recomendaciones:</h6>
+                        <ul>
+                            {% for recommendation in question.teaching_recommendations %}
+                                <li>{{ recommendation }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Plan de Mejoramiento -->
+    <div class="card mb-4">
+        <div class="card-header bg-warning">
+            <h5 class="card-title mb-0">Plan de Mejoramiento</h5>
+        </div>
+        <div class="card-body">
+            <h6>Áreas Prioritarias:</h6>
+            <ul>
+                {% for area in report.improvement_plan.priority_areas %}
+                    <li>{{ area }}</li>
+                {% endfor %}
+            </ul>
+
+            <h6>Estrategias a Nivel Grupal:</h6>
+            <ul>
+                {% for strategy in report.improvement_plan.group_level_strategies %}
+                    <li>{{ strategy }}</li>
+                {% endfor %}
+            </ul>
+
+            <h6>Recursos Recomendados:</h6>
+            <ul>
+                {% for resource in report.improvement_plan.recommended_resources %}
+                    <li>{{ resource }}</li>
+                {% endfor %}
+            </ul>
+
+            <h6>Indicadores de Éxito:</h6>
+            <ul>
+                {% for indicator in report.improvement_plan.success_indicators %}
+                    <li>{{ indicator }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Estilos adicionales -->
+<style>
+.progress {
+    height: 25px;
+}
+.card-header {
+    font-weight: bold;
+}
+.competency-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+}
+.question-analysis {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+}
+</style>
+{% endblock %}

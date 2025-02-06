@@ -1,29 +1,32 @@
 from django.contrib import admin
 from django.contrib.auth.models import User, Group
-from .models import Course, Question, Evaluation, Answer, Option, QuestionOrder
-from .llm_utils import get_llm_feedback
+from .models import Course, Question, Evaluation, Answer, Option, QuestionOrder, TechnicalPedagogicalReport
+from django.urls import path, reverse
+from datetime import datetime
+from .llm_utils import get_llm_feedback, get_technical_pedagogical_report
+from .utils import prepare_report_context
 from django.contrib.admin import AdminSite
 from django.core.exceptions import ObjectDoesNotExist
 import logging
 from django import forms
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from django.urls import path
 import csv
 from .forms import EvaluationForm, UserAdminForm, QuestionAdminForm
 from django.conf import settings
 from django.contrib.sessions.models import Session
 from django.contrib.auth import get_user_model
+import json
 
 User = get_user_model()
 
 # Configuración básica del logging
 logging.basicConfig(
-    level=logging.DEBUG,  # Nivel de logging
-    format='%(asctime)s - %(levelname)s - %(message)s',  # Formato del mensaje
+    level=logging.DEBUG,
+    format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("evaluation_debug.log"),  # Guardar logs en un archivo
-        logging.StreamHandler()  # Mostrar logs en la consola
+        logging.FileHandler("evaluation_debug.log"),
+        logging.StreamHandler()
     ]
 )
 
@@ -76,7 +79,7 @@ class CustomAdminSite(AdminSite):
 
     def each_context(self, request):
         context = super().each_context(request)
-        context['host_ip'] = settings.HOST_IP  # Agrega la IP al contexto
+        context['host_ip'] = settings.HOST_IP
         return context
 
     def get_urls(self):
@@ -137,7 +140,6 @@ def generate_feedback(modeladmin, request, queryset):
                 student_response = selected_options.get(question_id, {})
                 student_answer = student_response.get('answer', 'No contestada')
 
-                # Añadir los detalles de la pregunta y la respuesta al contexto
                 questions_and_answers.append({
                     "question_id": question_id,
                     "question": question.question_text,
@@ -147,7 +149,6 @@ def generate_feedback(modeladmin, request, queryset):
                     "score": student_response.get('score', 0)
                 })
 
-            # Crear el contexto para la generación de feedback
             context = {
                 "student_name": user.username,
                 "course_name": evaluation.course.name,
@@ -157,10 +158,8 @@ def generate_feedback(modeladmin, request, queryset):
                 "questions_and_answers": questions_and_answers
             }
 
-            # Obtener el feedback del modelo LLM seleccionado
             feedback = get_llm_feedback(context, evaluation.llm_model)
             
-            # Guardar el feedback en la base de datos
             answer.feedback = feedback
             answer.feedback_check = True
             answer.save()
@@ -183,6 +182,70 @@ def generate_feedback(modeladmin, request, queryset):
 
 generate_feedback.short_description = "Generate feedback for selected evaluations"
 
+def generate_technical_report(modeladmin, request, queryset):
+    """Generate a technical-pedagogical report for selected evaluations."""
+    if queryset.count() != 1:
+        modeladmin.message_user(request, "Please select only one evaluation for the technical report")
+        return HttpResponseRedirect(request.path_info)
+
+    evaluation = queryset.first()
+    force_new = request.POST.get('force_new', False)
+
+    try:
+        # Check for existing latest report if not forcing new
+        if not force_new:
+            existing_report = evaluation.get_latest_report()
+            if existing_report:
+                return render(
+                    request,
+                    'evaluations/evaluation_report.html',
+                    {
+                        'evaluation': evaluation,
+                        'report': existing_report.report_data,
+                        'context': existing_report.statistical_data,
+                        'created_at': existing_report.created_at
+                    }
+                )
+
+        # Prepare statistical context
+        context = prepare_report_context(evaluation)
+        
+        # Generate the report using LLM
+        report = get_technical_pedagogical_report(context, evaluation.llm_model)
+        
+        # Convert report to Python dict if it's a JSON string
+        if isinstance(report, str):
+            report_data = json.loads(report)
+        else:
+            report_data = report
+        
+        # Store the report in the database
+        TechnicalPedagogicalReport.objects.create(
+            evaluation=evaluation,
+            report_data=json.loads(json.dumps(report_data, default=float)),
+            statistical_data=json.loads(json.dumps(context, default=float)),
+            is_latest=True
+        )
+        
+        # Render the report template
+        return render(
+            request,
+            'evaluations/evaluation_report.html',
+            {
+                'evaluation': evaluation,
+                'report': report_data,
+                'context': context,
+                'created_at': datetime.now()
+            }
+        )
+        
+    except Exception as e:
+        logging.error(f"Error generating technical report for evaluation {evaluation.name}: {str(e)}")
+        modeladmin.message_user(request, f"Error generating report: {str(e)}", level="ERROR")
+        return HttpResponseRedirect(request.path_info)
+
+generate_technical_report.short_description = "Generate Technical-Pedagogical Report"
+
 @admin.register(Course, site=custom_admin_site)
 class CourseAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
@@ -192,7 +255,6 @@ class OptionAdmin(admin.ModelAdmin):
     list_display = ('text', 'is_latex', 'image')
 
 @admin.register(Question, site=custom_admin_site)
-
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ('question_text', 'subject', 'difficulty', 'image', 'latex_format', 'correct_answer', 'display_options')
     list_filter = ('subject', 'latex_format', 'difficulty')
@@ -210,9 +272,20 @@ class QuestionOrderInline(admin.TabularInline):
 
 @admin.register(Evaluation, site=custom_admin_site)
 class EvaluationAdmin(admin.ModelAdmin):
-    list_display = ['name', 'course', 'date', 'period', 'llm_model', 'time_limit']
+    list_display = ['name', 'course', 'date', 'period', 'llm_model', 'time_limit', 'view_latest_report']
+    
+    def view_latest_report(self, obj):
+        latest_report = obj.get_latest_report()
+        if latest_report:
+            return format_html(
+                '<a href="#" onclick="window.open(\'{}?evaluation_id={}\', \'_blank\', \'height=800,width=1000\'); return false;" class="button">'
+                'Ver Reporte</a>',
+                reverse('view_evaluation_report'), obj.id
+            )
+        return "Sin reporte"
+    view_latest_report.short_description = "Reporte Técnico"
     list_filter = ['llm_model', 'course', 'period', 'time_limit']
-    actions = [generate_feedback]
+    actions = [generate_feedback, generate_technical_report]
     form = EvaluationForm
     inlines = [QuestionOrderInline]
     
@@ -258,7 +331,6 @@ class UserAdmin(admin.ModelAdmin):
         ('Grado', {'fields': ('grado',)}),
     )
 
-
     def get_queryset(self, request):
         # Almacena el objeto request en una variable de instancia
         self.request = request
@@ -279,7 +351,6 @@ class UserAdmin(admin.ModelAdmin):
 
     qr_code_image.short_description = "QR Code"
 
-
 class SessionAdmin(admin.ModelAdmin):
     list_display = ('session_key', 'get_user_id', 'expire_date')
     readonly_fields = ('session_data', 'expire_date')
@@ -290,7 +361,7 @@ class SessionAdmin(admin.ModelAdmin):
             user_id = session_data.get('_auth_user_id')
             if user_id:
                 user = User.objects.get(pk=user_id)
-                return user.username # o user.id si prefieres el ID numérico
+                return user.username
             else:
                 return "Ningún usuario logueado"
         except (KeyError, User.DoesNotExist):
@@ -298,12 +369,19 @@ class SessionAdmin(admin.ModelAdmin):
 
     get_user_id.short_description = 'Usuario'
 
-# Register the User and Group models with the custom admin site
 custom_admin_site.register(User, UserAdmin)
 custom_admin_site.register(Group, admin.ModelAdmin)
 custom_admin_site.register(Session, SessionAdmin)
 
-from .models import EvaluationLog
+from .models import EvaluationLog, TechnicalPedagogicalReport
+
+@admin.register(TechnicalPedagogicalReport, site=custom_admin_site)
+class TechnicalPedagogicalReportAdmin(admin.ModelAdmin):
+    list_display = ['evaluation', 'created_at', 'is_latest']
+    list_filter = ['evaluation', 'is_latest']
+    ordering = ['-created_at']
+    readonly_fields = ['created_at', 'report_data', 'statistical_data']
+
 @admin.register(EvaluationLog, site=custom_admin_site)
 class EvaluationLogAdmin(admin.ModelAdmin):
     list_display = ['evaluation', 'student', 'timestamp', 'event_type']

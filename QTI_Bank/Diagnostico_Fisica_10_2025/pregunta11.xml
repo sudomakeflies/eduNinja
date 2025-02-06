@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" identifier="q9" title="Sonido" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>El sonido es una forma de:</p>
+        <choiceInteraction responseIdentifier="RESPONSE9" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice  is_latex="False"  indetifier="ChoiceA">Energía electromagnética</simpleChoice>
+            <simpleChoice  is_latex="False"  indetifier="ChoiceB">Energía mecánica que se propaga como ondas</simpleChoice>
+            <simpleChoice  is_latex="False"  indetifier="ChoiceC">Partículas que viajan por el aire</simpleChoice>
+            <simpleChoice  is_latex="False"  indetifier="ChoiceD">Luz invisible</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE9" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

@@ -1,10 +1,14 @@
 import os
 from lxml import etree
 from django.core.files import File
-from .models import Question, Option
-from django.db.models import Q
+from .models import Question, Option, Answer
+from django.db.models import Q, Avg, Count, F, FloatField, Min, Max
+from django.db.models.functions import Cast
+from collections import defaultdict
+from decimal import Decimal
+import json
 
-# Verificamos si la pregunta existe para no duplicarla
+# Keep existing functions
 def question_exists(question_text, subject):
     return Question.objects.filter(
         Q(question_text=question_text) & Q(subject=subject)
@@ -43,8 +47,6 @@ def parse_qti_file(file_path):
 
             paragraphs = item_body.findall('qti:p', namespaces=namespace)
             paragraph_texts = [p.text.strip() for p in paragraphs if p.text]
-            #print("paragraphs_texts.....")
-            #print(paragraph_texts)
             
             # Iterate over each paragraph and find tables within it
             tables = item_body.findall('qti:table', namespaces=namespace)
@@ -56,7 +58,6 @@ def parse_qti_file(file_path):
                     paragraph_texts.append(table_html)
 
             question_text = ' '.join(paragraph_texts)
-            #question_text = ' '.join(paragraphs)
             
             if not question_text:
                 continue
@@ -77,19 +78,13 @@ def parse_qti_file(file_path):
             if format_latex is not None:
                 format_latex_value = format_latex.text.strip().lower() == 'true'
             else:
-                format_latex_value = False#format_latex = item_body.find('{http://www.imsglobal.org/xsd/imsqti_v2p1}formatLatex')
-            #format_latex_value = format_latex.text.strip().lower() == 'true' if format_latex is not None and format_latex.text is not None else False
-
+                format_latex_value = False
 
             response_declaration = item.find('qti:responseDeclaration', namespaces=namespace)
             if response_declaration is not None:
                 correct_response = response_declaration.find('qti:correctResponse/qti:value', namespaces=namespace)
                 if correct_response is not None:
                     correct_answer = correct_response.text
-
-            # if not options:
-            #     print(f"No options found for item in {file_path}")
-            #     continue
 
             question = Question(
                 subject=subject,
@@ -98,13 +93,13 @@ def parse_qti_file(file_path):
                 correct_answer=correct_answer,
                 latex_format=format_latex_value
             )
-            question.save()  # Save the question to generate an ID
+            question.save()
 
             choices = choice_interaction.findall('qti:simpleChoice', namespaces=namespace)
             option_instances = []
             for choice in choices:
                 option_id = choice.get('identifier')
-                is_latex =  choice.get('is_latex')
+                is_latex = choice.get('is_latex')
                 option_text = choice.text.strip() if choice.text else ''
                 if is_latex:
                     options[option_id] = f"${option_text}$"
@@ -122,34 +117,18 @@ def parse_qti_file(file_path):
 
                 option_instance = Option(text=option_text, is_latex=is_latex)
 
-                # Handle option images
-                #option_image = choice.find('qti:img', namespaces=namespace)
-                print(etree.tostring(choice, pretty_print=True).decode())
-                #option_image = choice.find('.//{http://www.imsglobal.org/xsd/imsqti_v2p1}img')
-                #print("option_image...", option_image)
-
-                # Try finding the 'img' element with the namespace prefix
                 option_image_src = choice.get('image')
-                print("option_image_src: ", option_image_src)
-                # Check if the image element was found
                 if option_image_src is not None:
-                    print("Yes Choice Image element found: ", option_image_src)
-                    #image_filename = option_image.get('src').split('/')[-1]
                     image_path = os.path.join(os.path.dirname(file_path), 'images', option_image_src)
                     if os.path.exists(image_path):
                         with open(image_path, 'rb') as f:
                             option_instance.image.save(option_image_src, File(f), save=False)
-                else:
-                    print("No Choice Image element found within the simpleChoice.")
 
                 option_instance.save()
                 option_instances.append(option_instance)
-            question.options.set(option_instances)  # Use set() to associate options with the question
-            question.save()  # Guardar la pregunta nuevamente después de establecer las opciones
+            question.options.set(option_instances)
+            question.save()
 
-
-            # Process images if any
-            #options(item_body, file_path, question)
             print("saving images process")
             save_images(item_body, file_path, question)
 
@@ -157,7 +136,6 @@ def parse_qti_file(file_path):
         print(f"XML Syntax Error while parsing {file_path}: {e}")
     except Exception as e:
         print(f"Error while parsing {file_path}: {type(e).__name__} - {str(e)}")
-
 
 def get_subject_from_path(file_path):
     parts = file_path.split(os.sep)
@@ -226,3 +204,130 @@ def generate_qr_code(user, request):
         f.write(buffer.getvalue())
 
     return f"{base_url}/media/QRs/{file_name}"
+
+# New functions for technical-pedagogical report
+def calculate_question_statistics(evaluation):
+    """Calculate statistical indicators for each question in the evaluation."""
+    questions = evaluation.questions.all()
+    statistics = []
+    
+    for question in questions:
+        # Get all answers for this question
+        answers = Answer.objects.filter(evaluation=evaluation)
+        total_answers = answers.count()
+        
+        # Initialize counters
+        correct_count = 0
+        answer_distribution = defaultdict(int)
+        
+        # Analyze each answer
+        for answer in answers:
+            if answer.selected_options:
+                selected_options = answer.selected_options
+                # Convert to list if it's a string representation of JSON
+                if isinstance(selected_options, str):
+                    selected_options = json.loads(selected_options)
+                
+                # Count correct answers and collect response distribution
+                question_id = str(question.id)
+                if question_id in selected_options:
+                    student_answer = selected_options[question_id].get('answer', 'No contestada')
+                    answer_distribution[student_answer] += 1
+                    if selected_options[question_id].get('is_correct', False):
+                        correct_count += 1
+        
+        # Calculate success rate
+        success_rate = (correct_count / total_answers * 100) if total_answers > 0 else 0
+        
+        # Determine difficulty level based on success rate
+        if success_rate >= 70:
+            difficulty_level = "Fácil"
+        elif success_rate >= 40:
+            difficulty_level = "Medio"
+        else:
+            difficulty_level = "Difícil"
+        
+        # Get most common answers (top 3)
+        common_answers = [{k: v} for k, v in 
+                         sorted(answer_distribution.items(), 
+                               key=lambda x: x[1], 
+                               reverse=True)[:3]]
+        
+        stat_dict = {
+            'id': question.id,
+            'text': question.question_text,
+            'success_rate': float(round(success_rate, 2)),
+            'correct_count': int(correct_count),
+            'total_answers': int(total_answers),
+            'difficulty_level': difficulty_level,
+            'common_answers': [{k: int(v)} for item in common_answers for k, v in item.items()]
+        }
+        statistics.append(stat_dict)
+    
+    return statistics
+
+def prepare_report_context(evaluation):
+    """Prepare the context data for the technical-pedagogical report."""
+    # Get all answers for this evaluation
+    answers = Answer.objects.filter(evaluation=evaluation)
+    
+    # Calculate basic statistics
+    total_students = answers.count()
+    average_score = answers.aggregate(
+        avg_score=Avg(Cast('score', FloatField()))
+    )['avg_score'] or 0
+    
+    # Get score range
+    if total_students > 0:
+        score_stats = answers.exclude(score__isnull=True).aggregate(
+            min_score=Min(Cast('score', FloatField())),
+            max_score=Max(Cast('score', FloatField()))
+        )
+        if score_stats['min_score'] is not None and score_stats['max_score'] is not None:
+            score_range = f"{score_stats['min_score']:.2f} - {score_stats['max_score']:.2f}"
+        else:
+            score_range = "No scores recorded"
+    else:
+        score_range = "No submissions"
+    
+    # Calculate question statistics
+    question_stats = calculate_question_statistics(evaluation)
+    
+    # Prepare student results for analysis
+    student_results = []
+    for answer in answers:
+        result = {
+            'student_id': answer.student.id,
+            'score': answer.score,
+            'answers': answer.selected_options if isinstance(answer.selected_options, dict) 
+                      else json.loads(answer.selected_options) if answer.selected_options 
+                      else {}
+        }
+        student_results.append(result)
+    
+    # Convert Decimal objects to float for JSON serialization
+    def decimal_to_float(obj):
+        if hasattr(obj, 'student_id'):  # Answer object
+            return {
+                'student_id': obj.student_id,
+                'score': float(obj.score) if obj.score is not None else None
+            }
+        return obj
+
+    # Prepare context for LLM analysis
+    context = {
+        'evaluation_name': evaluation.name,
+        'course_name': evaluation.course.name,
+        'student_results': student_results,
+        'average_score': float(round(average_score, 2)),
+        'max_score': float(evaluation.max_score),
+        'score_range': score_range,
+        'question_stats': question_stats
+    }
+    
+    # Convert any remaining Decimal objects in student_results
+    for result in context['student_results']:
+        if 'score' in result and isinstance(result['score'], (Decimal, float)):
+            result['score'] = float(result['score'])
+    
+    return context

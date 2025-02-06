@@ -369,3 +369,27 @@ def qr_login(request):
                 'status': 'error', 
                 'message': 'Error durante el inicio de sesión. Por favor, intente nuevamente.'
             }, status=500)
+
+@login_required
+def view_evaluation_report(request):
+    """View for displaying the technical-pedagogical report."""
+    evaluation_id = request.GET.get('evaluation_id')
+    if not evaluation_id:
+        return JsonResponse({'error': 'No evaluation ID provided'}, status=400)
+        
+    evaluation = get_object_or_404(Evaluation, id=evaluation_id)
+    latest_report = evaluation.get_latest_report()
+    
+    if not latest_report:
+        return JsonResponse({'error': 'No report found for this evaluation'}, status=404)
+    
+    return render(
+        request,
+        'evaluations/evaluation_report.html',
+        {
+            'evaluation': evaluation,
+            'report': latest_report.report_data,
+            'context': latest_report.statistical_data,
+            'created_at': latest_report.created_at
+        }
+    )

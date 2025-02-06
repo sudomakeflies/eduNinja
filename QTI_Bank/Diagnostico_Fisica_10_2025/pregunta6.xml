@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"  identifier="q5" title="Temperatura y Calor" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>¿Cuál de las siguientes afirmaciones sobre el calor es correcta?</p>
+        <choiceInteraction responseIdentifier="RESPONSE5" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice  is_latex="False"  indetifier="ChoiceA">El calor es lo mismo que la temperatura</simpleChoice>
+            <simpleChoice  is_latex="False"  indetifier="ChoiceB">El calor es una forma de energía que se transfiere entre cuerpos</simpleChoice>
+            <simpleChoice  is_latex="False"  indetifier="ChoiceC">El calor se mide en grados Celsius</simpleChoice>
+            <simpleChoice  is_latex="False"  indetifier="ChoiceD">El calor solo puede transferirse de un cuerpo frío a uno caliente</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE5" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

@@ -25,7 +25,7 @@ class Course(models.Model):
 class Option(models.Model):
     text = models.TextField(null=True)
     is_latex = models.BooleanField(default=False)
-    image = models.ImageField(upload_to='option_images/', null=True, blank=True)  # New field for option images
+    image = models.ImageField(upload_to='option_images/', null=True, blank=True)
 
     def __str__(self):
         return str(self.pk)
@@ -47,7 +47,7 @@ class Question(models.Model):
     subject = models.CharField(max_length=120, choices=SUBJECT_CHOICES, db_index=True)
     difficulty = models.CharField(max_length=50, choices=DIFFICULTY_CHOICES, db_index=True)
     question_text = models.TextField()
-    image = models.ImageField(upload_to='question_images/', null=True, blank=True)  # Opcional: imagen asociada a la pregunta
+    image = models.ImageField(upload_to='question_images/', null=True, blank=True)
     latex_format = models.BooleanField(default=False)
     options = models.ManyToManyField('Option')    
     correct_answer = models.CharField(max_length=200)
@@ -57,11 +57,11 @@ class Question(models.Model):
 
 def create_question_order(sender, instance, action, pk_set, **kwargs):
     """
-    Signal para manejar la creación automática de QuestionOrder cuando se agregan preguntas
-    a una evaluación a través de la relación many-to-many directamente.
+    Signal para manejar la creación automática de QuestionOrder cuando se agregan o eliminan preguntas
+    de una evaluación a través de la relación many-to-many directamente.
     """
+    evaluation = instance
     if action == "post_add":
-        evaluation = instance
         # Obtener el último orden o empezar desde 0
         last_order = QuestionOrder.objects.filter(evaluation=evaluation).aggregate(
             models.Max('order'))['order__max'] or -1
@@ -76,6 +76,11 @@ def create_question_order(sender, instance, action, pk_set, **kwargs):
                     question_id=question_id,
                     order=last_order
                 )
+    elif action == "post_remove":
+        # Para cada pregunta eliminada
+        for question_id in pk_set:
+            # Eliminar los QuestionOrder correspondientes
+            QuestionOrder.objects.filter(evaluation=evaluation, question_id=question_id).delete()
 
 class Evaluation(models.Model):
     @staticmethod
@@ -100,7 +105,7 @@ class Evaluation(models.Model):
     ]
     name = models.CharField(max_length=100, default="Matemáticas")
     course = models.ForeignKey('Course', on_delete=models.CASCADE, default=1)
-    period = models.CharField(max_length=10, default=1, db_index=True)  # Por ejemplo: I, II, III
+    period = models.CharField(max_length=10, default=1, db_index=True)
     max_score = models.DecimalField(max_digits=5, decimal_places=2, default=5)
     value_per_question = models.DecimalField(max_digits=5, decimal_places=2, default=1)
     date = models.DateField(default=datetime.now, db_index=True)
@@ -125,6 +130,37 @@ class Evaluation(models.Model):
         if not self.questions.filter(id=question.id).exists():
             self.questions.add(question)
             # El orden se creará automáticamente a través del signal
+
+    def get_latest_report(self):
+        """
+        Get the latest technical-pedagogical report for this evaluation
+        """
+        return self.technicalpedagogicalreport_set.filter(is_latest=True).first()
+
+class TechnicalPedagogicalReport(models.Model):
+    evaluation = models.ForeignKey('Evaluation', on_delete=models.CASCADE)
+    report_data = models.JSONField()
+    statistical_data = models.JSONField()  # Store preprocessed statistical data
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_latest = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['evaluation', 'is_latest']),
+        ]
+
+    def save(self, *args, **kwargs):
+        # If this is a new latest report, set all other reports for this evaluation to not latest
+        if self.is_latest:
+            TechnicalPedagogicalReport.objects.filter(
+                evaluation=self.evaluation,
+                is_latest=True
+            ).exclude(id=self.id).update(is_latest=False)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f'Report for {self.evaluation.name} - {self.created_at}'
 
 class Answer(models.Model):
     evaluation = models.ForeignKey('Evaluation', on_delete=models.CASCADE, related_name='answers', db_index=True)

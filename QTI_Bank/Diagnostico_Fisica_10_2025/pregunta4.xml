@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"  identifier="q3" title="Concepto de Fuerza" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>¿Qué sucede con un objeto cuando la suma de todas las fuerzas que actúan sobre él es cero?</p>
+        <choiceInteraction responseIdentifier="RESPONSE3" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice  is_latex="False"  indetifier="ChoiceA">Se detiene inmediatamente</simpleChoice>
+            <simpleChoice  is_latex="False"  indetifier="ChoiceB">Mantiene su estado de movimiento o reposo</simpleChoice>
+            <simpleChoice  is_latex="False"  indetifier="ChoiceC">Aumenta su velocidad</simpleChoice>
+            <simpleChoice  is_latex="False"  indetifier="ChoiceD">Disminuye su velocidad</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE3" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"  identifier="q8" title="Masa y Peso" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>¿Cuál de las siguientes afirmaciones es correcta?</p>
+        <choiceInteraction responseIdentifier="RESPONSE8" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice  is_latex="False"  indetifier="ChoiceA">La masa y el peso son lo mismo</simpleChoice>
+            <simpleChoice  is_latex="False"  indetifier="ChoiceB">El peso se mide en kilogramos</simpleChoice>
+            <simpleChoice  is_latex="False"  indetifier="ChoiceC">La masa varía según el planeta donde estemos</simpleChoice>
+            <simpleChoice  is_latex="False"  indetifier="ChoiceD">El peso es una fuerza que depende de la gravedad</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE8" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceD</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

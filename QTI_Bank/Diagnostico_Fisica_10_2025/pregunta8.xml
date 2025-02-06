@@ -1,0 +1,17 @@
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"  identifier="q7" title="Densidad" adaptive="false" timeDependent="false">
+    <itemBody>
+        <p>Si un objeto tiene una densidad menor que el agua:</p>
+        <choiceInteraction responseIdentifier="RESPONSE7" shuffle="true" maxChoices="1">
+            <prompt>Selecciona una respuesta:</prompt>
+            <simpleChoice  is_latex="False"  indetifier="ChoiceA">Se hundirá en el agua</simpleChoice>
+            <simpleChoice  is_latex="False"  indetifier="ChoiceB">Flotará en el agua</simpleChoice>
+            <simpleChoice  is_latex="False"  indetifier="ChoiceC">Se disolverá en el agua</simpleChoice>
+            <simpleChoice  is_latex="False"  indetifier="ChoiceD">Quedará en el medio del agua</simpleChoice>
+        </choiceInteraction>
+    </itemBody>
+    <responseDeclaration identifier="RESPONSE7" cardinality="single" baseType="identifier">
+        <correctResponse>
+            <value>ChoiceB</value>
+        </correctResponse>
+    </responseDeclaration>
+</assessmentItem>

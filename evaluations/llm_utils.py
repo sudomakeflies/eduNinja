@@ -18,8 +18,6 @@ logging.basicConfig(
     ]
 )
 
-
-# Definiciones de los modelos se asumen aquí...
 def get_llm_feedback(context, llm_model):
     logging.debug("Generando prompt para el feedback")
     prompt = f"""
@@ -90,8 +88,7 @@ def get_llm_feedback(context, llm_model):
     Asegúrate de que el feedback sea constructivo, específico y orientado a la mejora del aprendizaje.
     """
 
-    
-     # Logging del prompt para depuración
+    # Logging del prompt para depuración
     logging.debug(f"Prompt generado: {prompt}")
     
     # Selección del modelo de LLM para obtener el feedback
@@ -103,6 +100,97 @@ def get_llm_feedback(context, llm_model):
         return get_anthropic_feedback(prompt)
     elif llm_model == 'gemini':
         logging.debug("Feedback generado usando el modelo 'gemini'")
+        return get_gemini_feedback(prompt)
+    else:
+        logging.error(f"Modelo LLM no soportado: {llm_model}")
+        return "Modelo LLM no soportado."
+
+def get_technical_pedagogical_report(context, llm_model):
+    logging.debug("Generando prompt para el informe técnico-pedagógico")
+    prompt = f"""
+    Como experto en pedagogía y evaluación educativa, genera un informe técnico-pedagógico detallado para la evaluación
+    "{context['evaluation_name']}" en el curso {context['course_name']}.
+    
+    Datos generales:
+    - Total de estudiantes: {len(context['student_results'])}
+    - Promedio general: {context['average_score']} de {context['max_score']}
+    - Rango de calificaciones: {context['score_range']}
+    
+    Análisis estadístico por pregunta:
+    """
+    
+    for question in context['question_stats']:
+        prompt += f"""
+        Pregunta ID: {question['id']}
+        Pregunta: {question['text']}
+        - Porcentaje de aciertos: {question['success_rate']}%
+        - Respuestas más comunes: {question['common_answers']}
+        - Dificultad observada: {question['difficulty_level']}
+        
+        ---
+        """
+
+    prompt += """
+    Basándote en el marco de competencias del Ministerio de Educación Nacional (MEN) de Colombia, realiza un análisis 
+    exhaustivo que incluya:
+
+    1. Análisis general del grupo
+    2. Competencias evaluadas según el MEN
+    3. Nivel de logro por competencia (0-100)
+    4. Plan de mejoramiento grupal
+
+    Proporciona tu análisis en el siguiente formato JSON:
+    {
+        "group_analysis": {
+            "summary": "Análisis general del desempeño del grupo",
+            "average_score": "Promedio numérico",
+            "key_findings": ["hallazgo1", "hallazgo2"],
+            "general_recommendations": ["recomendación1", "recomendación2"]
+        },
+        "competency_analysis": [
+            {
+                "competency_name": "nombre de la competencia según MEN",
+                "competency_description": "descripción de la competencia",
+                "achievement_level": "nivel numérico (0-100)",
+                "group_strengths": ["fortaleza1", "fortaleza2"],
+                "group_challenges": ["desafío1", "desafío2"],
+                "related_questions": [1, 2, 3],
+                "improvement_strategies": ["estrategia1", "estrategia2"]
+            }
+        ],
+        "question_analysis": [
+            {
+                "question_number": 1,
+                "men_competencies": ["competencia1", "competencia2"],
+                "success_rate": "porcentaje",
+                "difficulty_analysis": "análisis de dificultad",
+                "misconception_patterns": ["patrón1", "patrón2"],
+                "teaching_recommendations": ["recomendación1", "recomendación2"]
+            }
+        ],
+        "improvement_plan": {
+            "priority_areas": ["área1", "área2"],
+            "group_level_strategies": ["estrategia1", "estrategia2"],
+            "recommended_resources": ["recurso1", "recurso2"],
+            "success_indicators": ["indicador1", "indicador2"]
+        }
+    }
+    
+    El análisis debe ser riguroso, basado en evidencia y orientado a la mejora del proceso de enseñanza-aprendizaje grupal.
+    """
+
+    # Logging del prompt para depuración
+    logging.debug(f"Prompt generado para informe técnico-pedagógico: {prompt}")
+    
+    # Selección del modelo de LLM
+    if llm_model == 'ollama':
+        logging.debug("Informe generado usando el modelo 'ollama'")
+        return get_ollama_feedback(prompt)
+    elif llm_model == 'anthropic':
+        logging.debug("Informe generado usando el modelo 'anthropic'")
+        return get_anthropic_feedback(prompt)
+    elif llm_model == 'gemini':
+        logging.debug("Informe generado usando el modelo 'gemini'")
         return get_gemini_feedback(prompt)
     else:
         logging.error(f"Modelo LLM no soportado: {llm_model}")
@@ -148,7 +236,6 @@ def get_gemini_feedback(prompt):
             "competency_analysis": [],
             "question_analysis": []
         })
-
 
 def get_ollama_feedback(prompt):
     #url = "http://host.docker.internal:11434/api/generate"

@@ -23,6 +23,7 @@ urlpatterns = [
     path('take_evaluation/<int:pk>/', views.take_evaluation, name='take_evaluation'),
     path('evaluation_result/<int:pk>/', views.evaluation_result, name='evaluation_result'),
     path('view-answers/', views.view_answers, name='view_answers'),
+    path('evaluation-report/', views.view_evaluation_report, name='view_evaluation_report'),
 
     path('error/', views.error_view, name='error_view'),  # Define la URL y asigna un nombre a la vista
 
